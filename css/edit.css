@@ -1,0 +1,866 @@
+body{
+    font-size: 16px;
+}
+.ruote{
+    min-height:100%;
+    position: relative;
+    display: block;
+}
+/* 头部选择 */
+.header{
+    position: fixed;
+}
+.header .wrapper{
+    width: 97%;
+    max-width: 97%;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+    height: 100%;
+    position: relative;
+    margin: 0 auto;
+}
+.nav{
+    height: 100%;
+    float: left;
+    white-space: nowrap;
+}
+.nav>li{
+    float: left;
+    position: relative;
+    cursor: pointer;
+    text-align: center;
+    margin-top: 17px;
+}
+.nav>li a{
+    color: #666;
+    font-size: 16px;
+}
+.header .nav .iconfont{
+    padding: 0 30px;
+    font-weight: bold;
+}
+.header .nav li.active a,.header .nav li:hover a{
+    color: #5b93e7;
+}
+@media (max-width: 768px){
+    .header .nav{
+        display: none;
+    }
+}
+/* 内容 */
+.content{
+    padding-top: 65px;
+}
+.content .wrapper{
+    width: 1700px;
+    margin: 0 auto;
+    max-width: 90%;
+}
+.content h2{
+    padding-top: 30px;
+}
+.upload-content{
+    width: 98%;
+    margin: auto;
+    max-width: 100%;
+    margin-top: 20px;
+}
+/* @media (min-width: 769px){
+    .content{
+        min-height: 100vh;
+    }
+} */
+@media (min-width: 769px){
+    .upload-content,.edit-wrap{
+        min-height: calc(100vh - 90px); 
+    }
+}
+.edit-wrap{
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+}
+/* content 左侧 */
+.edit-wrap-info{
+    background: #fff;
+    border: solid 1px #edeef1;
+    margin-right: 10px;
+    -webkit-box-shadow: 0 -5px 10px rgba(162,162,162,.12);
+            box-shadow: 0 -5px 10px rgba(162,162,162,.12);
+    padding: 15px;
+    -webkit-box-flex: 0;
+    box-flex: 0;
+    -ms-flex: 0 0 auto;
+        flex: 0 0 auto;
+    width: 263px;
+}
+.edit-wrap-info .title{
+    font-size: 16px;
+    margin-left: 0;
+}
+.edit-title{
+    position: relative;
+}
+.edit-title .video-name{
+    display: none;
+}
+.edit-title .title{
+    margin-bottom: 0;
+    padding-top: 0;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    padding-right: 25px;
+    cursor: pointer;
+    position: relative;
+}
+.edit-title .video-title .title:hover span{
+    color: #5b93e7;
+}
+
+.edit-title .input-wrap{
+    display: none;
+    position: static;
+    left: 0;
+    top: 0;
+}
+.edit-title input{
+    border: none;
+    border-bottom: solid 1px #ccc;
+}
+.edit-title .cancel, .edit-title .ok{
+    width: 24px;
+    cursor: pointer;
+    text-align: center;
+}
+.video-title .title span.iconfont{
+    position: absolute;
+    right: 0;
+    top: 2px;
+    font-weight: bold;
+    color: #666;
+}
+.edit-wrap-info .cover{
+    margin-top: 20px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    width: 100%;
+    height: 128px;
+    position: relative;
+    cursor: pointer;
+}
+.edit-wrap-info .theme-name{
+    font-size: 18px;
+    font-weight: 700;
+    padding-top: 10px;
+    position: relative;
+    line-height: 30px;
+}
+.edit-wrap-info .theme-name span{
+    position: absolute;
+    top: 10px;
+    right: 0;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    text-align: right;
+    font-weight: normal;
+    font-size: 20px;
+    color: #666;
+}
+.edit-wrap-info .scene-num{
+    padding-top: 15px;
+}
+.edit-wrap-info .pic{
+    margin-right: 10px;
+    padding-left: 26px;
+}
+.edit-wrap-info .video{
+    padding-left: 26px;
+}
+.edit-wrap-info .process{
+    display: -webkit-inline-box;
+    display: inline-box;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    -webkit-box-align: center;
+    box-align: center;
+    align-items: center;
+    -ms-flex-align: center;
+    margin-top: 8px;
+}
+.edit-wrap-info .process-bar-bg{
+    margin-left: 5px;
+    display: inline-block;
+    width: 115px;
+    position: relative;
+    height: 6px;
+    background: #dbdbdb;
+    top: 1px;
+    border-radius: 6px;
+}
+.edit-wrap-info .process-bar{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 6px;
+    background-image: -webkit-gradient(linear,left top, right top,from(#689cf9),to(#f9bbdd));
+    background-image: linear-gradient(to right,#689cf9,#f9bbdd);
+    border-radius: 6px;
+}
+.edit-wrap-info .process-num{
+    margin-left: 10px;
+    -webkit-box-flex: 1;
+        -ms-flex: 1 0 auto;
+            flex: 1 0 auto;
+}
+.ratio-select{
+    margin: 10px 0;
+}
+.ratio-select>.iconfont{
+    display: inline-block;
+    width: 40px;
+    text-align: left;
+    font-size: 26px;
+    line-height: 32px;
+}
+.ratio-select .drop{
+    width: 80%;
+    background: #f4f5f9;
+    padding: 0 20px;
+    min-width: 80px;
+    border-radius: 5px;
+    border: solid 1px #e8e8e7;
+    text-align: left;
+}
+.upload-content .drop{ 
+    display: inline-block;
+    vertical-align: top;
+}
+.drop-menu{
+    display: none;
+    position: absolute;
+    left: 0px;
+    top:33px;
+    z-index: 1100;
+    width: 100%;
+    min-width:96px;
+    max-width: 100vw;
+    height:auto;
+    background: #fff;
+    border-radius: 5px;
+    line-height: 30px;
+    padding: 10px 0;
+    -webkit-box-shadow: 0 0 30px rgba(0,0,0,.35);
+            box-shadow: 0 0 30px rgba(0,0,0,.35);
+    text-align: left;
+}
+.drop-menu ul{
+    display: block;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    margin: 0;
+    list-style-type: none;
+}
+.drop-menu li{
+    padding-right: 20px;
+    padding-left: 20px;
+    cursor: pointer;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.drop-menu li.active{
+    color: #478afb;
+    background: rgba(71,138,251,.1)
+}
+.edit-wrap-info .left-produce{
+    background-image: -webkit-gradient(linear,left top, right top,from(#689cf9),to(#f9bbdd));
+    background-image: linear-gradient(to right,#689cf9,#f9bbdd);
+    padding: 0 20px;
+    border-radius: 20px;
+    margin-top: 25px;
+    cursor: pointer;
+    text-align: center;
+    color: #fff;
+    font-size: 14px;
+    line-height: 40px;
+    min-width: 180px;
+}
+.edit-wrap-info .free-produce{
+    background-image: none;
+    background: #799ef6;
+}
+.edit-wrap-info .left-produce:hover{
+    background: #5279d4; 
+}
+/* 中间内容 */
+.edit-wrap-left{
+    -webkit-box-flex: 1;
+        -ms-flex: 1 1 auto;
+            flex: 1 1 auto;
+    height: calc(100vh - 90px);
+    border: solid 1px #edeef1;
+    margin-right: 10px;
+    background: #fff;
+    -webkit-box-shadow: 0 -5px 10px rgba(162,162,162,.12);
+            box-shadow: 0 -5px 10px rgba(162,162,162,.12);
+    overflow: hidden;
+}
+.edit-wrap-left-header{
+    padding: 0 20px;
+    line-height: 50px;
+    height: 50px;
+    border-bottom: solid 1px #edeef1;
+}
+.edit-wrap-left-header .top-control{
+    display: inline-block;
+    margin-right: 20px;
+}
+.edit-wrap-left-header .top-control.hidden{
+    color: #999;
+    pointer-events: none;
+}
+.edit-wrap-left-header .top-control .iconfont{
+    padding-right: 8px;
+}
+.edit-wrap-left-header .top-control span{
+    cursor: pointer;
+}
+.edit-wrap-left-header .order-btn{
+    float: right;
+    padding-top: 14px;
+}
+.edit-wrap-music{
+    border-bottom: solid 1px #edeef1;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+    box-align: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    overflow: hidden;
+}
+.edit-wrap-music>div{
+    padding: 10px 20px;
+}
+.edit-wrap .change-music-btn{
+    padding-left: 85px;
+    height: 70px;
+    line-height: 24px;
+    padding-top: 2px;
+    float: left;
+    max-width: 60%;
+    -webkit-box-flex: 1;
+    box-flex: 1;
+    -ms-flex: 1 0 auto;
+        flex: 1 0 auto;
+    position: relative;
+}
+.edit-wrap .change-music-btn>.music-logo{
+    position: absolute;
+    top: 10px;
+    left: 20px;
+    border-radius: 50%;
+    background: rgb(107, 134, 223);
+    width:50px;
+    height: 50px;
+    text-align: center;
+    line-height: 50px;
+}
+.edit-wrap .change-music-btn .music-logo .iconfont{
+    font-size: 25px;
+    color: #fff;
+}
+.edit-wrap .change-music-btn .top{
+    color: #333;
+    font-size: 16px;
+    margin-top: 10px;
+}
+.edit-wrap .change-music-btn .bottom{
+    font-size: 14px;
+    color: #999;
+    line-height: 18px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 400px;
+    overflow: hidden;
+}
+.edit-wrap .music-right{
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+}
+.edit-wrap .crop-music{
+    margin-right: 20px;
+}
+.edit-wrap .music-right>div{
+    text-align: center;
+    border: solid 1px #5b93e7;
+    border-radius: 18px;
+    padding: 0 20px;
+    min-width: 130px;
+    color: #5b93e7;
+    font-size: 14px;
+    cursor: pointer;
+    line-height: 34px;
+}
+.edit-body{
+    padding-right: 0;
+    position: relative;
+    height: 100%;
+}
+.simple-edit{
+    padding: 10px 0;
+    position: relative;
+}
+.edit-wrap-left .simple-edit, .edit-wrap-left .super-edit{
+    overflow-y: auto;
+    overflow-x: initial;
+    height: calc(100% - 196px);
+}
+@media (max-width: 1100px){
+    .edit-wrap-left .simple-edit, .edit-wrap-left .super-edit{
+        height: calc(100vh - 305px)
+    }
+}
+.simple-edit .scenes{
+    height: 100%;
+}
+/*上传 head */
+.simple-edit .ending, .simple-edit .opening{
+    padding: 20px;
+}
+.simple-edit .opening{
+    padding-top: 0;
+    border-bottom: solid 1px #edeef1;
+}
+.edit-body .default-title{
+    color: #999;
+    margin-bottom: 10px;
+}
+.simple-edit .ending .default-title, .simple-edit .opening .default-title{
+    margin-bottom:0;
+}
+.replace-matter{
+    width: 134px;
+    border: solid 1px #efefef;
+    position: relative;
+    padding: 0 1px;
+    float: left;
+    height: 124px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    margin-right: 20px;
+}
+.edit-body .bg{
+    width: 131px;
+    height: 94px;
+    float: left;
+    overflow: hidden;
+    background: #f9f9f9;
+    color: #999;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    position: relative;
+    text-align: center;
+}
+.edit-body .replace-text .bg{
+    background:#fff;
+}
+.edit-body .bg span{
+    word-break: break-word;
+    line-height: 20px;
+}
+/* 上传 content */
+.simple-edit .add-images{
+    padding: 15px 20px;
+}
+.edit-body .default-title{
+    color: #999;
+    margin-bottom: 10px;
+}
+.simple-edit .upload-btn{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    float: left;
+    width: 134px;
+    height: 124px;
+    border: solid 1px #eaeaea;
+    position: relative;
+    cursor: pointer;
+}
+.simple-edit .upload-btn .add-image{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 18px;
+    margin: auto;
+    width: 35px;
+    height: 33px;
+    opacity: 0;
+    -webkit-transform: translateX(10px);
+            transform: translateX(10px);
+    -webkit-transition: all .3s ease;
+    transition: all .3s ease;
+    background: url(../images/change-image.svg) center center/100% auto no-repeat;
+}
+.simple-edit .upload-btn input{
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+.simple-edit .upload-btn .add-text{
+    position: absolute;
+    top: 0;
+    right: 18px;
+    bottom: 0;
+    margin: auto;
+    width: 30px;
+    height: 30px;
+    opacity: 0;
+    -webkit-transform: translateX(-10px);
+            transform: translateX(-10px);
+    -webkit-transition: all .3s ease;
+    transition: all .3s ease;
+    background: url(../images/change-text.svg) center center/100% auto no-repeat;
+}
+.simple-edit .upload-btn .upload-tip{
+    position: absolute;
+    top: 50%;
+    left: 145px;
+    color: #999;
+    white-space: nowrap;
+    -webkit-transform: translateY(-50%);
+            transform: translateY(-50%);
+}
+.simple-edit .upload-btn::before{
+    content: '';
+    background: #f9f9f9 url(../images/plus.svg) center center/40px auto no-repeat;
+    width: 118px;
+    height: 108px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    text-align: center;
+    line-height: 108px;
+    font-size: 36px;
+    color: #999;
+    cursor: pointer;
+}
+.edit-body .bg-wrap{
+    position: absolute;
+    width: 131px;
+    height: 73px;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    overflow: hidden;
+}
+.edit-body .img-wrap{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    -webkit-transform-origin: left top;
+            transform-origin: left top;
+}
+.edit-body img{
+    float: left;
+    width: 100%;
+    height: 100%;
+    border: none;
+    -o-object-fit: contain;
+       object-fit: contain;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+}
+.simple-edit .replace-image img{
+    z-index: 2;
+}
+li .process{
+    width: 100%;
+    color: #fff;
+    position: absolute;
+    top: 65%;
+    left: 50%;
+    -webkit-transform: translate(-50%,-50%);
+            transform: translate(-50%,-50%);
+}
+.edit-body .replace-li .process{
+    z-index: 5;
+    display: none;
+}
+li .process-bar-bg{
+    font-size: 12px;
+    margin: auto;
+    background: #fff;
+    width: 60%;
+    height: 4px;
+    position: relative;
+}
+li .process-bar{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 100%;
+    background-image: -webkit-gradient(linear,left top, right top,from(#4889ff),to(#ff9ad1));
+    background-image: linear-gradient(to right,#4889ff,#ff9ad1);
+}
+li .process-text{
+    display: inline-block;
+}
+.edit-body .button{
+    height: 30px;
+    text-align: right;
+    padding-right: 5px;
+    clear: both;
+}
+.edit-body .button>div{
+    display: none;
+    height: 30px;
+    width: 20px;
+    cursor: pointer;
+    color: #999;
+    font-size: 14px;
+}
+.edit-body .button>div.remove{
+    display: inline-block;
+}
+.edit-body .button>div:hover{
+    color: #6397f1;
+}
+.scenes-wrap li.replace-li:hover .button.clearfix .change-text{
+    display: inline-block;
+}
+/* 上传 bottom */
+.simple-edit .ending{
+    border-top: solid 1px #edeef1;
+}
+.edit-body .fix-button{
+    width: 100%;
+    height: 75px;
+    position: relative;
+    border-top: solid 1px #edeef1;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    cursor: pointer;
+    -webkit-box-shadow: 0 -10px 30px rgba(102,102,102,.1);
+            box-shadow: 0 -10px 30px rgba(102,102,102,.1);
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+}
+.edit-body .fix-button span{
+    background-image: -webkit-gradient(linear,left top, right top,from(#689cf9),to(#f9bbdd));
+    background-image: linear-gradient(to right,#689cf9,#f9bbdd);
+    padding: 0 20px;
+    border-radius: 20px;
+    margin-left: 20px;
+    text-align: center;
+    color: #fff;
+    line-height: 35px;
+    min-width: 180px;
+}
+.edit-body .fix-button .footer-produce-free{
+    background-image: none;
+    background-color: #799ef6;
+}
+/* 音乐 */
+.upload-music-win{
+    width: 850px;
+    height: 580px;
+    padding: 0;
+    text-align: center;
+}
+.upload-music-win .win-body{
+    padding-top: 40px;
+}
+.win-body{
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-box-flex: 1;
+        -ms-flex: 1;
+            flex: 1;
+}
+.upload-music-win .recommend-select{
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+}
+.upload-music-win .recommend-select li{
+    color: #333;
+    position: relative;
+    text-align: center;
+    display: inline-block;
+    cursor: pointer;
+    font-weight: 700;
+}
+.upload-music-win .recommend-select li:first-child{
+    margin-right: 50px;
+}
+.upload-music-win .recommend-select li.active{
+    color: #478afb;
+}
+.upload-music-win .my-music, .upload-music-win .recommend-music{
+    margin-top: 20px;
+    padding: 0 40px;
+    min-height: 390px;
+}
+.upload-music-win .music-item{
+    width: 140px;
+    display: block;
+    margin-bottom: 10px;
+    position: relative;
+    cursor: pointer;
+    float: left; 
+}
+.upload-music-win .music-item:not(:nth-child(5n)){
+    margin-right: 15px;
+}
+.upload-music-win .music-item.checked{
+    -webkit-transform: scale(1.05);
+            transform: scale(1.05);
+}
+.upload-music-win .music-item .music-bg{
+    width: 140px;
+    height: 140px;
+    position: relative;
+    border: solid 1px transparent;
+    cursor: pointer;
+}
+.upload-music-win .music-item.checked .music-bg{
+    border-color: #edb8df;
+    background: #cdcef8;
+    text-align: center;
+}
+.music-bg .music-bck.iconfont{
+    font-size: 60px;
+    line-height: 140px;
+    color: #fff;
+    
+}
+.upload-music-win .music-item .button{
+    color: #fff;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 40px;
+    background: rgba(0,0,0,.3);
+    cursor: pointer;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+    padding: 0 14px;
+    display: none;
+}
+.recommend-music li.music-item:hover .button{
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+}
+.upload-music-win .music-item .button-left{
+    display: inline-block;
+}
+.upload-music-win .music-item .music-play{
+    width: 34px;
+    cursor: pointer;
+    height: 40px;
+    line-height: 40px;
+}
+.upload-music-win .music-item .button-right{
+    font-size: 12px;
+    line-height: 40px;
+}
+.upload-music-win .music-item .title{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-height: 24px;
+}
+.upload-music-win .my-music ul{
+    float: left;
+}
+.upload-music-win .add-music{
+    float: left;
+    width: 140px;
+    height: 140px;
+    background: #f6f6f6;
+    position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    overflow: hidden;
+    padding-top: 40px;
+}
+.upload-music-win .add-music span{
+    display: inline-block;
+    padding-top: 40px;
+    color: #999;
+    background: url(../images/plus.svg) center top/34px auto no-repeat;
+}
+.upload-music-win .add-music input{
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 200%;
+    height: 100%;
+    font-size: 0;
+    opacity: 0;
+    z-index: 10;
+    cursor: pointer;
+}
+.upload-music-win .ok{
+    display: inline-block;
+    background-image: -webkit-gradient(linear,left top, right top,from(#689cf9),to(#f9bbdd));
+    background-image: linear-gradient(to right,#689cf9,#f9bbdd);
+    line-height: 40px;
+    color: #fff;
+    padding: 0 20px;
+    min-width: 250px;
+    font-size: 20px;
+    cursor: pointer;
+    border-radius: 20px;
+}

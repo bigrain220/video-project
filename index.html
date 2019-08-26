@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>视频模板制作</title>
+    <link rel="stylesheet" href="css/iconfont.css">
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/index.css">
+    <script src="js/jquery.min.js"></script>
+    <script src="js/index.js"></script>
+</head>
+
+<body>
+    <section class="themes">
+        <div class="theme-content">
+            <div class="theme-panel">
+                <div class="theme-tags">
+                    <div class="theme-tags-inline clearfix">
+                        <span class="theme-tag active" data-name="">全部</span>
+                        <!-- <span class="theme-tag">潮流时尚</span>
+                        <span class="theme-tag">婚礼爱情</span>
+                        <span class="theme-tag">商业宣传</span>
+                        <span class="theme-tag">家庭相册</span>
+                        <span class="theme-tag">生日祝福</span>
+                        <span class="theme-tag">节日问候</span>
+                        <span class="theme-tag">旅行时光</span>
+                        <span class="theme-tag">晚会典礼</span>
+                        <span class="theme-tag">毕业留念</span>
+                        <span class="theme-tag">通用</span> -->
+                    </div>
+                </div>
+                <div style="position: relative">
+                    <div class="loading"><span class="iconfont iconloading2"></span></div>
+                    <div class="search-options">
+                        <div class="left">
+                            <div class="classify">
+                                <span>内容</span>:<div class="drop drop-select">
+                                    <span class="text-con">全部</span><span class="icon iconfont iconxiala"></span>
+                                    <div class="drop-menu">
+                                        <ul class="theme_resource_type">
+                                            <li class="active normal" data-type='0'>全部</li>
+                                            <li data-type='1'>纯照片</li>
+                                            <li data-type='2'>纯视频</li>
+                                            <li data-type='3'>两者都有</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="classify">
+                                <span>权限</span>:<div class="drop drop-select">
+                                    <span class="text-con">全部</span><span class="icon iconfont iconxiala"></span>
+                                    <div class="drop-menu">
+                                        <ul class="charge_type">
+                                            <li class="active normal" data-type='0'>全部</li>
+                                            <li data-type="1">免费</li>
+                                            <li data-type="2">会员</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="classify">
+                                <span>类型</span>:<div class="drop drop-select">
+                                    <span class="text-con">全部</span><span class="icon iconfont iconxiala"></span>
+                                    <div class="drop-menu">
+                                        <ul class="composition_type">
+                                            <li class="active normal" data-type='0'>全部</li>
+                                            <li data-type='1'>自由模板</li>
+                                            <li data-type='2'>固定模板</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="classify">
+                                <span>比例</span>:<div class="drop drop-select">
+                                    <span class="text-con">全部</span><span class="icon iconfont iconxiala"></span>
+                                    <div class="drop-menu">
+                                        <ul class="theme_resolution">
+                                            <li class="active normal" data-type=''>全部</li>
+                                            <li data-type='16x9'>16x9</li>
+                                            <li data-type='9x16'>9x16</li>
+                                            <li data-type='1x1'>1x1</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="right">
+                            <div class="classify">
+                                <span>排序</span>:<div class="drop drop-select">
+                                    <span class="text-con">默认</span><span class="icon iconfont iconxiala"></span>
+                                    <div class="drop-menu">
+                                        <ul class="order_field">
+                                            <li class="active normal" data-type='orderby'>默认</li>
+                                            <li data-type='task_num'>最热</li>
+                                            <li data-type='created_at'>最新</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <ul class="theme-list clearfix">
+                        <!-- <li class="theme-item" data-type="dynamic">
+                            <div class="bg">
+                                <img src="">
+                                <div class="super-mark">HD</div>
+                                <div class="free" hidden="hidden">免费</div>
+                                <video class="video-item" preload="none" muted="false" loop="loop" data-id="1129"
+                                    poster="" src="">
+                                </video>
+                            </div>
+                            <div class="bot">
+                                <div class="front">
+                                    <div class="theme-name">都市时尚</div>
+                                    <div class="theme-time" data-layer="theme-layer" data-align="t" hidden="hidden">
+                                        <div class="theme-layer">
+                                            <div class="ap-trangle"></div>
+                                            <h3>固定模板</h3>
+                                            <p>此模板有固定时长和素材数，不能进行更改。</p>
+                                        </div>
+                                        00:00
+                                    </div>
+                                    <div class="theme-attr" data-layer="theme-layer">
+                                        <div class="theme-layer" style="display: block; left: 0px; top: 0px;">
+                                            <div class="ap-trangle ap-align-top" style="left: 0px;"></div>
+                                            <h3>自由模板</h3>
+                                            <p>此模板允许添加4-50张照片，所需时长与照片数量有关。</p>
+                                        </div>自由模板
+                                    </div>
+                                </div>
+                                <div class="back">
+                                    <div class="use-theme" data-id="1129" data-type="dynamic">使用
+                                    </div>
+                                </div>
+                            </div>
+                        </li> -->
+                    </ul>
+                    <h4 class="no-more">全部加载完毕...</h4>
+                </div>
+            </div>
+        </div>
+
+    </section>
+    <div class="win-mask" style="z-index: 1000; opacity: 1;"></div>
+    <div class="win single-theme-win" style="top: 273px;">
+        <div class="win-body">
+            <div class="left video-playing">
+                <video autoplay poster="" controls="controls" controlslist="nodownload"
+                    src=""></video>
+                <div class="video-trigger"><span class="iconfont iconplay video-trigger-logo"></span></div>
+            </div>
+            <div class="right">
+                <h3></h3>
+                <!-- <div class='right-time'>
+                    <div class="time"><span class="iconfont icontime"></span><span class="time-con">00:49</span></div>
+                    <div class="tip image"><span class="iconfont iconpic"></span><span class="image-con">10 张照片</span></div>
+                    <div class="tip video" hidden="hidden"><span class="iconfont iconaddvedio"></span><span class="video-con">0个视频</span></div>
+                    <div class="tip tip-text"><span class="iconfont icontubiao_huabanfuben"></span><span class="text-con">23 处文字</span></div>
+                </div> -->
+                <!-- <div class='right-free'>
+                    <div class="time"><span class="iconfont icontime"></span><span class="time-con">时长不限</span></div>
+                    <div class="tip support sup1"><span class="iconfont iconwrite"></span><span>支持照片/视频/文本</span></div>
+                </div>        -->
+
+                <!-- <div>
+                    <div class="tip support sup2"><span class="iconfont iconpic"></span><span>照片</span></div>
+                </div> -->
+
+                <!-- <div class="ratio-select clearfix">
+                    <span class="iconfont iconhengshuping01"></span>
+                    <div class="drop drop-select clearfix">
+                        <div class="text-con option l ellipsis">16:9 ( 横屏 )</div>
+                        <span class="iconfont iconxiala"></span>
+                        <div class="drop-menu">
+                            <ul class="dialog-option">
+                                <li class="active" data-type="">16:9 ( 横屏 )</li>
+                                <li data-type="">1:1 ( 正方形 )</li>
+                                <li data-type="">9:16 ( 竖屏 )</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div> -->
+
+                <div class="select">
+                    <div data-id="" style="font-size: 16px;" data-type="advance" class="choose">选择模板</div>
+                </div>
+            </div>
+        </div>
+        <div class="win-close iconfont iconclose-hei"></div>
+    </div>
+    <div class="back-top iconfont iconzhidinghuojianicon-hui"></div>
+</body>
+
+</html>

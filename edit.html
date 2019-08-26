@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/iconfont.css">
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/edit.css">
+    <script src="js/jquery.min.js"></script>
+    <script src="js/edit.js"></script>
+</head>
+
+<body>
+    <div class="ruote">
+        <div class="header">
+            <nav class="wrapper">
+                <div hide="hidden"></div>
+                <ul class="nav">
+                    <li class="templete"><a href="index.html">选择模板<span class="iconfont iconzuoyoujiantou"></span></a>
+                    </li>
+                    <li class="edit active"><a href="javascript:;">编辑<span
+                                class="iconfont iconzuoyoujiantou"></span></a>
+                    </li>
+                    <li class="produce"><a href="javascript:;">制作</a></li>
+                </ul>
+                <div hide="hidden"></div>
+            </nav>
+        </div>
+        <div class="content">
+            <div class="wrapper" hidden="hidden">
+                <h2>抱歉，视频好像不见了…</h2>
+            </div>
+            <div class="upload-content">
+                <section class="edit-wrap">
+                    <div class="edit-wrap-info">
+                        <div class="title">
+                            <form class="edit-title" data-tip="修改视频名称" is="edit-title">
+                                <div class="video-name">视频名称：</div>
+                                <div class="video-title">
+                                    <div class="title"><span>都市时尚</span><span class="iconfont iconwrite"></span></div>
+                                    <div class="input-wrap">
+                                        <input type="text" name="title" value="" maxlength="60">
+                                        <div class="ok"></div>
+                                        <div class="cancel"></div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="cover" style="background-image: url(images/test.jpg);">
+                        </div>
+                        <div class="theme-name">
+                            都市时尚
+                            <span class="iconfont icontishi"></span>
+                        </div>
+                        <div class="scene-num" hidden="hidden">
+                            <span class="pic" hidden="hidden">0</span>
+                            <span class="video" hidden="hidden">0</span>
+                        </div>
+                        <div class="scene-num quick-num">
+                            <i class="iconfont iconpic"></i>
+                            <span style="margin-right: 5px;">4</span>- 100
+                        </div>
+                        <div class="process">
+                            <span>进度</span>:
+                            <span class="process-bar-bg">
+                                <span class="process-bar" style="width:0%;"></span>
+                            </span>
+                            <span class="process-num">
+                                <span>0</span>/
+                                <span>0</span>
+                            </span>
+                        </div>
+                        <div class="expect">
+                            <span>预估时长</span>:
+                            <span class="estimate-time">00:00</span>
+                        </div>
+                        <div class="ratio-select clearfix">
+                            <span class="iconfont iconhengshuping01"></span>
+                            <div class="drop drop-select clearfix">
+                                <div class="text-con option l ellipsis">16:9 ( 横屏 )</div>
+                                <span class="iconfont iconxiala"></span>
+                                <div class="drop-menu">
+                                    <ul>
+                                        <li class="active" data-type="all">16:9 ( 横屏 )</li>
+                                        <li data-type="free">1:1 ( 正方形 )</li>
+                                        <li data-type="vip">9:16 ( 竖屏 )</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="left-produce free-produce">制作高清视频（免费）</div>
+                    </div>
+                    <div class="edit-wrap-left">
+                        <div class="edit-wrap-left-header clearfix">
+                            <div class="top-control hidden"><span class="iconfont iconyichu"></span><span
+                                    class="remove">移除</span></div>
+                            <div class="top-control"><span class="iconfont iconqingkong"></span><span
+                                    class="empty">清空</span></div>
+                            <div class="order-btn" hidden="hidden">
+                                <div class="scene-order active"></div>
+                                <div class="thumb-order"></div>
+                            </div>
+                        </div>
+                        <div class="edit-wrap-music">
+                            <div class="change-music-btn">
+                                <div class="music-logo"><span class="iconfont iconmusic1"></span></div>
+                                <div class="top">默认</div>
+                                <div class="bottom">01:34</div>
+                            </div>
+                            <div class="music-right">
+                                <div class="crop-music">更改音乐</div>
+                                <div class="set-music">音乐设置</div>
+                            </div>
+                        </div>
+                        <div class="edit-body">
+                            <div class="simple-edit">
+                                <div class="scenes">
+                                    <!-- head -->
+                                    <div class="opening clearfix">
+                                        <div class="default-title">片头</div>
+                                        <div class="replace-matter replace-text">
+                                            <div class="bg">
+                                                <span hidden="hidden">文字</span>
+                                                <span>明月几时有 把酒问青天</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- content -->
+                                    <div class="add-images clearfix">
+                                        <div class="default-title">
+                                            <span>已添加照片数</span>:
+                                            <span>0</span>
+                                        </div>
+                                        <ul class="scenes-wrap">
+                                            <li data-scene="1" data-unit="0"
+                                                class="replace-matter replace-li replace-image" data-type="image">
+                                                <div class="bg">
+                                                    <div class="bg-wrap">
+                                                        <div class="img-wrap cover">
+                                                            <img draggable="false" class=""
+                                                                src="https://stszjl.aoscdn.com/app/lightmv/resources/9e4d3e255b5993c841a0174bd0bdc49b/08550d2beee38fb7f857370607332f43.jpg?auth_key=1566810947-118397-291927-eb6fde98488f87f1e6acc277bf6c2b6e&amp;x-oss-process=style/160p"
+                                                                style="opacity: 1;">
+                                                            <!-- <div class="bg" hidden="hidden">
+                                                                <span>becb1ace-3bae-3f26-b26a-ae1d27b840c2</span>
+                                                            </div> -->
+                                                        </div>
+                                                    </div>
+                                                    <div class="process" style="display: block;" hidden="hidden">
+                                                        <div class="process-bar-bg">
+                                                            <div class="process-bar" style="width: 99%;"></div>
+                                                        </div>
+                                                        <div class="process-text">
+                                                            <span class="process-text-retry">重新上传</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="button clearfix">
+                                                    <div class="change-text dynamic iconfont icontext"></div>
+                                                    <div class="remove iconfont iconyichu"></div>
+                                                </div>
+                                            </li>
+                                            <div class="upload-btn active" data-tip="添加素材">
+                                                <div class="add-image">
+                                                    <input type="file" name="file" multiple=""
+                                                        accept="image/*, .heic,.heif" hidden="hidden">
+                                                    <input type="file" name="file" multiple=""
+                                                        accept="image/*, .heic,.heif,video/*">
+                                                </div>
+                                                <input type="file" name="file" multiple="" accept="image/*, .heic,.heif"
+                                                    hidden="hidden">
+                                                <input type="file" name="file" multiple=""
+                                                    accept="image/*, .heic,.heif,video/*">
+                                                <div class="add-text"></div>
+                                                <!-- <div class="upload-tip">拖拽或点击“+”上传照片</div> -->
+                                            </div>
+                                        </ul>
+                                    </div>
+                                    <!-- bottom -->
+                                    <div class="ending clearfix">
+                                        <div class="default-title">片尾</div>
+                                        <div class="replace-matter replace-text">
+                                            <div class="bg">
+                                                <span hidden="hidden">文字</span>
+                                                <span>但愿人长久 千里共婵娟</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="fix-button">
+                                <span class="footer-produce-gtm footer-produce-free" id="footer-produce-gtm"
+                                    mobile-text="制作">制作高清视频（免费）</span>
+                                <!--<span @click="clickFooterSuperProduce(event)" f-show="window.apower.user.getId() > 0 && projectFileQuick?.attrs.platform !='apowershow' && taskData?.project_file.attrs.mv_resolution[taskData.resolution]'" class="footer-produce-gtm footer-produce-super" id="footer-produce-gtm">制作超清视频（付费）</span>-->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="win-mask" style="z-index: 1000; opacity: 1;"></div>
+    <div class="ap-tip " style="display: block; left: 86px; top: 54px;" hidden="hidden">
+        <div class="ap-trangle ap-align-top" style="left: 48px;"></div>
+        <div class="ap-tip-text">修改视频名称</div>
+    </div>
+    <div class="win upload-music-win clearfix" is="upload-music-win" style="display: flex; left: 257px; top: 178px;" hidden="hidden">
+        <div class="win-body">
+            <audio loop="loop"
+                src="https://p9mch.aoscdn.com/themes/1132/1132.mp3?auth_key=1566810655-739009-649182-d959872c2731f54f79713c809214ad67"></audio>
+            <ul class="recommend-select">
+                <li class="active">我的音乐</li>
+                <li class="">推荐</li>
+            </ul>
+            <div class="recommend-music clearfix" hidden="hidden">
+                <ul>
+                    <li class="music-item checked" data-url="" data-id="default">
+                        <div class="music-bg">
+                            <div class="button">
+                                <div class="button-left">
+                                    <span class="music-play iconfont iconplay"></span>
+                                </div>
+                                <div class="button-right">
+                                    <span class="duration">01:34</span>
+                                </div>
+                            </div>
+                            <div class="iconfont iconmusic1 music-bck"></div>
+                        </div>
+                        <div class="title">default</div>
+                    </li>
+                </ul>
+            </div>
+            <div class="my-music clearfix" hidden="hidden">
+                <ul>
+                    <div class="add-music">
+                        <span>上传</span>
+                        <input type="file" name="file" multiple="" accept=".mp3">
+                    </div>
+                </ul>
+
+            </div>
+            <div class="ok">确定</div>
+        </div>
+        <div class="win-close iconfont iconclose-hei"></div>
+    </div>
+</body>
+
+</html>
