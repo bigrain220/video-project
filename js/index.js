@@ -7,7 +7,7 @@ $(document).ready(function () {
     var u_theme_resource_type = 0;
     var u_tag_brief_name = "";
     var u_language = "zh";
-    var u_api_token = "16461945%2C1566267267%2C44e945324f9dd2818ac6c32a59486d9b";
+    var u_api_token = "14973143,1562228154,f3163a7b78c57c1b4966478f395430f5";
     var u_theme_resolution = "";
     var u_order_field = "orderby";
 
@@ -40,6 +40,25 @@ $(document).ready(function () {
         });
     }
 
+    function getTaskId(theme_id, language, api_token) {
+        var task_id = "";
+        $.ajax({
+            type: "post",
+            url: URL + '/api/tasks',
+            async: false,
+            data: {
+                api_token: api_token,
+                language: language,
+                version: '3',
+                theme_id: theme_id
+            },
+            success: function (res) {
+                console.log(res)
+                task_id = res.data.task_id;
+            }
+        });
+        return task_id;
+    }
 
     function getList(page, per_page, charge_type, composition_type, theme_resource_type, tag_brief_name, language, api_token, theme_resolution, order_field) {
         var Data = {
@@ -175,7 +194,9 @@ $(document).ready(function () {
             u_tag_brief_name = $(event).attr('data-name');
             $('ul.theme-list').html("");
             dialog_obj = {};
-            setTimeout(function () {
+            var timer =null;
+            clearTimeout(timer);
+            timer = setTimeout(function () {
                 initOptions();
                 getList(u_page, u_per_page, u_charge_type, u_composition_type, u_theme_resource_type, u_tag_brief_name, u_language, u_api_token, u_theme_resolution, u_order_field);
                 hoverEvent();
@@ -205,11 +226,11 @@ $(document).ready(function () {
         }
 
         if ($(event).hasClass('use-theme') || $(event).hasClass('choose')) {
-            console.log($(event).attr('data-id'));
-            location.href = "./edit.html";
+            var u_theme_id = $(event).attr('data-id');
+            location.href = "./edit.html?taskID="+getTaskId(u_theme_id, u_language, u_api_token);
         }
 
-        if($(event).hasClass('video-trigger') || $(event).hasClass('video-trigger-logo')){
+        if ($(event).hasClass('video-trigger') || $(event).hasClass('video-trigger-logo')) {
             $('.video-trigger').css('display', 'none');
             $(".win-body .left video").get(0).play();
         }
@@ -253,7 +274,9 @@ $(document).ready(function () {
             $('ul.theme-list').html("");
             dialog_obj = {};
             u_page = 1;
-            setTimeout(function () {
+            var timer =null;
+            clearTimeout(timer);
+            timer = setTimeout(function () {
                 getList(u_page, u_per_page, u_charge_type, u_composition_type, u_theme_resource_type, u_tag_brief_name, u_language, u_api_token, u_theme_resolution, u_order_field);
             }, 500)
         }

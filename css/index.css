@@ -332,7 +332,7 @@
     background: linear-gradient(to right,#4889ff,#ff9ad1);   
 }
 /* 视频弹框 */
-.single-theme-win{
+/* .single-theme-win{
     width: 900px;
     height: 390px;
     padding-top: 25px;
@@ -516,7 +516,7 @@
     color: #eee;
     top: 30px;
     left:14px;
-}
+} */
 .no-more{
     width: 100%;
     text-align: center;
@@ -537,14 +537,27 @@
     position: absolute;
     font-size: 50px;
     color: #7791e6;
-    animation: rotate 2s linear infinite;
+    -webkit-animation: rotate 2s linear infinite;
+            animation: rotate 2s linear infinite;
+}
+@-webkit-keyframes rotate {
+    0% {
+        -webkit-transform: rotate(0);
+                transform: rotate(0)
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+                transform: rotate(360deg)
+    }
 }
 @keyframes rotate {
     0% {
-        transform: rotate(0)
+        -webkit-transform: rotate(0);
+                transform: rotate(0)
     }
     100% {
-        transform: rotate(360deg)
+        -webkit-transform: rotate(360deg);
+                transform: rotate(360deg)
     }
 }
-.back-top{cursor: pointer;font-size: 40px;color: rgb(136, 155, 209);position: fixed;right: 0;bottom: 5%;z-index: 99;display: none;}
+.back-top{cursor: pointer;font-size: 40px;color: rgb(132, 160, 235);position: fixed;right: 0;bottom: 5%;z-index: 99;display: none;}

@@ -49,11 +49,12 @@
                                 </div>
                             </form>
                         </div>
-                        <div class="cover" style="background-image: url(images/test.jpg);">
+                        <div class="cover theme-dialog">
+                                <span class="iconfont iconplay theme-dialog"></span>
                         </div>
                         <div class="theme-name">
-                            都市时尚
-                            <span class="iconfont icontishi"></span>
+                            <span></span>
+                            <span class="iconfont icontishi theme-dialog"></span>
                         </div>
                         <div class="scene-num" hidden="hidden">
                             <span class="pic" hidden="hidden">0</span>
@@ -61,9 +62,9 @@
                         </div>
                         <div class="scene-num quick-num">
                             <i class="iconfont iconpic"></i>
-                            <span style="margin-right: 5px;">4</span>- 100
+                            <!-- <span style="margin-right: 5px;">4</span>- 100 -->
                         </div>
-                        <div class="process">
+                        <!-- <div class="process">
                             <span>进度</span>:
                             <span class="process-bar-bg">
                                 <span class="process-bar" style="width:0%;"></span>
@@ -72,11 +73,11 @@
                                 <span>0</span>/
                                 <span>0</span>
                             </span>
-                        </div>
-                        <div class="expect">
+                        </div> -->
+                        <!-- <div class="expect">
                             <span>预估时长</span>:
                             <span class="estimate-time">00:00</span>
-                        </div>
+                        </div> -->
                         <div class="ratio-select clearfix">
                             <span class="iconfont iconhengshuping01"></span>
                             <div class="drop drop-select clearfix">
@@ -84,9 +85,9 @@
                                 <span class="iconfont iconxiala"></span>
                                 <div class="drop-menu">
                                     <ul>
-                                        <li class="active" data-type="all">16:9 ( 横屏 )</li>
-                                        <li data-type="free">1:1 ( 正方形 )</li>
-                                        <li data-type="vip">9:16 ( 竖屏 )</li>
+                                        <li class="active size-option" data-type="all">16:9 ( 横屏 )</li>
+                                        <li class="size-option" data-type="free">1:1 ( 正方形 )</li>
+                                        <li class="size-option" data-type="vip">9:16 ( 竖屏 )</li>
                                     </ul>
                                 </div>
                             </div>
@@ -205,11 +206,27 @@
 
 
     <div class="win-mask" style="z-index: 1000; opacity: 1;"></div>
+    <div class="win single-theme-win" style="top: 273px;">
+        <div class="win-body">
+            <div class="left video-playing">
+                <video autoplay poster="" controls="controls" controlslist="nodownload" src=""></video>
+                <div class="video-trigger"><span class="iconfont iconplay video-trigger-logo"></span></div>
+            </div>
+            <div class="right">
+                <h3></h3>
+                <div class="select">
+                    <div data-id="" style="font-size: 16px;" data-type="advance" class="choose">选择模板</div>
+                </div>
+            </div>
+        </div>
+        <div class="win-close iconfont iconclose-hei"></div>
+    </div>
     <div class="ap-tip " style="display: block; left: 86px; top: 54px;" hidden="hidden">
         <div class="ap-trangle ap-align-top" style="left: 48px;"></div>
         <div class="ap-tip-text">修改视频名称</div>
     </div>
-    <div class="win upload-music-win clearfix" is="upload-music-win" style="display: flex; left: 257px; top: 178px;" hidden="hidden">
+    <div class="win upload-music-win clearfix" is="upload-music-win" style="display: flex; left: 257px; top: 178px;"
+        hidden="hidden">
         <div class="win-body">
             <audio loop="loop"
                 src="https://p9mch.aoscdn.com/themes/1132/1132.mp3?auth_key=1566810655-739009-649182-d959872c2731f54f79713c809214ad67"></audio>
