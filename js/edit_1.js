@@ -3,10 +3,22 @@ $(document).ready(function () {
     var u_task_id = location.href.split("taskID=")[1];
     var u_language = 'zh';
     var u_api_token = '14973143,1562228154,f3163a7b78c57c1b4966478f395430f5';
+    var u_project_file = "";
 
     var themeData = "";
     var projectData = "";
     var resourcesData = "";
+
+    var delete_music_item = "";
+
+
+    // 初始化
+    getLeft();
+    getData(u_language, u_api_token);
+    getLeftDom();
+    getImgTextList();
+    scenesClick();
+    //  getMusic();
 
     function getData(language, api_token) {
         $.ajax({
@@ -25,34 +37,7 @@ $(document).ready(function () {
                     themeData = res.data.theme;
                     projectData = res.data.project_file;
                     resourcesData = res.data.resources;
-                    $(".cover.theme-dialog").css("backgroundImage", "url(" + themeData.cover_url + ")")
-                    $('.edit-wrap-info .theme-name span').first().text(themeData.title)
-                    //left 数量限制
-                    var unit_num = 0;
-                    for (var i = 0; i < projectData.scenes.length; i++) {
-                        if (projectData.scenes[i].is_fixed_unit_num == '0') {
-                            var quickDom = "<span style='margin-right: 5px;'>" + projectData.scenes[i].min_unit_num + "</span>" + '- ' + projectData.scenes[i].max_unit_num;
-                            $('.scene-num.quick-num').append(quickDom);
-                            var expectDom = "<div class='expect'><span>预估时长</span>:<span class='estimate-time'>  00:00</span></div>";
-                            $('.scene-num.quick-num').after(expectDom);
-                            break;
-                        } else {
-                            unit_num += 1;
-                            if (unit_num === 3) {
-                                var quickDom = "<span style='margin-right: 5px;'>" + themeData.statistics.image + "</span>"
-                                $('.scene-num.quick-num').append(quickDom);
-                                var expectDom = "<div class='process'>" +
-                                    "<span>进度</span>:<span class='process-bar-bg'><span class='process-bar' style='width:0%;'></span></span>" +
-                                    "<span class='process-num'><span>0</span>/<span>" + themeData.statistics.image + "</span></span></div>";
-                                $('.scene-num.quick-num').after(expectDom);
-                            }
-                        }
-                    }
-                    
-                    getImgTextList();
-                    scenesClick();
-
-
+                    u_project_file = $.extend(true, {}, projectData)
                 } else {
                     console.log('请求失败')
                 }
@@ -61,7 +46,7 @@ $(document).ready(function () {
     }
 
 
-    function changeTitle(language,api_token,title){
+    function changeTitle(language, api_token, title) {
         $.ajax({
             type: "PUT",
             url: URL + "/api/tasks/" + u_task_id,
@@ -69,82 +54,152 @@ $(document).ready(function () {
                 "language": language,
                 "version": '3',
                 "api_token": api_token,
-                "title":title
+                "title": title
             },
             success: function (res) {
-                if(res.status == '1'){
+                if (res.status == '1') {
                     $('.video-title .title span').first().text(title);
                 }
             }
         });
     }
-  
-    function getMusic(){
-         //music 
-         getData(u_language, u_api_token);
-         $(".recommend-music ul").html('');$('.my-music ul li').remove();
-         var global = resourcesData.userself.global;
-         for (var j = 0; j < global.length; j++) {
-             var musicLiLeft =
-                 "<li class='music-item' data-url='" + global[j].audio_url + "' data-duration='" + global[j].duration + "' data-id='" + global[j].resource_id + "'>" +
-                 "<div class='music-bg'>" +
-                 // "<span class='process-num'><span class='num'>0</span>%</span>" +
-                 "<div class='button'>" +
-                 "<div class='button-left'><span class='music-play iconfont iconplay'></span><span class='delete iconfont icondelete delete-music'></span></div>" +
-                 "<div class='button-right'>" +
-                 "<span class='duration'>" + hasTime(global[j].duration) + "</span>" +
-                 "</div>" +
-                 "</div>" +
-                 "<div class='iconfont iconmusic1 music-bck'></div>" +
-                 "</div>" +
-                 "<div class='title'>" + global[j].filename + "</div>" +
-                 "<div class='checked-icon'><span class='iconfont iconicon-test'></span></div>"+
-                 "</li>"
-             $("ul .add-music").before(musicLiLeft);
-         }
-         var musicLiRight =
-             "<li class='music-item' data-url='" + projectData.attrs.default_audio.url + "' data-id='default'>" +
-             "<div class='music-bg'>" +
-             "<div class='button'>" +
-             "<div class='button-left'><span class='music-play iconfont iconplay'></span></div>" +
-             "<div class='button-right'>" +
-             "<span class='duration'>" + hasTime(projectData.attrs.default_audio.duration) + "</span>" +
-             "</div>" +
-             "</div><div class='iconfont iconmusic1 music-bck'></div>" +
-             "</div>" +
-             "<div class='title'>default</div>" +
-             "<div class='checked-icon'><span class='iconfont iconicon-test'></span></div>"
-             "</li>"
-         $(".recommend-music ul").append(musicLiRight);
-         if(projectData.attrs.audio.value === ""){
-             $("li.music-item").removeClass('checked');
-             $("li.music-item[data-id='default']").addClass('checked');
-         }else{
-             $("li.music-item").removeClass('checked');
-             $("li.music-item[data-id='"+ projectData.attrs.audio.value +"']").addClass('checked');
-         }
-    }
 
-    function deleteMusic(language,api_token,e){
-        var ids = "[\""+e.parents('.music-item').attr('data-id')+"\"]";
+    function changeProject(language, api_token, project_file) {
         $.ajax({
-            type: "DELETE",
-            url: URL + "/api/tasks/" + u_task_id+'/resources/',
+            type: "PUT",
+            url: URL + "/api/tasks/" + u_task_id,
             data: {
                 "language": language,
                 "version": '3',
                 "api_token": api_token,
-                "ids":ids
+                "project_file": JSON.stringify(project_file)
             },
             success: function (res) {
-                if(res.status == 1){
+                if (res.status == '1') {
+                    console.log(res)
+                }
+            }
+        });
+    }
+    // u_project_file=$.extend(true,{},projectData);
+    // u_project_file.attrs.audio.value="";
+    // delete u_project_file.attrs.audio['filename'];
+    // console.log(projectData,u_project_file)
+    // // changeProject(u_language,u_api_token,u_project_file);
+
+
+    function getMusic() {
+        //music 
+        $(".recommend-music ul").html('');
+        $('.my-music ul li').remove();
+        var global = resourcesData.userself.global;
+        for (var j = 0; j < global.length; j++) {
+            var musicLiLeft =
+                "<li class='music-item' data-url='" + global[j].audio_url + "' data-duration='" + global[j].duration + "' data-id='" + global[j].resource_id + "' data-title='" + global[j].filename + "'>" +
+                "<div class='music-bg'>" +
+                // "<span class='process-num'><span class='num'>0</span>%</span>" +
+                "<div class='button'>" +
+                "<div class='button-left'><span class='music-play iconfont iconplay'></span><span class='delete iconfont icondelete delete-music'></span></div>" +
+                "<div class='button-right'>" +
+                "<span class='duration'>" + hasTime(global[j].duration) + "</span>" +
+                "</div>" +
+                "</div>" +
+                "<div class='iconfont iconmusic1 music-bck'></div>" +
+                "</div>" +
+                "<div class='title'>" + global[j].filename + "</div>" +
+                "<div class='checked-icon'><span class='iconfont iconicon-test'></span></div>" +
+                "</li>"
+            $("ul .add-music").before(musicLiLeft);
+        }
+        var musicLiRight =
+            "<li class='music-item' data-url='" + projectData.attrs.default_audio.url + "' data-id='default'>" +
+            "<div class='music-bg'>" +
+            "<div class='button'>" +
+            "<div class='button-left'><span class='music-play iconfont iconplay'></span></div>" +
+            "<div class='button-right'>" +
+            "<span class='duration'>" + hasTime(projectData.attrs.default_audio.duration) + "</span>" +
+            "</div>" +
+            "</div><div class='iconfont iconmusic1 music-bck'></div>" +
+            "</div>" +
+            "<div class='title'>default</div>" +
+            "<div class='checked-icon'><span class='iconfont iconicon-test'></span></div>"
+        "</li>"
+        $(".recommend-music ul").append(musicLiRight);
+        if (projectData.attrs.audio.value === "") {
+            $("li.music-item").removeClass('checked');
+            $("li.music-item[data-id='default']").addClass('checked');
+        } else {
+            $("li.music-item").removeClass('checked');
+            $("li.music-item[data-id='" + projectData.attrs.audio.value + "']").addClass('checked');
+        }
+        var time = $('.music-item.checked').attr('data-duration');
+        time ? time1 = hasTime(time) : time1 = hasTime(projectData.attrs.default_audio.duration)
+        var name = $('.music-item.checked>.title').text();
+        $('.edit-wrap-music .change-music-btn .bottom').text(time1);
+        $('.edit-wrap-music .change-music-btn .top').text(name);
+
+        $('.recommend-select li').removeClass('active');
+        $('.recommend-select li.mine').addClass('active');
+        $('.my-music').show();
+        $('.recommend-music').hide();
+        //切换音乐
+        $('li.music-item').on('click', function () {
+            $('li.music-item').removeClass('checked');
+            $(this).addClass('checked');
+            u_project_file.attrs.audio.value = $(this).attr('data-id');
+            u_project_file.attrs.audio.filename = $(this).attr('data-title');
+            if ($(this).attr('data-id') == 'default') {
+                u_project_file.attrs.audio.value = "";
+                delete u_project_file.attrs.audio['filename'];
+            }
+        });
+    }
+
+    function deleteMusic(language, api_token, e) {
+        var ids = "[\"" + e.parents('.music-item').attr('data-id') + "\"]";
+        $.ajax({
+            type: "DELETE",
+            url: URL + "/api/tasks/" + u_task_id + '/resources/',
+            data: {
+                "language": language,
+                "version": '3',
+                "api_token": api_token,
+                "ids": ids
+            },
+            success: function (res) {
+                if (res.status == 1) {
+                    getData(u_language, u_api_token);
                     getMusic();
                 }
             }
         });
     }
 
-
+    function getLeftDom() {
+        $(".cover.theme-dialog").css("backgroundImage", "url(" + themeData.cover_url + ")")
+        $('.edit-wrap-info .theme-name span').first().text(themeData.title)
+        //left 数量限制
+        var unit_num = 0;
+        for (var i = 0; i < projectData.scenes.length; i++) {
+            if (projectData.scenes[i].is_fixed_unit_num == '0') {
+                var quickDom = "<span style='margin-right: 5px;'>" + projectData.scenes[i].min_unit_num + "</span>" + '- ' + projectData.scenes[i].max_unit_num;
+                $('.scene-num.quick-num').append(quickDom);
+                var expectDom = "<div class='expect'><span>预估时长</span>:<span class='estimate-time'>  00:00</span></div>";
+                $('.scene-num.quick-num').after(expectDom);
+                break;
+            } else {
+                unit_num += 1;
+                if (unit_num === 3) {
+                    var quickDom = "<span style='margin-right: 5px;'>" + themeData.statistics.image + "</span>"
+                    $('.scene-num.quick-num').append(quickDom);
+                    var expectDom = "<div class='process'>" +
+                        "<span>进度</span>:<span class='process-bar-bg'><span class='process-bar' style='width:0%;'></span></span>" +
+                        "<span class='process-num'><span>0</span>/<span>" + themeData.statistics.image + "</span></span></div>";
+                    $('.scene-num.quick-num').after(expectDom);
+                }
+            }
+        }
+    }
 
 
 
@@ -167,7 +222,11 @@ $(document).ready(function () {
 
         //close-btn
         if ($(event).hasClass('win-close')) {
-            $('.win-mask').css('display', 'none');
+            if ($(event).hasClass('win-confirm-close')) {
+                $('.win-mask').css('zIndex', '1');
+            } else {
+                $('.win-mask').css('display', 'none');
+            }
             $(event).parent().css('display', 'none');
             if ($(event).parent().hasClass('single-theme-win')) {
                 $('.single-theme-win .left video').attr('src', "");
@@ -178,6 +237,10 @@ $(document).ready(function () {
                 $('.upload-music-win audio').get(0).load();
                 $(".upload-music-win .music-play").removeClass('iconpause');
                 $(".upload-music-win .music-play").addClass('iconplay');
+                $('.recommend-select li').removeClass('active');
+                $('.recommend-select li.mine').addClass('active');
+                $('.my-music').show();
+                $('.recommend-music').hide();
             }
 
         }
@@ -201,6 +264,9 @@ $(document).ready(function () {
         // music-dialog
         if ($(event).hasClass('crop-music')) {
             $('.upload-music-win').css('display', 'flex');
+            $('.win-mask').css('display', 'block');
+            getData(u_language, u_api_token);
+            getMusic();
         }
 
         if ($(event).hasClass('music-option')) {
@@ -216,8 +282,10 @@ $(document).ready(function () {
         }
 
         if ($(event).hasClass('music-play')) {
-            var musicAttr = $(event).parent().parent().parent().parent(".music-item");
+            var musicAttr = $(event).parents(".music-item");
             $('.upload-music-win audio').attr('src', musicAttr.attr('data-url'));
+            $(event).parents(".music-item").siblings().find('.iconpause').addClass('iconplay');
+            $(event).parents(".music-item").siblings().find('.iconpause').removeClass('iconpause');
             if ($(event).hasClass('iconplay')) {
                 $(event).removeClass('iconplay');
                 $(event).addClass('iconpause');
@@ -231,28 +299,52 @@ $(document).ready(function () {
 
         //change-title
         if ($(event).hasClass('title-ok')) {
-            var c_title=$(event).siblings('input').val();
-            changeTitle(u_language,u_api_token,c_title);
+            var c_title = $(event).siblings('input').val();
+            changeTitle(u_language, u_api_token, c_title);
             $(event).parent().removeClass('active');
-            $(event).parent().siblings().css('display','flex'); 
-        }else if($(event).hasClass('title-cancel')){
-           $(event).parent().removeClass('active');
-           $(event).parent().siblings().css('display','flex');
+            $(event).parent().siblings().css('display', 'flex');
+        } else if ($(event).hasClass('title-cancel')) {
+            $(event).parent().removeClass('active');
+            $(event).parent().siblings().css('display', 'flex');
         }
 
         //delete-music
-        if($(event).hasClass('delete-music')){
-            deleteMusic(u_language,u_api_token,$(event));
+        if ($(event).hasClass('delete-music')) {
+            $('.win.msg-confirm').css('display', 'flex');
+            $('.win-mask').css({
+                'display': 'block',
+                'zIndex': '1100'
+            });
+            delete_music_item = $(event);
+        }
+        if ($(event).attr('type') === 'cancel') {
+            $('.win.msg-confirm').css('display', 'none');
+            $('.win-mask').css('zIndex', '1');
+        } else if ($(event).attr('type') === 'primary') {
+            $('.win.msg-confirm').css('display', 'none');
+            $('.win-mask').css('zIndex', '1');
+            deleteMusic(u_language, u_api_token, delete_music_item);
+        }
+
+        //确认音乐
+        if ($(event).hasClass('music-ok')) {
+            $('.win-mask').css('display', 'none');
+            $('.upload-music-win audio').get(0).load();
+            $(".upload-music-win .music-play").removeClass('iconpause');
+            $(".upload-music-win .music-play").addClass('iconplay');
+            $(event).parent().parent().css('display', 'none');
+            changeProject(u_language, u_api_token, u_project_file);
         }
 
     })
- 
+    //修改标题
     $('.video-title .title').on('click', function () {
-        $(this).css('display','none');
+        $(this).css('display', 'none');
         $(this).siblings(".input-wrap").addClass('active');
         var pre_title = $(this).children('span').text();
         $('.video-title .input-wrap input').val(pre_title);
     });
+
 
 
     $(window).resize(function () {
@@ -264,6 +356,11 @@ $(document).ready(function () {
     });
     $('.single-theme-win .video-playing video').on('pause', function () {
         $('.video-trigger').css('display', 'block');
+    });
+
+    $('#uploadMusic').change(function (e) {
+        e.preventDefault();
+        console.log(e.target.files)
     });
 
 
@@ -295,6 +392,8 @@ $(document).ready(function () {
         $(".win.single-theme-win").css('left', reWidth);
         var reWidth2 = ($(document).width() - $(".win.change-text-win").width()) / 2;
         $(".win.change-text-win").css('left', reWidth2);
+        var reWidth3 = ($(document).width() - $(".win.msg-confirm").width()) / 2;
+        $(".win.msg-confirm").css('left', reWidth3);
     }
     //处理数据
     function hasTime(params) {
@@ -308,6 +407,7 @@ $(document).ready(function () {
             return '0'
         }
     }
+
     //图片文字渲染
     function getImgTextList() {
         var Duration = themeData.duration;
@@ -358,7 +458,7 @@ $(document).ready(function () {
             for (var i = 0; i < surperScenes.length; i++) {
                 for (var j = 0; j < surperScenes[i].units.length; j++) {
                     var superHeadList =
-                        "<li data-unit='0' class='replace-matter replace-text need-replace' data-type='text' draggable='false'" + 
+                        "<li data-unit='0' class='replace-matter replace-text need-replace' data-type='text' draggable='false'" +
                         "data-url='" + surperScenes[i].units[j].preview_url + "' data-text='" + getTrueVal(surperScenes[i].units[j]) + "'>" +
                         "<div class='bg'>" +
                         imgOrtext(surperScenes[i].units[j]) +
@@ -378,17 +478,18 @@ $(document).ready(function () {
                     } else if (i === 2) {
                         $('.super-edit ul.three').append(superHeadList);
                     }
-                   
+
                 }
             }
 
-            function getTrueVal(params){
-                if(params.value){
+            function getTrueVal(params) {
+                if (params.value) {
                     return params.value;
-                }else{
+                } else {
                     return params.default_value;
                 }
             }
+
             function imgOrtext(params) {
                 var DOM = "";
                 if (params.type === 'text') {
@@ -417,7 +518,7 @@ $(document).ready(function () {
             $('.te-input-bar>textarea').val(preview_text);
         });
         $('.replace-matter.replace-text').on('click', function (e) {
-            if( !$(e.target).hasClass('eye') && !$(e.target).hasClass('iconGroup') && ! $(e.target).hasClass('img-layer')){
+            if (!$(e.target).hasClass('eye') && !$(e.target).hasClass('iconGroup') && !$(e.target).hasClass('img-layer')) {
                 $('.win-mask').css('display', 'block');
                 $('.win.change-text-win').css('display', 'flex');
                 $('.text-button .text-reset').css('display', 'inline-block');
@@ -426,16 +527,13 @@ $(document).ready(function () {
                 $('.cropper-preview-img>img').attr('src', preview_url);
                 $('.te-input-bar>textarea').val(preview_text);
             }
-           
+
         })
     }
-    
 
 
 
-    //    初始化
-    getLeft();
-    getData(u_language, u_api_token);
-    getMusic();
+
+
 
 });

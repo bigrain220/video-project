@@ -128,6 +128,14 @@ body{
     left: 0;
     top: 0;
 }
+.edit-title .input-wrap.active{
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+}
 .edit-title input{
     border: none;
     border-bottom: solid 1px #ccc;
@@ -136,6 +144,13 @@ body{
     width: 24px;
     cursor: pointer;
     text-align: center;
+    display: inline-block;
+    font-size: 12px;
+}
+.edit-title .ok{
+    font-size: 18px;
+    margin-right: 12px;
+    color: #2f76e0;
 }
 .video-title .title span.iconfont{
     position: absolute;
@@ -433,6 +448,7 @@ body{
     cursor: pointer;
     line-height: 34px;
 }
+
 .edit-body{
     padding-right: 0;
     position: relative;
@@ -512,10 +528,10 @@ body{
 .simple-edit .add-images{
     padding: 15px 20px;
 }
-.edit-body .default-title{
+/* .edit-body .default-title{
     color: #999;
     margin-bottom: 10px;
-}
+} */
 .simple-edit .upload-btn{
     margin-top: 10px;
     margin-bottom: 10px;
@@ -669,6 +685,7 @@ li .process-text{
     cursor: pointer;
     color: #999;
     font-size: 14px;
+    margin: 0 4px;
 }
 .edit-body .button>div.remove{
     display: inline-block;
@@ -678,6 +695,12 @@ li .process-text{
 }
 .scenes-wrap li.replace-li:hover .button.clearfix .change-text{
     display: inline-block;
+}
+.super-edit li.need-replace:hover .edit.iconfont{
+    display: inline-block;
+}
+.super-edit .edit-body .eye{
+    position: relative;
 }
 /* 上传 bottom */
 .simple-edit .ending{
@@ -716,6 +739,51 @@ li .process-text{
     background-image: none;
     background-color: #799ef6;
 }
+.super-edit{
+    padding: 20px;
+}
+.super-edit .scene-line{
+    margin-bottom: 20px;
+}
+.super-edit .default-title{
+    margin-bottom: 0;
+    clear: both;
+}
+.edit-body .eye{
+    position: relative;
+}
+.edit-body .eye{
+    display: inline-block!important;
+}
+.edit-body .eye .iconfont{
+    width: 100%;
+    height: 100%;
+    font-size: 14px;
+    display: inline-block;
+}
+.edit-body .eye:hover .img-layer{
+    -webkit-transform:none;
+            transform:none
+}
+.edit-body .img-layer{
+    position: absolute;
+    width: 160px;
+    height: 96px;
+    padding: 10px;
+    background: #fff;
+    border: solid 3px #666;
+    -webkit-transform: scale(0);
+    transform: scale(0);
+    -webkit-transform-origin: center bottom;
+    transform-origin: center bottom;
+    -webkit-transition: -webkit-transform .3s cubic-bezier(.23,1,.32,1);
+    transition: -webkit-transform .3s cubic-bezier(.23,1,.32,1);
+    transition: transform .3s cubic-bezier(.23,1,.32,1);
+    transition: transform .3s cubic-bezier(.23,1,.32,1), -webkit-transform .3s cubic-bezier(.23,1,.32,1);
+    display: none;
+    z-index: 19;
+}
+
 /* 音乐 */
 .upload-music-win{
     width: 850px;
@@ -732,6 +800,9 @@ li .process-text{
     -webkit-box-flex: 1;
         -ms-flex: 1;
             flex: 1;
+}
+.upload-music-win .recommend-music{
+    display: none;
 }
 .upload-music-win .recommend-select{
     display: -webkit-box;
@@ -771,9 +842,30 @@ li .process-text{
 .upload-music-win .music-item:not(:nth-child(5n)){
     margin-right: 15px;
 }
-.upload-music-win .music-item.checked{
+/* .upload-music-win .music-item.checked{
     -webkit-transform: scale(1.05);
             transform: scale(1.05);
+} */
+.upload-music-win li.music-item .checked-icon{
+    position: absolute;
+    top: 2px;
+    right: 10px;
+    width: 30px;
+    height: 30px;
+}
+.upload-music-win li.music-item .checked-icon .iconfont{
+    color: #cec9c9;
+    font-size: 20px;
+    border-radius: 50%;
+    background: #cec9c9;
+    padding: 2px;
+    font-weight: bold;
+    border: 1px solid #fff;
+}
+.upload-music-win .music-item.checked .checked-icon .iconfont{
+    background: #4889ff;
+    color: #fff;
+    border:0;
 }
 .upload-music-win .music-item .music-bg{
     width: 140px;
@@ -782,7 +874,7 @@ li .process-text{
     border: solid 1px transparent;
     cursor: pointer;
 }
-.upload-music-win .music-item.checked .music-bg{
+.upload-music-win .music-item .music-bg{
     border-color: #edb8df;
     background: #cdcef8;
     text-align: center;
@@ -808,10 +900,16 @@ li .process-text{
     padding: 0 14px;
     display: none;
 }
-.recommend-music li.music-item:hover .button{
+li.music-item:hover .button{
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
+}
+.button .iconfont:hover{
+    color: #799ef6;
+}
+.my-music .button .delete{
+    margin-left: 12px;
 }
 .upload-music-win .music-item .button-left{
     display: inline-block;
@@ -880,4 +978,196 @@ li .process-text{
     font-size: 20px;
     cursor: pointer;
     border-radius: 20px;
+}
+/* change-text-win 文本编辑弹框 */
+.change-text-win{
+    padding: 38px 40px 0 27px;
+    overflow: visible;
+    height: 620px;
+    width: 653px;
+    padding-right: 0;
+    padding: 0;   
+}
+.change-text-win .text-container{
+    top: 0;
+}
+.change-text-win .cropper-preview-img{
+    background: #f4f5f9  center center/270px auto no-repeat;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 50px;
+    width: 100%;
+    text-align: center;
+    height: 360px;
+    position: static;
+}
+.change-text-win .cropper-preview-img img{
+    vertical-align: middle;
+    -o-object-fit: contain;
+       object-fit: contain;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    background: #f4f5f9;
+}
+.change-text-win .text-button{
+    text-align: right;
+    padding: 0 20px;
+    padding-top: 20px;
+}
+.change-text-win .text-button>div{
+    font-size: 16px;
+    cursor: pointer;
+    display: inline-block;
+    line-height: 30px;
+    margin-left:20px;
+}
+.change-text-win .text-button>div .iconfont{
+    margin: 0 8px;
+}
+.change-text-win .text-button>div:hover{
+    color: #5b93e7;
+}
+.change-text-win .te-input-bar{
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 20px 0 0 0;
+    background-color: #fff;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+    box-pack: justify;
+    justify-content: space-between;
+    -ms-flex-pack: justify;
+    position: static;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 30px;
+}
+.change-text-win textarea{
+    resize: none;
+    font: inherit;
+}
+.change-text-win .te-input{
+    width: calc(100% - 50px);
+    line-height: 24px;
+    border: none;
+    text-align: left;
+    border-bottom: solid 1px #edeef1;
+}
+.change-text-win .te-limit{
+    position: relative;
+    left: 0;
+    color: #888;
+}
+.change-text-win .button{
+    text-align: center;
+    margin-top: 20px;
+}
+.change-text-win .ok{
+    display: inline-block;
+    width: 130px;
+    height: 40px;
+    line-height: 40px;
+    border-radius: 20px;
+    margin-top: 10px;
+    color: #fff;
+    background-image: -webkit-gradient(linear,left top, right top,from(#4889ff),to(#ff9ad1));
+    background-image: linear-gradient(to right,#4889ff,#ff9ad1);
+    text-align: center;
+    cursor: pointer;
+}
+/* msg-confirm */
+.msg{
+    width: 500px;
+    padding-top: 36px;
+    z-index: 1200;
+}
+.msg-confirm{
+    padding: 0;
+    padding-top: 36px;
+    width: 420px;
+}
+.msg-body{
+    flex: none;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    padding-left: 50px;
+    font-size: 17px;
+    min-height: 38px;
+    background-position: left center;
+    background-repeat: no-repeat;
+}
+.msg-confirm .msg-body{
+    padding: 0 20px;
+    background-image: none;
+    text-align: center;
+}
+.msg-title{
+    font-weight: 700;
+}
+.msg-text{
+    line-height: 24px
+}
+.msg-field{
+    height: 30px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.msg-confirm .win-foot{
+    border-top: solid 1px #eee;
+    margin-top: 30px;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    display: -webkit-box;
+    display: box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    background: #f4f5f9;
+    -webkit-box-pack: center;
+    box-pack: center;
+    -webkit-justify-content: space-around;
+    justify-content: space-around;
+    -ms-flex-pack: center;
+}
+.win-foot button{
+    display: inline-block;
+    vertical-align: top;
+    min-width: 100px;
+    padding: 0 15px;
+    height: 34px;
+    border: none;
+    margin-left: 14px;
+    border: solid 1px #ccc;
+    background: #fff;
+    font-size: 18px;
+    color: #888;
+}
+.win-foot button{
+    border-radius: 8px;
+    cursor: pointer;
+    border:0;
+    outline: none;
+}
+.win-foot button:first-child{
+    margin-right: 0;
+}
+.win-foot button:first-child:hover{
+    color: #666;
+}
+.win-foot button:last-child:hover{
+    color: #4a74b3;
+}
+.msg-confirm button:first-child{
+    background: 0 0;
+    color: #666;
+}
+.msg-confirm button[type=primary]{
+    background: 0 0;
+    color: #5b93e7;
 }

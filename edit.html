@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="css/common.css">
     <link rel="stylesheet" href="css/edit.css">
     <script src="js/jquery.min.js"></script>
-    <script src="js/edit.js"></script>
+    <script src="js/edit_1.js"></script>
 </head>
 
 <body>
@@ -42,15 +42,15 @@
                                 <div class="video-title">
                                     <div class="title"><span>都市时尚</span><span class="iconfont iconwrite"></span></div>
                                     <div class="input-wrap">
-                                        <input type="text" name="title" value="" maxlength="60">
-                                        <div class="ok"></div>
-                                        <div class="cancel"></div>
+                                        <input type="text" name="title" value="" maxlength="60" autocomplete="off">
+                                        <div class="ok iconfont iconicon-test title-ok"></div>
+                                        <div class="cancel iconfont iconclose-hei title-cancel"></div>
                                     </div>
                                 </div>
                             </form>
                         </div>
                         <div class="cover theme-dialog">
-                                <span class="iconfont iconplay theme-dialog"></span>
+                            <span class="iconfont iconplay theme-dialog"></span>
                         </div>
                         <div class="theme-name">
                             <span></span>
@@ -108,8 +108,8 @@
                         <div class="edit-wrap-music">
                             <div class="change-music-btn">
                                 <div class="music-logo"><span class="iconfont iconmusic1"></span></div>
-                                <div class="top">默认</div>
-                                <div class="bottom">01:34</div>
+                                <div class="top"></div>
+                                <div class="bottom"></div>
                             </div>
                             <div class="music-right">
                                 <div class="crop-music">更改音乐</div>
@@ -122,10 +122,10 @@
                                     <!-- head -->
                                     <div class="opening clearfix">
                                         <div class="default-title">片头</div>
-                                        <div class="replace-matter replace-text">
-                                            <div class="bg">
+                                        <div class="replace-matter replace-text all-dialog">
+                                            <div class="bg scenes-head">
                                                 <span hidden="hidden">文字</span>
-                                                <span>明月几时有 把酒问青天</span>
+                                                <span></span>
                                             </div>
                                         </div>
                                     </div>
@@ -136,7 +136,7 @@
                                             <span>0</span>
                                         </div>
                                         <ul class="scenes-wrap">
-                                            <li data-scene="1" data-unit="0"
+                                            <!-- <li data-scene="1" data-unit="0"
                                                 class="replace-matter replace-li replace-image" data-type="image">
                                                 <div class="bg">
                                                     <div class="bg-wrap">
@@ -144,9 +144,6 @@
                                                             <img draggable="false" class=""
                                                                 src="https://stszjl.aoscdn.com/app/lightmv/resources/9e4d3e255b5993c841a0174bd0bdc49b/08550d2beee38fb7f857370607332f43.jpg?auth_key=1566810947-118397-291927-eb6fde98488f87f1e6acc277bf6c2b6e&amp;x-oss-process=style/160p"
                                                                 style="opacity: 1;">
-                                                            <!-- <div class="bg" hidden="hidden">
-                                                                <span>becb1ace-3bae-3f26-b26a-ae1d27b840c2</span>
-                                                            </div> -->
                                                         </div>
                                                     </div>
                                                     <div class="process" style="display: block;" hidden="hidden">
@@ -162,7 +159,7 @@
                                                     <div class="change-text dynamic iconfont icontext"></div>
                                                     <div class="remove iconfont iconyichu"></div>
                                                 </div>
-                                            </li>
+                                            </li> -->
                                             <div class="upload-btn active" data-tip="添加素材">
                                                 <div class="add-image">
                                                     <input type="file" name="file" multiple=""
@@ -182,19 +179,69 @@
                                     <!-- bottom -->
                                     <div class="ending clearfix">
                                         <div class="default-title">片尾</div>
-                                        <div class="replace-matter replace-text">
-                                            <div class="bg">
+                                        <div class="replace-matter replace-text all-dialog">
+                                            <div class="bg scenes-bottom">
                                                 <span hidden="hidden">文字</span>
-                                                <span>但愿人长久 千里共婵娟</span>
+                                                <span></span>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            <div class="super-edit">
+                                <div class="scenes">
+                                    <ul>
+                                        <li class="scene-line">
+                                            <div class="default-title">
+                                                <span>场景</span>1
+                                            </div>
+                                            <ul class="one">
+                                                <!-- <li data-unit="0" class="replace-matter replace-text need-replace all-dialog" data-type="text" draggable="false">
+                                                        <div class="bg">
+                                                            <span>GOOD LIFE</span>
+                                                            <span hidden="hidden"></span>
+                                                            <div class="bg-wrap">
+                                                                <div class="img-wrap">
+                                                                    <img draggable="false" class="cover" src="" hidden="hidden">
+                                                                </div>	
+                                                            </div>
+                                                        </div>
+                                                        <div class="button">
+                                                            <div class="duration" hidden="hidden">undefineds</div>
+                                                            <div class="edit iconfont iconwrite"></div>
+                                                            <div class="remove iconfont iconyichu" hidden="hidden"></div>
+                                                            <div class="eye" data-align="tr" data-gap="30 0" data-layer="img-layer">
+                                                                <span class="iconfont iconGroup"></span>
+                                                                <div class="img-layer" style="display: block; left: -110px; top: -96px;">
+                                                                    <img src="https://p9mch.aoscdn.com/themes/1131/1.jpg?auth_key=1566986602-982079-969483-8cec5a91794fff7f9460fb801d89d6e1&amp;x-oss-process=image/resize,m_lfit,w_640/auto-orient,1">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </li> -->
+                                            </ul>
+                                        </li>
+                                        <li class="scene-line">
+                                            <div class="default-title">
+                                                <span>场景</span>2
+                                            </div>
+                                            <ul class="two">
+
+                                            </ul>
+                                        </li>
+                                        <li class="scene-line">
+                                            <div class="default-title">
+                                                <span>场景</span>3
+                                            </div>
+                                            <ul class="three">
+
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
                             <div class="fix-button">
                                 <span class="footer-produce-gtm footer-produce-free" id="footer-produce-gtm"
                                     mobile-text="制作">制作高清视频（免费）</span>
-                                <!--<span @click="clickFooterSuperProduce(event)" f-show="window.apower.user.getId() > 0 && projectFileQuick?.attrs.platform !='apowershow' && taskData?.project_file.attrs.mv_resolution[taskData.resolution]'" class="footer-produce-gtm footer-produce-super" id="footer-produce-gtm">制作超清视频（付费）</span>-->
                             </div>
                         </div>
                     </div>
@@ -225,18 +272,43 @@
         <div class="ap-trangle ap-align-top" style="left: 48px;"></div>
         <div class="ap-tip-text">修改视频名称</div>
     </div>
-    <div class="win upload-music-win clearfix" is="upload-music-win" style="display: flex; left: 257px; top: 178px;"
-        hidden="hidden">
+    <div class="win upload-music-win clearfix" style="left: 257px; top: 178px;">
         <div class="win-body">
-            <audio loop="loop"
-                src="https://p9mch.aoscdn.com/themes/1132/1132.mp3?auth_key=1566810655-739009-649182-d959872c2731f54f79713c809214ad67"></audio>
+            <audio loop="loop" src=""></audio>
             <ul class="recommend-select">
-                <li class="active">我的音乐</li>
-                <li class="">推荐</li>
+                <li class="active music-option mine">我的音乐</li>
+                <li class="music-option">推荐</li>
             </ul>
-            <div class="recommend-music clearfix" hidden="hidden">
+            <div class="my-music clearfix">
                 <ul>
-                    <li class="music-item checked" data-url="" data-id="default">
+                    <!-- <li class="music-item"
+                        data-url="https://stszjl.aoscdn.com/app/lightmv/resources/346d2d4f477298969045edb228ca611a/1c145b3e5eca8bd23bc37f1faa493fe1.mp3?auth_key=1566957563-536087-123865-fae1d24e64e79e6f60421373fe2d0ef5"
+                        data-duration="03:52" data-id="35cdab2c-cd24-38c7-b7ee-bb37c9516ee4">
+                        <div class="music-bg">
+                            <span class="process-num"><span class="num">0</span>%</span>
+                            <div class="button">
+                                <div class="button-left">
+                                    <span class="music-play iconfont iconplay"></span>
+                                    <span class="delete iconfont icondelete delete-music"></span>
+                                </div>
+                                <div class="button-right">
+                                    <span class="duration">03:52</span>
+                                </div>
+                            </div>
+                            <div class="iconfont iconmusic1 music-bck"></div>
+                        </div>
+                        <div class="title">袁凤瑛 - 青春无悔.mp3</div>
+                    </li> -->
+                    <div class="add-music">
+                        <span>上传</span>
+                        <input type="file" name="file" multiple="" accept=".mp3" id="uploadMusic">
+                    </div>
+                </ul>
+
+            </div>
+            <div class="recommend-music clearfix">
+                <ul>
+                    <!-- <li class="music-item checked" data-url="" data-id="default">
                         <div class="music-bg">
                             <div class="button">
                                 <div class="button-left">
@@ -249,21 +321,48 @@
                             <div class="iconfont iconmusic1 music-bck"></div>
                         </div>
                         <div class="title">default</div>
-                    </li>
+                    </li> -->
                 </ul>
             </div>
-            <div class="my-music clearfix" hidden="hidden">
-                <ul>
-                    <div class="add-music">
-                        <span>上传</span>
-                        <input type="file" name="file" multiple="" accept=".mp3">
-                    </div>
-                </ul>
-
-            </div>
-            <div class="ok">确定</div>
+            <div class="ok music-ok">确定</div>
         </div>
         <div class="win-close iconfont iconclose-hei"></div>
+    </div>
+    <div class="win change-text-win" style="left: 245px; top: 158px;">
+        <div class="win-body">
+            <div class="text-container">
+                <div class="cropper-preview-img">
+                    <img src="" alt="pic">
+                </div>
+                <div class="text-button">
+                    <div class="text-empty"><span class="iconfont icondelete"></span><span>清空</span></div>
+                    <div class="text-reset"><span class="iconfont iconzhongzhi"></span><span>重置</span></div>
+                </div>
+                <div class="te-input-bar">
+                    <textarea class="te-input" maxlength="20"></textarea>
+                    <div class="te-limit">
+                        <span>0</span>/20
+                    </div>
+                </div>
+                <div class="button">
+                    <div class="ok">确定</div>
+                </div>
+            </div>
+        </div>
+        <div class="win-close iconfont iconclose-hei"></div>
+    </div>
+    <div class="win msg  msg-confirm" style="left: 411px; top: 389px;">
+        <div class="win-body msg-body">
+            <div class="msg-title" hidden="hidden"></div>
+            <div class="msg-text">确定要删除这些素材吗？</div>
+            <div class="msg-field" hidden="hidden">
+                <input class="msg-input" type="text" required="">
+            </div>
+        </div>
+        <div class="win-foot msg-foot">
+            <button type="cancel">取消</button><button type="primary">确定</button>
+        </div>
+        <div class="win-close win-confirm-close iconfont iconclose-hei"></div>
     </div>
 </body>
 
