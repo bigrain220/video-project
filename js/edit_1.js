@@ -18,7 +18,7 @@ $(document).ready(function () {
     getLeftDom();
     getImgTextList();
     scenesClick();
-    //  getMusic();
+    getMusic();
 
     function getData(language, api_token) {
         $.ajax({
@@ -38,6 +38,7 @@ $(document).ready(function () {
                     projectData = res.data.project_file;
                     resourcesData = res.data.resources;
                     u_project_file = $.extend(true, {}, projectData)
+
                 } else {
                     console.log('请求失败')
                 }
@@ -132,26 +133,26 @@ $(document).ready(function () {
             $("li.music-item").removeClass('checked');
             $("li.music-item[data-id='" + projectData.attrs.audio.value + "']").addClass('checked');
         }
-        var time = $('.music-item.checked').attr('data-duration');
-        time ? time1 = hasTime(time) : time1 = hasTime(projectData.attrs.default_audio.duration)
-        var name = $('.music-item.checked>.title').text();
-        $('.edit-wrap-music .change-music-btn .bottom').text(time1);
-        $('.edit-wrap-music .change-music-btn .top').text(name);
+
+        getMusiclogo();
 
         $('.recommend-select li').removeClass('active');
         $('.recommend-select li.mine').addClass('active');
         $('.my-music').show();
         $('.recommend-music').hide();
         //切换音乐
-        $('li.music-item').on('click', function () {
-            $('li.music-item').removeClass('checked');
-            $(this).addClass('checked');
-            u_project_file.attrs.audio.value = $(this).attr('data-id');
-            u_project_file.attrs.audio.filename = $(this).attr('data-title');
-            if ($(this).attr('data-id') == 'default') {
-                u_project_file.attrs.audio.value = "";
-                delete u_project_file.attrs.audio['filename'];
+        $('li.music-item').on('click', function (e) {
+            if (!$(e.target).hasClass('music-play') && !$(e.target).hasClass('delete-music')) {
+                $('li.music-item').removeClass('checked');
+                $(this).addClass('checked');
+                u_project_file.attrs.audio.value = $(this).attr('data-id');
+                u_project_file.attrs.audio.filename = $(this).attr('data-title');
+                if ($(this).attr('data-id') == 'default') {
+                    u_project_file.attrs.audio.value = "";
+                    delete u_project_file.attrs.audio['filename'];
+                }
             }
+
         });
     }
 
@@ -334,6 +335,7 @@ $(document).ready(function () {
             $(".upload-music-win .music-play").addClass('iconplay');
             $(event).parent().parent().css('display', 'none');
             changeProject(u_language, u_api_token, u_project_file);
+            getMusiclogo();
         }
 
     })
@@ -408,6 +410,14 @@ $(document).ready(function () {
         }
     }
 
+    //音乐左侧介绍
+    function getMusiclogo() {
+        var time = $('.music-item.checked').attr('data-duration');
+        time ? time = hasTime(time) : time = hasTime(projectData.attrs.default_audio.duration)
+        var name = $('.music-item.checked>.title').text();
+        $('.edit-wrap-music .change-music-btn .bottom').text(time);
+        $('.edit-wrap-music .change-music-btn .top').text(name);
+    }
     //图片文字渲染
     function getImgTextList() {
         var Duration = themeData.duration;
