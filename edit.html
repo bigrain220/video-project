@@ -10,7 +10,8 @@
     <link rel="stylesheet" href="css/common.css">
     <link rel="stylesheet" href="css/edit.css">
     <script src="js/jquery.min.js"></script>
-    <script src="js/edit_1.js"></script>
+    <script src="http://gosspublic.alicdn.com/aliyun-oss-sdk-4.4.4.min.js"></script>
+    <script src="js/edit.js"></script>
 </head>
 
 <body>
@@ -61,7 +62,7 @@
                             <span class="video" hidden="hidden">0</span>
                         </div>
                         <div class="scene-num quick-num">
-                            <i class="iconfont iconpic"></i>
+                            <!-- <i class="iconfont iconpic"></i> -->
                             <!-- <span style="margin-right: 5px;">4</span>- 100 -->
                         </div>
                         <!-- <div class="process">
@@ -191,12 +192,12 @@
                             <div class="super-edit">
                                 <div class="scenes">
                                     <ul>
-                                        <li class="scene-line">
+                                        <!-- <li class="scene-line">
                                             <div class="default-title">
                                                 <span>场景</span>1
                                             </div>
                                             <ul class="one">
-                                                <!-- <li data-unit="0" class="replace-matter replace-text need-replace all-dialog" data-type="text" draggable="false">
+                                                <li data-unit="0" class="replace-matter replace-text need-replace all-dialog" data-type="text" draggable="false">
                                                         <div class="bg">
                                                             <span>GOOD LIFE</span>
                                                             <span hidden="hidden"></span>
@@ -217,25 +218,9 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </li> -->
+                                                    </li>
                                             </ul>
-                                        </li>
-                                        <li class="scene-line">
-                                            <div class="default-title">
-                                                <span>场景</span>2
-                                            </div>
-                                            <ul class="two">
-
-                                            </ul>
-                                        </li>
-                                        <li class="scene-line">
-                                            <div class="default-title">
-                                                <span>场景</span>3
-                                            </div>
-                                            <ul class="three">
-
-                                            </ul>
-                                        </li>
+                                        </li> -->
                                     </ul>
                                 </div>
                             </div>
@@ -253,7 +238,7 @@
 
 
     <div class="win-mask" style="z-index: 1000; opacity: 1;"></div>
-    <div class="win single-theme-win" style="top: 100px;">
+    <div class="win single-theme-win">
         <div class="win-body">
             <div class="left video-playing">
                 <video autoplay poster="" controls="controls" controlslist="nodownload" src=""></video>
@@ -272,7 +257,7 @@
         <div class="ap-trangle ap-align-top" style="left: 48px;"></div>
         <div class="ap-tip-text">修改视频名称</div>
     </div>
-    <div class="win upload-music-win clearfix" style="left: 257px; top: 90px;">
+    <div class="win upload-music-win clearfix">
         <div class="win-body">
             <audio loop="loop" src=""></audio>
             <ul class="recommend-select">
@@ -328,7 +313,7 @@
         </div>
         <div class="win-close iconfont iconclose-hei"></div>
     </div>
-    <div class="win change-text-win" style="left: 245px; top: 90px;">
+    <div class="win change-text-win">
         <div class="win-body">
             <div class="text-container">
                 <div class="cropper-preview-img">
@@ -351,7 +336,7 @@
         </div>
         <div class="win-close iconfont iconclose-hei"></div>
     </div>
-    <div class="win msg  msg-confirm" style="left: 411px; top: 300px;">
+    <div class="win msg  msg-confirm">
         <div class="win-body msg-body">
             <div class="msg-title" hidden="hidden"></div>
             <div class="msg-text">确定要删除该素材吗？</div>
