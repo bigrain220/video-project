@@ -393,7 +393,8 @@ $(document).ready(function () {
             'region': ossData.region,
             'accessKeyId': ossData.access_id,
             'accessKeySecret': ossData.access_secret,
-            'bucket': ossData.bucket
+            'bucket': ossData.bucket,
+            'stsToken':ossData.security_token
         });
         var f = e.target.files[0];
         var val = e.target.value;
