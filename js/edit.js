@@ -153,7 +153,7 @@ $(document).ready(function () {
         });
     }
 
-    function deleteMusic(language, api_token, e) {
+    function deleteMusic(language, api_token,e) {
         var ids = "[\"" + e.parents('.music-item').attr('data-id') + "\"]";
         $.ajax({
             type: "DELETE",
@@ -172,7 +172,6 @@ $(document).ready(function () {
             }
         });
     }
-
     function getLeftDom() {
         $(".cover.theme-dialog").css("backgroundImage", "url(" + themeData.cover_url + ")")
         $('.edit-wrap-info .theme-name span').first().text(themeData.title)
@@ -187,12 +186,12 @@ $(document).ready(function () {
                 break;
             } else {
                 unit_num += 1;
-                if (unit_num === projectData.scenes.length-1) {
-                    if(themeData.statistics.image>0){
+                if (unit_num === projectData.scenes.length - 1) {
+                    if (themeData.statistics.image > 0) {
                         var quickDom = "<i class='iconfont iconpic' style='margin-right: 5px;'></i><span style='margin-right: 15px;'>" + themeData.statistics.image + "</span>"
                         $('.scene-num.quick-num').append(quickDom);
                     }
-                    if(themeData.statistics.video>0){
+                    if (themeData.statistics.video > 0) {
                         var quickDom = "<i class='iconfont iconaddvedio' style='margin-right: 5px;font-size:22px;line-height:22px;'></i><span style='margin-right: 15px;'>" + themeData.statistics.video + "</span>"
                         $('.scene-num.quick-num').append(quickDom);
                     }
@@ -218,7 +217,7 @@ $(document).ready(function () {
             },
             success: function (res) {
                 console.log('resource', res);
-                ossData = res.data.oss;
+                ossData = res.data;
                 console.log(ossData)
 
             }
@@ -387,52 +386,74 @@ $(document).ready(function () {
     $('#uploadMusic').change(function (e) {
         e.preventDefault();
         getResource(u_language, u_api_token, u_task_id);
-        console.log(ossData.access_id)
-        var client = new OSS.Wrapper({
-            'region': ossData.region,
-            'accessKeyId': ossData.access_id,
-            'accessKeySecret': ossData.access_secret,
-            'bucket': ossData.bucket
-        });
+        console.log(ossData.oss.access_id);
         var f = e.target.files[0];
         var val = e.target.value;
         var suffix = val.substr(val.indexOf("."));
-        var obj = timestamp(); // 这里是生成文件名
+        var obj = new Date().getTime(); // 这里是生成文件名
+        var storeAs = ossData.oss.folder + obj + suffix; //命名空间
+        //callback
+        var url = ossData['callback']['callbackUrl'];
+        var callbackBody = ossData['callback']['callbackBody'];
+        var userargs = "x:uid=" + '14973143' + "&x:utoken=" + encodeURI('f737cffbf1a96349d71b73951413216b') + "&x:original_name=" + encodeURI(f.name.toLowerCase()) + "&x:task_id=" + u_task_id;
+        var callback = {
+            url: url,
+            body: callbackBody + userargs,
+        }
 
-        var storeAs = ossData.folder + obj + suffix; //命名空间
+        var client = new OSS.Wrapper({
+            'region': ossData.oss.region,
+            'accessKeyId': ossData.oss.access_id,
+            'accessKeySecret': ossData.oss.access_secret,
+            'bucket': ossData.oss.bucket,
+            'stsToken': ossData.oss.security_token
+        });
+        musicLoading();
+        var progress = function (p) {
+            return function (done) {
+                $('.music-item span.num').text(Math.floor(p * 100));
+                done();
+            }
+        };
 
+        function musicLoading() {
+            var musicLoadingDom =
+                "<li class='music-item process-li'>" +
+                "<div class='music-bg'>" +
+                "<div class='process-num'><span class='num'>0</span>%</div>" +
+                "<div class='iconfont iconmusic1 music-bck'></div>" +
+                "</div>" +
+                "<div class='title'>" + f.name + "</div>" +
+                "</li>"
+            $('.my-music .add-music').before(musicLoadingDom);
+        }
 
-        client.multipartUpload(storeAs, f).then(function (result) {
+        function parse(data) {
+            var b = new Base64();
+            var tem = "\"" + JSON.stringify("\"" + data + "\"") + "\"";
+            var dataBase64 = b.encode(tem);
+            console.log(dataBase64)
+            return dataBase64;
+        }
+        // parse(callback);
+
+        client.multipartUpload(storeAs, f, {
+            progress: progress,
+            headers: {
+                "x-oss-callback": parse(callback)
+            }
+        }).then(function (result) {
             console.log(result); //返回对象
-            console.log(result.url); //返回链接
+            setTimeout(function(){
+                getData(u_language, u_api_token);
+                getMusic();  
+            }, 5000);    
         }).catch(function (err) {
             console.log(err);
         });
 
     });
-    /**
-     * 生成文件名
-     * @returns
-     */
-    function timestamp() {
-        var time = new Date();
-        var y = time.getFullYear();
-        var m = time.getMonth() + 1;
-        var d = time.getDate();
-        var h = time.getHours();
-        var mm = time.getMinutes();
-        var s = time.getSeconds();
-
-        return "" + y + add0(m) + add0(d) + add0(h) + add0(mm) + add0(s);
-    }
-
-
-    function add0(m) {
-        return m < 10 ? '0' + m : m;
-    }
-
-
-
+    // eyJjYWxsYmFja1VybCI6Imh0dHBzOi8vb3NzLmFvc2Nkbi5jb20vYXBpL2NhbGxiYWNrcy9pbnB1dG9zcyIsImNhbGxiYWNrQm9keSI6ImJ1Y2tldD0ke2J1Y2tldH0mb2JqZWN0PSR7b2JqZWN0fSZldGFnPSR7ZXRhZ30mc2l6ZT0ke3NpemV9Jm1pbWVfdHlwZT0ke21pbWVUeXBlfSZpbWFnZV9oZWlnaHQ9JHtpbWFnZUluZm8uaGVpZ2h0fSZpbWFnZV93aWR0aD0ke2ltYWdlSW5mby53aWR0aH0maW1hZ2VfZm9ybWF0PSR7aW1hZ2VJbmZvLmZvcm1hdH0meDphcHBfaWQ9MDA0NGViMmItZTAzYS0zZDQ4LWI2ODktODg4MmU2OTdjMDAzJng6dXNlcl9pZD0xNDk3MzE0MyZ4OnJlYWxfdXNlcl9pZD0xNDk3MzE0MyZ4OnV0b2tlbj1mNzM3Y2ZmYmYxYTk2MzQ5ZDcxYjczOTUxNDEzMjE2YiZ4OnRhc2tfaWQ9N2pxejZoZyZ4OnVpZD0xNDk3MzE0MyZ4OnV0b2tlbj1mNzM3Y2ZmYmYxYTk2MzQ5ZDcxYjczOTUxNDEzMjE2YiZ4Om9yaWdpbmFsX25hbWU9dGVzdC5tcDMmeDp0YXNrX2lkPTdqcXo2aGcmeDpkdXJhdGlvbj0yMzIifQ== 
 
 
 

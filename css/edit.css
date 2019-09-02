@@ -837,7 +837,8 @@ li .process-text{
     margin-bottom: 10px;
     position: relative;
     cursor: pointer;
-    float: left; 
+    float: left;
+    height: 188px;
 }
 .upload-music-win .music-item:not(:nth-child(5n)){
     margin-right: 15px;
@@ -884,6 +885,18 @@ li .process-text{
     line-height: 140px;
     color: #fff;
     
+}
+.upload-music-win .music-item .process-num{
+    position: absolute;
+    background: rgba(0,0,0,.2);
+    width: 100%;
+    height: 100%;
+    line-height: 140px;
+    
+}
+.upload-music-win li.process-li{
+    pointer-events: none;
+    cursor: default;
 }
 .upload-music-win .music-item .button{
     color: #fff;
