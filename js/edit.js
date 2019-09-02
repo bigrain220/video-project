@@ -1,5 +1,6 @@
 $(document).ready(function () {
     //git remote add origin https://github.com/bigrain220/video-project.git
+    //0
     var URL = 'https://lightmvapi.aoscdn.com';
     var u_task_id = location.href.split("taskID=")[1];
     var u_language = 'zh';
