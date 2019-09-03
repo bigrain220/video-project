@@ -11,7 +11,7 @@ $(document).ready(function () {
     var ossData = ""
 
     var delete_music_item = ""; //临时jq对象
-
+    var reset_index = "";
 
     // 初始化
     getLeft();
@@ -385,10 +385,10 @@ $(document).ready(function () {
     $('.single-theme-win .video-playing video').on('pause', function () {
         $('.video-trigger').css('display', 'block');
     });
- 
-    $('textarea.te-input').bind('input propertychange keyup', function(){   
+
+    $('textarea.te-input').bind('input propertychange keyup', function () {
         var curr = $(this).val().length;
-       $('.te-limit .num').text(curr.toString());
+        $('.te-limit .num').text(curr.toString());
     });
 
 
@@ -537,37 +537,39 @@ $(document).ready(function () {
             //head
             var units0 = projectData.scenes[0].units;
             $('.scenes .scenes-head span').last().html(getTrueVal(units0[0]));
-            $('.opening  .replace-matter.replace-text').eq(0).attr('data-url', units0[0].preview_url);
-            $('.opening  .replace-matter.replace-text').eq(0).attr('data-text', getTrueVal(units0[0]));
-            $('.opening  .replace-matter.replace-text').eq(0).attr('data-limit', setlimit(units0[0]));
-            reset_on(units0[0].default_value);
+            $('.opening  .replace-matter.replace-text').eq(0).attr({
+                'data-url': units0[0].preview_url, 'data-text': getTrueVal(units0[0]),
+                'data-limit': setlimit(units0[0]), 'data-scene': '0', 'data-unit': '0'
+            });
+
             //center
             var units1 = projectData.scenes[1].units;
             for (var i = 0; i < units1.length; i++) {
-                        var imgListDom =
-                            "<li  class='replace-matter replace-li replace-text'"+ 
-                            "data-type='"+ units1[i].type+"' data-limit='"+"60"+"' data-url='"+ valToImg(units1[i],'big')+"' data-text='" + setText(units1[i]) + "' >" +
-                            "<div class='bg'>" +
-                            imgOrtext(units1[i],'simple')+
-                            "</div>" +
-                            "<div class='process' style='display: block;' hidden='hidden'>" +
-                            "<div class='process-bar-bg'><div class='process-bar' style='width: 99%;'></div></div>" +
-                            "<div class='process-text'><span class='process-text-retry'>重新上传</span></div>" +
-                            "</div>" +
-                            "</div>" +
-                            "<div class='button clearfix'>" +
-                            "<div class='change-text dynamic iconfont icontext'></div><div class='remove iconfont iconyichu'></div>" +
-                            "</div></li>"
-                        $(".scenes-wrap .upload-btn").before(imgListDom);
-                        
+                var imgListDom =
+                    "<li  class='replace-matter replace-li replace-text'" +
+                    "data-type='" + units1[i].type + "' data-limit='" + "60" + "' data-url='" + valToImg(units1[i], 'big') + "' data-text='" + setText(units1[i]) + "' >" +
+                    "<div class='bg'>" +
+                    imgOrtext(units1[i], 'simple') +
+                    "</div>" +
+                    "<div class='process' style='display: block;' hidden='hidden'>" +
+                    "<div class='process-bar-bg'><div class='process-bar' style='width: 99%;'></div></div>" +
+                    "<div class='process-text'><span class='process-text-retry'>重新上传</span></div>" +
+                    "</div>" +
+                    "</div>" +
+                    "<div class='button clearfix'>" +
+                    "<div class='change-text dynamic iconfont icontext'></div><div class='remove iconfont iconyichu'></div>" +
+                    "</div></li>"
+                $(".scenes-wrap .upload-btn").before(imgListDom);
+
             }
             //bottom
             var units2 = projectData.scenes[2].units;
             $('.scenes .scenes-bottom span').last().html(getTrueVal(units2[0]));
-            $('.ending  .replace-matter.replace-text').eq(0).attr('data-url', units2[0].preview_url);
-            $('.ending  .replace-matter.replace-text').eq(0).attr('data-text', getTrueVal(units2[0]));
-            $('.ending  .replace-matter.replace-text').eq(0).attr('data-limit', setlimit(units2[0]));
-            reset_on(units2[0].default_value);
+            $('.ending  .replace-matter.replace-text').eq(0).attr({
+                'data-url': units2[0].preview_url, 'data-text': getTrueVal(units2[0]),
+                'data-limit': setlimit(units2[0]), 'data-scene': '2', 'data-unit': '0'
+            });
+
         } else {
             //固定模板
             $('.simple-edit').hide();
@@ -582,10 +584,10 @@ $(document).ready(function () {
                 $('.super-edit .scenes>ul').append(surperScenesBox);
                 for (var j = 0; j < surperScenes[i].units.length; j++) {
                     var superHeadList =
-                        "<li data-scene='"+i+"' data-unit='"+j+"' class='replace-matter replace-text need-replace' data-type='"+surperScenes[i].units[j].type+"' draggable='false'" + "data-limit='"+setlimit(surperScenes[i].units[j]) +
+                        "<li data-scene='" + i + "' data-unit='" + j + "' class='replace-matter replace-text need-replace' data-type='" + surperScenes[i].units[j].type + "' draggable='false'" + "data-limit='" + setlimit(surperScenes[i].units[j]) +
                         "' data-url='" + surperScenes[i].units[j].preview_url + "' data-text='" + getTrueVal(surperScenes[i].units[j]) + "'>" +
                         "<div class='bg'>" +
-                        imgOrtext(surperScenes[i].units[j],'super') +
+                        imgOrtext(surperScenes[i].units[j], 'super') +
                         "</div>" +
                         "<div class='button'>" +
                         "<div class='duration' hidden='hidden'>undefineds</div>" +
@@ -596,9 +598,10 @@ $(document).ready(function () {
                         "<img src='" + surperScenes[i].units[j].preview_url + "'>" +
                         "</div></div></div></li>"
                     $(".super-edit .scenes ul ul.num_" + i).append(superHeadList);
+
                 }
             }
-            
+
         }
         //模板共用
         function getTrueVal(params) {
@@ -608,56 +611,56 @@ $(document).ready(function () {
                 return params.default_value;
             }
         }
-        function imgOrtext(params,mType) {
+        function imgOrtext(params, mType) {
             var DOM = "";
             if (params.type === 'text') {
                 params.value ? DOM = "<span >" + params.value + "</span>" : DOM = "<span>" + params.default_value + "</span>";
             } else if (params.type === 'image') {
-                if(mType =='simple'){
+                if (mType == 'simple') {
                     DOM =
-                    "<div class='bg-wrap'>" +
-                    "<div class='img-wrap'><img draggable='false' class='cover' src='" + valToImg(params,'small') + "'></div>" +
-                    "</div>"
-                }else if(mType =='super'){
+                        "<div class='bg-wrap'>" +
+                        "<div class='img-wrap'><img draggable='false' class='cover' src='" + valToImg(params, 'small') + "'></div>" +
+                        "</div>"
+                } else if (mType == 'super') {
                     DOM =
-                    "<div class='bg-wrap'>" +
-                    "<div class='img-wrap'><img draggable='false' class='cover' src='" + params.preview_url + "'></div>" +
-                    "</div>"
+                        "<div class='bg-wrap'>" +
+                        "<div class='img-wrap'><img draggable='false' class='cover' src='" + params.preview_url + "'></div>" +
+                        "</div>"
                 }
             }
             return DOM;
         }
-        function valToImg(a,b){
-            var imgUrl="";
-            if(a.type=="image"){
+        function valToImg(a, b) {
+            var imgUrl = "";
+            if (a.type == "image") {
                 var c = resourcesData.userself.task;
-                for(var j=0;j<c.length;j++){
-                    if(c[j].resource_id==a.value){
-                       b=='small'?imgUrl =c[j].image_thumb_url:imgUrl = c[j].image_url ;   
+                for (var j = 0; j < c.length; j++) {
+                    if (c[j].resource_id == a.value) {
+                        b == 'small' ? imgUrl = c[j].image_thumb_url : imgUrl = c[j].image_url;
                     }
                 }
             }
             return imgUrl;
         }
-        function setText(params){
-            if(params.type == 'text'){
+        function setText(params) {
+            if (params.type == 'text') {
                 return params.value;
-            }else if(params.type == 'image'){
-                if(params.text){
+            } else if (params.type == 'image') {
+                if (params.text) {
                     return params.text[0].value;
-                }else{
+                } else {
                     return ""
                 }
             }
         }
-        function setlimit(params){
-            if(params.constraints.length>0){
-                if(u_language=='zh'){
+        function setlimit(params) {
+            if (params.constraints.length > 0) {
+                if (u_language == 'zh') {
                     return params.constraints[0].text_max_length.zh;
-                }else if(u_language=='en'){
+                } else if (u_language == 'en') {
                     return params.constraints[0].text_max_length.en;
                 }
-            }else{
+            } else {
                 return "";
             }
         }
@@ -666,15 +669,6 @@ $(document).ready(function () {
     }
     //内容点击事件
     function scenesClick() {
-        $('.scenes .add-images  li  .change-text.iconfont').on('click', function () {
-            $('.win-mask').css('display', 'block');
-            $('.win.change-text-win').css('display', 'flex');
-            $('.text-button .text-reset').css('display', 'none');
-            var preview_url = $(this).parent().parent('li').attr('data-url');
-            var preview_text = $(this).parent().parent('li').attr('data-text');
-            $('.cropper-preview-img>img').attr('src', preview_url);
-            $('.te-input-bar>textarea').val(preview_text);
-        });
         $('.replace-matter.replace-text').on('click', function (e) {
             if (!$(e.target).hasClass('eye') && !$(e.target).hasClass('iconGroup') && !$(e.target).hasClass('img-layer') && !$(e.target).hasClass('remove')) {
                 $('.win-mask').css('display', 'block');
@@ -682,36 +676,40 @@ $(document).ready(function () {
                 $('.text-button .text-reset').css('display', 'inline-block');
                 var preview_url = $(this).attr('data-url');
                 var preview_text = $(this).attr('data-text');
-                var text_limit =$(this).attr('data-limit');
+                var text_limit = $(this).attr('data-limit');
                 $('.cropper-preview-img>img').attr('src', preview_url);
                 $('.te-input-bar>textarea').val(preview_text);
-                $('.te-input-bar>textarea').attr('maxLength',text_limit);
+                $('.te-input-bar>textarea').attr('maxLength', text_limit);
                 $('.te-input-bar .num-limit').html(text_limit);
                 var len = $('textarea.te-input').val().length;
                 $('.te-limit .num').text(len);
-                if($(this).parent().hasClass('scenes-wrap')){
-                    $('.change-text-win .text-reset').css('display','none');
-                }else{
-                    $('.change-text-win .text-reset').css('display','inline-block');
+                if ($(this).parent().hasClass('scenes-wrap')) {
+                    $('.change-text-win .text-reset').css('display', 'none');
+                } else {
+                    $('.change-text-win .text-reset').css('display', 'inline-block');
                 }
+                reset_index = $(this).attr('data-scene') + ',' + $(this).attr('data-unit')
             }
 
         });
-        //清空
-        $('.change-text-win .text-empty').on('click', function () {
-            $('textarea.te-input').val('');
-            $('.te-limit .num').text('0');
-        });
-        
-    }
-//重置
-function reset_on(params){
-    $('.change-text-win .text-reset').on('click', function () {
-        $('textarea.te-input').val(params);
-    });
-}
 
-    
+
+    }
+    //textarea清空
+    $('.change-text-win .text-empty').on('click', function () {
+        $('textarea.te-input').val('');
+        $('.te-limit .num').text('0');
+    });
+    //textarea重置
+    $('.change-text-win .text-reset').on('click', function () {
+        var x = reset_index.split(",")[0];
+        var y = reset_index.split(",")[1];
+        var resetData = projectData.scenes[x].units[y].default_value;
+        $('textarea.te-input').val(resetData);
+    });
+
+
+
 
 
 
