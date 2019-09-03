@@ -10,7 +10,7 @@ $(document).ready(function () {
     var resourcesData = "";
     var ossData = ""
 
-    var delete_music_item = "";
+    var delete_music_item = ""; //临时jq对象
 
 
     // 初始化
@@ -91,6 +91,7 @@ $(document).ready(function () {
         $(".recommend-music ul").html('');
         $('.my-music ul li').remove();
         var global = resourcesData.userself.global;
+        var existMusic = false;
         for (var j = 0; j < global.length; j++) {
             var musicLiLeft =
                 "<li class='music-item' data-url='" + global[j].audio_url + "' data-duration='" + global[j].duration + "' data-id='" + global[j].resource_id + "' data-title='" + global[j].filename + "'>" +
@@ -108,6 +109,9 @@ $(document).ready(function () {
                 "<div class='checked-icon'><span class='iconfont iconicon-test'></span></div>" +
                 "</li>"
             $("ul .add-music").before(musicLiLeft);
+            if (global[j].resource_id == projectData.attrs.audio.value) {
+                existMusic = true
+            }
         }
         var musicLiRight =
             "<li class='music-item' data-url='" + projectData.attrs.default_audio.url + "' data-id='default'>" +
@@ -123,7 +127,7 @@ $(document).ready(function () {
             "<div class='checked-icon'><span class='iconfont iconicon-test'></span></div>"
         "</li>"
         $(".recommend-music ul").append(musicLiRight);
-        if (projectData.attrs.audio.value === "") {
+        if (projectData.attrs.audio.value === "" || existMusic == false) {
             $("li.music-item").removeClass('checked');
             $("li.music-item[data-id='default']").addClass('checked');
         } else {
@@ -153,7 +157,7 @@ $(document).ready(function () {
         });
     }
 
-    function deleteMusic(language, api_token,e) {
+    function deleteMusic(language, api_token, e) {
         var ids = "[\"" + e.parents('.music-item').attr('data-id') + "\"]";
         $.ajax({
             type: "DELETE",
@@ -172,6 +176,7 @@ $(document).ready(function () {
             }
         });
     }
+
     function getLeftDom() {
         $(".cover.theme-dialog").css("backgroundImage", "url(" + themeData.cover_url + ")")
         $('.edit-wrap-info .theme-name span').first().text(themeData.title)
@@ -386,7 +391,6 @@ $(document).ready(function () {
     $('#uploadMusic').change(function (e) {
         e.preventDefault();
         getResource(u_language, u_api_token, u_task_id);
-        console.log(ossData.oss.access_id);
         var f = e.target.files[0];
         var val = e.target.value;
         var suffix = val.substr(val.indexOf("."));
@@ -397,8 +401,8 @@ $(document).ready(function () {
         var callbackBody = ossData['callback']['callbackBody'];
         var userargs = "x:uid=" + '14973143' + "&x:utoken=" + encodeURI('f737cffbf1a96349d71b73951413216b') + "&x:original_name=" + encodeURI(f.name.toLowerCase()) + "&x:task_id=" + u_task_id;
         var callback = {
-            url: url,
-            body: callbackBody + userargs,
+            "callbackUrl": url,
+            "callbackBody": callbackBody + userargs,
         }
 
         var client = new OSS.Wrapper({
@@ -411,7 +415,15 @@ $(document).ready(function () {
         musicLoading();
         var progress = function (p) {
             return function (done) {
-                $('.music-item span.num').text(Math.floor(p * 100));
+                if (p == 1) {
+                    $('.music-item span.num').text('99');
+                    clearTimeout(timer);
+                    var timer = setTimeout(function () {
+                        $('.music-item span.num').text('100');
+                    }, 5000);
+                } else {
+                    $('.music-item span.num').text(Math.floor(p * 100));
+                }
                 done();
             }
         };
@@ -430,12 +442,11 @@ $(document).ready(function () {
 
         function parse(data) {
             var b = new Base64();
-            var tem = "\"" + JSON.stringify("\"" + data + "\"") + "\"";
+            var tem = JSON.stringify(data);
             var dataBase64 = b.encode(tem);
-            console.log(dataBase64)
             return dataBase64;
         }
-        // parse(callback);
+
 
         client.multipartUpload(storeAs, f, {
             progress: progress,
@@ -444,16 +455,16 @@ $(document).ready(function () {
             }
         }).then(function (result) {
             console.log(result); //返回对象
-            setTimeout(function(){
+            clearTimeout(timer);
+            var timer = setTimeout(function () {
                 getData(u_language, u_api_token);
-                getMusic();  
-            }, 5000);    
+                getMusic();
+            }, 5000);
         }).catch(function (err) {
             console.log(err);
         });
 
     });
-    // eyJjYWxsYmFja1VybCI6Imh0dHBzOi8vb3NzLmFvc2Nkbi5jb20vYXBpL2NhbGxiYWNrcy9pbnB1dG9zcyIsImNhbGxiYWNrQm9keSI6ImJ1Y2tldD0ke2J1Y2tldH0mb2JqZWN0PSR7b2JqZWN0fSZldGFnPSR7ZXRhZ30mc2l6ZT0ke3NpemV9Jm1pbWVfdHlwZT0ke21pbWVUeXBlfSZpbWFnZV9oZWlnaHQ9JHtpbWFnZUluZm8uaGVpZ2h0fSZpbWFnZV93aWR0aD0ke2ltYWdlSW5mby53aWR0aH0maW1hZ2VfZm9ybWF0PSR7aW1hZ2VJbmZvLmZvcm1hdH0meDphcHBfaWQ9MDA0NGViMmItZTAzYS0zZDQ4LWI2ODktODg4MmU2OTdjMDAzJng6dXNlcl9pZD0xNDk3MzE0MyZ4OnJlYWxfdXNlcl9pZD0xNDk3MzE0MyZ4OnV0b2tlbj1mNzM3Y2ZmYmYxYTk2MzQ5ZDcxYjczOTUxNDEzMjE2YiZ4OnRhc2tfaWQ9N2pxejZoZyZ4OnVpZD0xNDk3MzE0MyZ4OnV0b2tlbj1mNzM3Y2ZmYmYxYTk2MzQ5ZDcxYjczOTUxNDEzMjE2YiZ4Om9yaWdpbmFsX25hbWU9dGVzdC5tcDMmeDp0YXNrX2lkPTdqcXo2aGcmeDpkdXJhdGlvbj0yMzIifQ== 
 
 
 
@@ -500,7 +511,7 @@ $(document).ready(function () {
             (params % 60) > 9 ? b = (params % 60) : b = '0' + (params % 60);
             return a + ":" + b
         } else if (params == 0) {
-            return '0'
+            return '00:00'
         }
     }
 
@@ -523,7 +534,9 @@ $(document).ready(function () {
             var units0 = projectData.scenes[0].units;
             $('.scenes .scenes-head span').last().html(units0[0].default_value);
             $('.opening  .replace-matter.replace-text').eq(0).attr('data-url', units0[0].preview_url);
-            $('.opening  .replace-matter.replace-text').eq(0).attr('data-text', units0[0].value)
+            var tem_val_h = "";
+            units0[0].value !== "" ? tem_val_h = units0[0].value : tem_val_h = units0[0].default_value;
+            $('.opening  .replace-matter.replace-text').eq(0).attr('data-text', tem_val_h);
             //center
             var units1 = projectData.scenes[1].units;
             var units1_task = resourcesData.userself.task;
@@ -552,7 +565,9 @@ $(document).ready(function () {
             var units2 = projectData.scenes[2].units;
             $('.scenes .scenes-bottom span').last().html(units2[0].default_value);
             $('.ending  .replace-matter.replace-text').eq(0).attr('data-url', units2[0].preview_url);
-            $('.ending  .replace-matter.replace-text').eq(0).attr('data-text', units2[0].value);
+            var tem_val_b = "";
+            units2[0].value !== "" ? tem_val_b = units2[0].value : tem_val_b = units2[0].default_value;
+            $('.ending  .replace-matter.replace-text').eq(0).attr('data-text', tem_val_b);
         } else {
             //固定模板
             $('.simple-edit').hide();
