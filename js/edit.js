@@ -17,8 +17,7 @@ $(document).ready(function () {
     getLeft();
     getData(u_language, u_api_token);
     getLeftDom();
-    getImgTextList();
-    scenesClick();
+    getImgTextList(projectData);
     getMusic();
 
     function getData(language, api_token) {
@@ -38,7 +37,9 @@ $(document).ready(function () {
                     themeData = res.data.theme;
                     projectData = res.data.project_file;
                     resourcesData = res.data.resources;
-                    u_project_file = $.extend(true, {}, projectData)
+                    if (u_project_file == "") {
+                        u_project_file = $.extend(true, {}, projectData)
+                    }
 
                 } else {
                     console.log('请求失败')
@@ -292,8 +293,8 @@ $(document).ready(function () {
         if ($(event).hasClass('crop-music')) {
             $('.upload-music-win').css('display', 'flex');
             $('.win-mask').css('display', 'block');
-            getData(u_language, u_api_token);
-            getMusic();
+            // getData(u_language, u_api_token);
+            // getMusic();
         }
 
         if ($(event).hasClass('music-option')) {
@@ -360,7 +361,7 @@ $(document).ready(function () {
             $(".upload-music-win .music-play").removeClass('iconpause');
             $(".upload-music-win .music-play").addClass('iconplay');
             $(event).parent().parent().css('display', 'none');
-            changeProject(u_language, u_api_token, u_project_file);
+            // changeProject(u_language, u_api_token, u_project_file);
             getMusiclogo();
         }
 
@@ -386,10 +387,7 @@ $(document).ready(function () {
         $('.video-trigger').css('display', 'block');
     });
 
-    $('textarea.te-input').bind('input propertychange keyup', function () {
-        var curr = $(this).val().length;
-        $('.te-limit .num').text(curr.toString());
-    });
+
 
 
     $('#uploadMusic').change(function (e) {
@@ -470,6 +468,15 @@ $(document).ready(function () {
 
     });
 
+    $('#upload-scenes').change(function () {
+        var file = $('#upload-scenes')[0].files[0];
+        console.log(file)
+        var reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = function (e) { //成功读取文件
+            $('.upload-scenes .preview-scenes-img').attr('src', e.target.result);
+        };
+    });
 
 
     function getThemeDialog() {
@@ -496,7 +503,7 @@ $(document).ready(function () {
     }
     //dialog定位
     function getLeft() {
-        var positionArr = ['.win.single-theme-win', '.win.change-text-win', '.win.msg-confirm', '.win.upload-music-win']
+        var positionArr = ['.win.single-theme-win', '.win.change-text-win', '.win.msg-confirm', '.win.upload-music-win', '.win.upload-scenes']
         for (var i = 0; i < positionArr.length; i++) {
             var reWidth = ($(document).width() - $(positionArr[i]).width()) / 2;
             $(positionArr[i]).css('left', reWidth);
@@ -528,26 +535,32 @@ $(document).ready(function () {
         $('.edit-wrap-music .change-music-btn .top').text(name);
     }
     //图片文字渲染
-    function getImgTextList() {
+    function getImgTextList(pro) {
+        $('ul.scenes-wrap li').remove();
+        $('.scenes ul>li').remove();
         var Duration = themeData.duration;
         //自由模板
         if (Duration == '0') {
             $('.simple-edit').show();
             $('.super-edit').hide();
             //head
-            var units0 = projectData.scenes[0].units;
+            var units0 = pro.scenes[0].units;
             $('.scenes .scenes-head span').last().html(getTrueVal(units0[0]));
             $('.opening  .replace-matter.replace-text').eq(0).attr({
-                'data-url': units0[0].preview_url, 'data-text': getTrueVal(units0[0]),
-                'data-limit': setlimit(units0[0]), 'data-scene': '0', 'data-unit': '0'
+                'data-type': units0[0].type,
+                'data-url': units0[0].preview_url,
+                'data-text': getTrueVal(units0[0]),
+                'data-limit': setlimit(units0[0]),
+                'data-scene': '0',
+                'data-unit': '0'
             });
 
             //center
-            var units1 = projectData.scenes[1].units;
+            var units1 = pro.scenes[1].units;
             for (var i = 0; i < units1.length; i++) {
                 var imgListDom =
-                    "<li  class='replace-matter replace-li replace-text'" +
-                    "data-type='" + units1[i].type + "' data-limit='" + "60" + "' data-url='" + valToImg(units1[i], 'big') + "' data-text='" + setText(units1[i]) + "' >" +
+                    "<li  class='replace-matter replace-li replace-text'" + "data-scene='" + "1" + "' data-unit='" + i +
+                    "' data-type='" + units1[i].type + "' data-limit='" + "60" + "' data-url='" + valToImg(units1[i], 'big') + "' data-text='" + setText(units1[i]) + "' >" +
                     "<div class='bg'>" +
                     imgOrtext(units1[i], 'simple') +
                     "</div>" +
@@ -557,17 +570,22 @@ $(document).ready(function () {
                     "</div>" +
                     "</div>" +
                     "<div class='button clearfix'>" +
-                    "<div class='change-text dynamic iconfont icontext'></div><div class='remove iconfont iconyichu'></div>" +
+                    "<div class='edit-img iconfont iconwrite'></div><div class='change-text dynamic iconfont icontext'></div><div class='remove iconfont iconyichu'></div>" +
                     "</div></li>"
                 $(".scenes-wrap .upload-btn").before(imgListDom);
 
             }
+            $(".scenes-wrap li[data-type='text'] .edit-img").css("display", "none");
             //bottom
-            var units2 = projectData.scenes[2].units;
+            var units2 = pro.scenes[2].units;
             $('.scenes .scenes-bottom span').last().html(getTrueVal(units2[0]));
             $('.ending  .replace-matter.replace-text').eq(0).attr({
-                'data-url': units2[0].preview_url, 'data-text': getTrueVal(units2[0]),
-                'data-limit': setlimit(units2[0]), 'data-scene': '2', 'data-unit': '0'
+                'data-type': units2[0].type,
+                'data-url': units2[0].preview_url,
+                'data-text': getTrueVal(units2[0]),
+                'data-limit': setlimit(units2[0]),
+                'data-scene': '2',
+                'data-unit': '0'
             });
 
         } else {
@@ -575,7 +593,7 @@ $(document).ready(function () {
             $('.simple-edit').hide();
             $('.super-edit').show();
             $('.top-control').css('display', 'none');
-            var surperScenes = projectData.scenes;
+            var surperScenes = pro.scenes;
             for (var i = 0; i < surperScenes.length; i++) {
                 var surperScenesBox =
                     "<li class='scene-line'>" +
@@ -595,26 +613,31 @@ $(document).ready(function () {
                         "<div class='eye' data-align='tr' data-gap='30 0' data-layer='img-layer'>" +
                         "<span class='iconfont iconGroup'></span>" +
                         "<div class='img-layer' style='display: block; left: -110px; top: -96px;'>" +
-                        "<img src='" + surperScenes[i].units[j].preview_url + "'>" +
+                        "<img class='img-layer-img' src='" + surperScenes[i].units[j].preview_url + "'>" +
                         "</div></div></div></li>"
                     $(".super-edit .scenes ul ul.num_" + i).append(superHeadList);
 
                 }
             }
-
+            $(".super-edit .scene-line li[data-type='image'] .edit").addClass('edit-img');
         }
         //模板共用
         function getTrueVal(params) {
-            if (params.value) {
+            if (params.value || params.value == "") {
                 return params.value;
             } else {
                 return params.default_value;
             }
         }
+
         function imgOrtext(params, mType) {
             var DOM = "";
             if (params.type === 'text') {
-                params.value ? DOM = "<span >" + params.value + "</span>" : DOM = "<span>" + params.default_value + "</span>";
+                if (params.value || params.value == "") {
+                    DOM = "<span >" + params.value + "</span>";
+                } else {
+                    DOM = "<span>" + params.default_value + "</span>";
+                }
             } else if (params.type === 'image') {
                 if (mType == 'simple') {
                     DOM =
@@ -630,6 +653,7 @@ $(document).ready(function () {
             }
             return DOM;
         }
+
         function valToImg(a, b) {
             var imgUrl = "";
             if (a.type == "image") {
@@ -642,6 +666,7 @@ $(document).ready(function () {
             }
             return imgUrl;
         }
+
         function setText(params) {
             if (params.type == 'text') {
                 return params.value;
@@ -653,6 +678,7 @@ $(document).ready(function () {
                 }
             }
         }
+
         function setlimit(params) {
             if (params.constraints.length > 0) {
                 if (u_language == 'zh') {
@@ -665,36 +691,48 @@ $(document).ready(function () {
             }
         }
 
-
+        scenesClick();
     }
     //内容点击事件
     function scenesClick() {
         $('.replace-matter.replace-text').on('click', function (e) {
-            if (!$(e.target).hasClass('eye') && !$(e.target).hasClass('iconGroup') && !$(e.target).hasClass('img-layer') && !$(e.target).hasClass('remove')) {
-                $('.win-mask').css('display', 'block');
-                $('.win.change-text-win').css('display', 'flex');
-                $('.text-button .text-reset').css('display', 'inline-block');
-                var preview_url = $(this).attr('data-url');
-                var preview_text = $(this).attr('data-text');
-                var text_limit = $(this).attr('data-limit');
-                $('.cropper-preview-img>img').attr('src', preview_url);
-                $('.te-input-bar>textarea').val(preview_text);
-                $('.te-input-bar>textarea').attr('maxLength', text_limit);
-                $('.te-input-bar .num-limit').html(text_limit);
-                var len = $('textarea.te-input').val().length;
-                $('.te-limit .num').text(len);
-                if ($(this).parent().hasClass('scenes-wrap')) {
-                    $('.change-text-win .text-reset').css('display', 'none');
-                } else {
-                    $('.change-text-win .text-reset').css('display', 'inline-block');
+            if (!$(e.target).hasClass('eye') && !$(e.target).hasClass('iconGroup') && !$(e.target).hasClass('img-layer') && !$(e.target).hasClass('remove') &&
+                !$(e.target).hasClass('edit-img') && !$(e.target).hasClass('img-layer-img')) {
+                if ($(this).attr('data-type') == 'text' || $(e.target).hasClass('change-text')) {
+                    $('.win-mask').css('display', 'block');
+                    $('.win.change-text-win').css('display', 'flex');
+                    $('.text-button .text-reset').css('display', 'inline-block');
+                    var preview_url = $(this).attr('data-url');
+                    var preview_text = $(this).attr('data-text');
+                    var text_limit = $(this).attr('data-limit');
+                    $('.cropper-preview-img>img').attr('src', preview_url);
+                    $('.te-input-bar>textarea').val(preview_text);
+                    $('.te-input-bar>textarea').attr('maxLength', text_limit);
+                    $('.te-input-bar .num-limit').html(text_limit);
+                    var len = $('textarea.te-input').val().length;
+                    $('.te-limit .num').text(len);
+                    if ($(this).parent().hasClass('scenes-wrap')) {
+                        $('.change-text-win .text-reset').css('display', 'none');
+                    } else {
+                        $('.change-text-win .text-reset').css('display', 'inline-block');
+                    }
+                    // reset_index = $(this).attr('data-scene') + ',' + $(this).attr('data-unit')
                 }
-                reset_index = $(this).attr('data-scene') + ',' + $(this).attr('data-unit')
+            } else if ($(e.target).hasClass('edit-img')) {
+                $('.win-mask').css('display', 'block');
+                $('.win.upload-scenes').css('display', 'flex');
+                $('.upload-scenes .preview-scenes-img').attr('src', $(this).attr('data-url'));
             }
-
+            reset_index = $(this).attr('data-scene') + ',' + $(this).attr('data-unit');
         });
 
 
     }
+    //textarea计数
+    $('textarea.te-input').bind('input propertychange keyup', function () {
+        var curr = $(this).val().length;
+        $('.te-limit .num').text(curr.toString());
+    });
     //textarea清空
     $('.change-text-win .text-empty').on('click', function () {
         $('textarea.te-input').val('');
@@ -706,9 +744,36 @@ $(document).ready(function () {
         var y = reset_index.split(",")[1];
         var resetData = projectData.scenes[x].units[y].default_value;
         $('textarea.te-input').val(resetData);
+        var curr = $('textarea.te-input').val().length;
+        $('.te-limit .num').text(curr.toString());
     });
-
-
+    //确定修改
+    $('.change-text-win .button .ok').on('click', function () {
+        var x = reset_index.split(",")[0];
+        var y = reset_index.split(",")[1];
+        if (u_project_file.scenes[x].units[y].type == "text") {
+            u_project_file.scenes[x].units[y].value = $('.te-input-bar textarea').val();
+        } else if (u_project_file.scenes[x].units[y].type == "image") {
+            console.log(u_project_file.scenes[x].units[y])
+            if( u_project_file.scenes[x].units[y].text){
+                u_project_file.scenes[x].units[y].text[0].value = $('.te-input-bar textarea').val();
+            }else{
+                var textArr= [{type: "text", value: ""}]
+                u_project_file.scenes[x].units[y].text=textArr;
+                u_project_file.scenes[x].units[y].text[0].value = $('.te-input-bar textarea').val();
+            }
+            
+        }
+        console.log(u_project_file.scenes[x].units[y])
+        $('.win.change-text-win').css('display', 'none');
+        $('.win-mask').css('display', 'none');
+        getImgTextList(u_project_file);
+    });
+    // 制作视频
+    $('#produce-gtm').on('click', function () {
+        console.log('u_project_file', JSON.stringify(u_project_file))
+        changeProject(u_language, u_api_token, u_project_file);
+    });
 
 
 
