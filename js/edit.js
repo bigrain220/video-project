@@ -770,9 +770,10 @@ $(document).ready(function () {
         getImgTextList(u_project_file);
     });
     // 制作视频
-    $('#produce-gtm').on('click', function () {
+    $('.produce-make').on('click', function (e) {
+        e.preventDefault();
         console.log('u_project_file', JSON.stringify(u_project_file))
-        changeProject(u_language, u_api_token, u_project_file);
+        // changeProject(u_language, u_api_token, u_project_file);
     });
 
 
