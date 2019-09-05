@@ -8,10 +8,12 @@ $(document).ready(function () {
     var themeData = "";
     var projectData = "";
     var resourcesData = "";
+    var resolutionData = "";
     var ossData = ""
 
     var delete_music_item = ""; //临时jq对象
-    var reset_index = "";
+    var reset_x = "";
+    var reset_y = "";
 
     // 初始化
     getLeft();
@@ -37,10 +39,10 @@ $(document).ready(function () {
                     themeData = res.data.theme;
                     projectData = res.data.project_file;
                     resourcesData = res.data.resources;
+                    resolutionData = res.data.resolution;
                     if (u_project_file == "") {
                         u_project_file = $.extend(true, {}, projectData)
                     }
-
                 } else {
                     console.log('请求失败')
                 }
@@ -49,19 +51,34 @@ $(document).ready(function () {
     }
 
 
-    function changeTitle(language, api_token, title) {
-        $.ajax({
-            type: "PUT",
-            url: URL + "/api/tasks/" + u_task_id,
-            data: {
+    function changeTitleOption(language, api_token, params, type) {
+        if (type == 'title') {
+            var rData = {
                 "language": language,
                 "version": '3',
                 "api_token": api_token,
-                "title": title
-            },
+                "title": params
+            }
+        } else if (type == 'option') {
+            var rData = {
+                "language": language,
+                "version": '3',
+                "api_token": api_token,
+                "resolution": params
+            }
+        };
+        $.ajax({
+            type: "PUT",
+            url: URL + "/api/tasks/" + u_task_id,
+            data: rData,
             success: function (res) {
                 if (res.status == '1') {
-                    $('.video-title .title span').first().text(title);
+                    if (type == 'title') {
+                        $('.video-title .title span').first().text(params);
+                    } else {
+
+                    }
+
                 }
             }
         });
@@ -179,8 +196,13 @@ $(document).ready(function () {
     }
 
     function getLeftDom() {
+        var tem_resolution = "";
+        resolutionData == '9x16' ? tem_resolution = resolutionData + " ( 竖屏 )" : resolutionData == '16x9' ? tem_resolution = resolutionData + " ( 横屏 )" : tem_resolution = resolutionData + " ( 正方形 )";
+        tem_resolution = tem_resolution.replace(/x/, ':');
         $(".cover.theme-dialog").css("backgroundImage", "url(" + themeData.cover_url + ")")
-        $('.edit-wrap-info .theme-name span').first().text(themeData.title)
+        $('.edit-wrap-info .theme-name span').first().text(themeData.title);
+        $('.ratio-select .text-con.option').html(tem_resolution);
+        $(".drop-menu .size-option[data-type='" + resolutionData + "']").addClass('active');
         //left 数量限制
         var unit_num = 0;
         for (var i = 0; i < projectData.scenes.length; i++) {
@@ -269,6 +291,7 @@ $(document).ready(function () {
                 $('.recommend-select li.mine').addClass('active');
                 $('.my-music').show();
                 $('.recommend-music').hide();
+                
             }
 
         }
@@ -287,6 +310,8 @@ $(document).ready(function () {
             $(event).parent().parent().parent().children('.text-con').text(select_val);
             $(event).siblings().removeClass('active');
             $(event).addClass('active');
+            var c_option = $(event).attr('data-type');
+            changeTitleOption(u_language, u_api_token, c_option, 'option');
         }
 
         // music-dialog
@@ -328,7 +353,7 @@ $(document).ready(function () {
         //change-title
         if ($(event).hasClass('title-ok')) {
             var c_title = $(event).siblings('input').val();
-            changeTitle(u_language, u_api_token, c_title);
+            changeTitleOption(u_language, u_api_token, c_title, 'title');
             $(event).parent().removeClass('active');
             $(event).parent().siblings().css('display', 'flex');
         } else if ($(event).hasClass('title-cancel')) {
@@ -361,6 +386,10 @@ $(document).ready(function () {
             $(".upload-music-win .music-play").removeClass('iconpause');
             $(".upload-music-win .music-play").addClass('iconplay');
             $(event).parent().parent().css('display', 'none');
+            $('.recommend-select li').removeClass('active');
+            $('.recommend-select li.mine').addClass('active');
+            $('.my-music').show();
+            $('.recommend-music').hide();
             // changeProject(u_language, u_api_token, u_project_file);
             getMusiclogo();
         }
@@ -603,7 +632,7 @@ $(document).ready(function () {
                 for (var j = 0; j < surperScenes[i].units.length; j++) {
                     var superHeadList =
                         "<li data-scene='" + i + "' data-unit='" + j + "' class='replace-matter replace-text need-replace' data-type='" + surperScenes[i].units[j].type + "' draggable='false'" + "data-limit='" + setlimit(surperScenes[i].units[j]) +
-                        "' data-url='" + surperScenes[i].units[j].preview_url + "' data-text='" + getTrueVal(surperScenes[i].units[j]) + "'>" +
+                        "' data-url='" + valToImg(surperScenes[i].units[j], 'big') + "' data-text='" + getTrueVal(surperScenes[i].units[j]) + "'>" +
                         "<div class='bg'>" +
                         imgOrtext(surperScenes[i].units[j], 'super') +
                         "</div>" +
@@ -630,7 +659,7 @@ $(document).ready(function () {
             }
         }
 
-        function imgOrtext(params, mType) {
+        function imgOrtext(params) {
             var DOM = "";
             if (params.type === 'text') {
                 if (params.value || params.value == "") {
@@ -639,17 +668,10 @@ $(document).ready(function () {
                     DOM = "<span>" + params.default_value + "</span>";
                 }
             } else if (params.type === 'image') {
-                if (mType == 'simple') {
-                    DOM =
-                        "<div class='bg-wrap'>" +
-                        "<div class='img-wrap'><img draggable='false' class='cover' src='" + valToImg(params, 'small') + "'></div>" +
-                        "</div>"
-                } else if (mType == 'super') {
-                    DOM =
-                        "<div class='bg-wrap'>" +
-                        "<div class='img-wrap'><img draggable='false' class='cover' src='" + params.preview_url + "'></div>" +
-                        "</div>"
-                }
+                DOM =
+                    "<div class='bg-wrap'>" +
+                    "<div class='img-wrap'><img draggable='false' class='cover' src='" + valToImg(params, 'small') + "'></div>" +
+                    "</div>"
             }
             return DOM;
         }
@@ -657,12 +679,17 @@ $(document).ready(function () {
         function valToImg(a, b) {
             var imgUrl = "";
             if (a.type == "image") {
-                var c = resourcesData.userself.task;
-                for (var j = 0; j < c.length; j++) {
-                    if (c[j].resource_id == a.value) {
-                        b == 'small' ? imgUrl = c[j].image_thumb_url : imgUrl = c[j].image_url;
+                if (a.value) {
+                    var c = resourcesData.userself.task;
+                    for (var j = 0; j < c.length; j++) {
+                        if (c[j].resource_id == a.value) {
+                            b == 'small' ? imgUrl = c[j].image_thumb_url : imgUrl = c[j].image_url;
+                        }
                     }
+                } else {
+                    imgUrl = a.preview_url;
                 }
+
             }
             return imgUrl;
         }
@@ -696,6 +723,8 @@ $(document).ready(function () {
     //内容点击事件
     function scenesClick() {
         $('.replace-matter.replace-text').on('click', function (e) {
+            reset_x = $(this).attr('data-scene');
+            reset_y = $(this).attr('data-unit');
             if (!$(e.target).hasClass('eye') && !$(e.target).hasClass('iconGroup') && !$(e.target).hasClass('img-layer') && !$(e.target).hasClass('remove') &&
                 !$(e.target).hasClass('edit-img') && !$(e.target).hasClass('img-layer-img')) {
                 if ($(this).attr('data-type') == 'text' || $(e.target).hasClass('change-text')) {
@@ -705,6 +734,7 @@ $(document).ready(function () {
                     var preview_url = $(this).attr('data-url');
                     var preview_text = $(this).attr('data-text');
                     var text_limit = $(this).attr('data-limit');
+                    preview_url == "" ? preview_url = "./images/text-bg.svg" : preview_url = preview_url
                     $('.cropper-preview-img>img').attr('src', preview_url);
                     $('.te-input-bar>textarea').val(preview_text);
                     $('.te-input-bar>textarea').attr('maxLength', text_limit);
@@ -716,14 +746,17 @@ $(document).ready(function () {
                     } else {
                         $('.change-text-win .text-reset').css('display', 'inline-block');
                     }
-                    // reset_index = $(this).attr('data-scene') + ',' + $(this).attr('data-unit')
+
                 }
             } else if ($(e.target).hasClass('edit-img')) {
                 $('.win-mask').css('display', 'block');
                 $('.win.upload-scenes').css('display', 'flex');
                 $('.upload-scenes .preview-scenes-img').attr('src', $(this).attr('data-url'));
+            } else if ($(e.target).hasClass('remove')) {
+                $(this).remove();
+                u_project_file.scenes[reset_x].units.splice(reset_y, 1);
             }
-            reset_index = $(this).attr('data-scene') + ',' + $(this).attr('data-unit');
+
         });
 
 
@@ -740,8 +773,8 @@ $(document).ready(function () {
     });
     //textarea重置
     $('.change-text-win .text-reset').on('click', function () {
-        var x = reset_index.split(",")[0];
-        var y = reset_index.split(",")[1];
+        var x = reset_x;
+        var y = reset_y;
         var resetData = projectData.scenes[x].units[y].default_value;
         $('textarea.te-input').val(resetData);
         var curr = $('textarea.te-input').val().length;
@@ -749,20 +782,23 @@ $(document).ready(function () {
     });
     //确定修改
     $('.change-text-win .button .ok').on('click', function () {
-        var x = reset_index.split(",")[0];
-        var y = reset_index.split(",")[1];
+        var x = reset_x;
+        var y = reset_y;
         if (u_project_file.scenes[x].units[y].type == "text") {
             u_project_file.scenes[x].units[y].value = $('.te-input-bar textarea').val();
         } else if (u_project_file.scenes[x].units[y].type == "image") {
             console.log(u_project_file.scenes[x].units[y])
-            if( u_project_file.scenes[x].units[y].text){
+            if (u_project_file.scenes[x].units[y].text) {
                 u_project_file.scenes[x].units[y].text[0].value = $('.te-input-bar textarea').val();
-            }else{
-                var textArr= [{type: "text", value: ""}]
-                u_project_file.scenes[x].units[y].text=textArr;
+            } else {
+                var textArr = [{
+                    type: "text",
+                    value: ""
+                }]
+                u_project_file.scenes[x].units[y].text = textArr;
                 u_project_file.scenes[x].units[y].text[0].value = $('.te-input-bar textarea').val();
             }
-            
+
         }
         console.log(u_project_file.scenes[x].units[y])
         $('.win.change-text-win').css('display', 'none');
@@ -771,9 +807,8 @@ $(document).ready(function () {
     });
     // 制作视频
     $('.produce-make').on('click', function (e) {
-        e.preventDefault();
-        console.log('u_project_file', JSON.stringify(u_project_file))
-        // changeProject(u_language, u_api_token, u_project_file);
+        console.log('u_project_file', u_project_file)
+        changeProject(u_language, u_api_token, u_project_file);
     });
 
 
