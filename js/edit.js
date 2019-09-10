@@ -21,6 +21,7 @@ $(document).ready(function () {
     getLeftDom();
     getImgTextList(projectData);
     getMusic();
+    getResource(u_language, u_api_token, u_task_id);
 
     function getData(language, api_token) {
         $.ajax({
@@ -175,8 +176,15 @@ $(document).ready(function () {
         });
     }
 
-    function deleteMusic(language, api_token, e) {
-        var ids = "[\"" + e.parents('.music-item').attr('data-id') + "\"]";
+   
+    //e不为空则为音乐，为空则为图片;
+    function delResources(language, api_token, e) {
+        if (e) {
+            var ids = "[\"" + e.parents('.music-item').attr('data-id') + "\"]";
+        } else {
+            // var ids = "[\"" + u_project_file.scenes[reset_x].units[reset_y].value + "\"]";
+           var ids = "[\"" +"86468ae7-921c-3fb8-85d1-eb8e9ebd7e93"+ "\"]";
+        }
         $.ajax({
             type: "DELETE",
             url: URL + "/api/tasks/" + u_task_id + '/resources/',
@@ -188,12 +196,18 @@ $(document).ready(function () {
             },
             success: function (res) {
                 if (res.status == 1) {
-                    getData(u_language, u_api_token);
-                    getMusic();
+                    console.log(res);
+                    if(e){
+                        getData(u_language, u_api_token);
+                        getMusic();
+                    }else{
+
+                    }
                 }
             }
         });
     }
+    delResources(u_language, u_api_token, '');
 
     function getLeftDom() {
         var tem_resolution = "";
@@ -253,6 +267,7 @@ $(document).ready(function () {
     }
 
 
+
     //点击事件处理
     $(document).on('click', function (e) {
         var event = e.target;
@@ -291,7 +306,7 @@ $(document).ready(function () {
                 $('.recommend-select li.mine').addClass('active');
                 $('.my-music').show();
                 $('.recommend-music').hide();
-                
+
             }
 
         }
@@ -376,7 +391,8 @@ $(document).ready(function () {
         } else if ($(event).attr('type') === 'primary') {
             $('.win.msg-confirm').css('display', 'none');
             $('.win-mask').css('zIndex', '901');
-            deleteMusic(u_language, u_api_token, delete_music_item);
+            delResources(u_language, u_api_token, delete_music_item);
+            
         }
 
         //确认音乐
@@ -393,6 +409,12 @@ $(document).ready(function () {
             // changeProject(u_language, u_api_token, u_project_file);
             getMusiclogo();
         }
+        //确认修改图片
+        if ($(event).hasClass('select-img')) {
+            $('.win.upload-scenes').css('display','none');
+            $('.win-mask').css('display','none');
+        }
+
 
     })
     //修改标题
@@ -421,7 +443,6 @@ $(document).ready(function () {
 
     $('#uploadMusic').change(function (e) {
         e.preventDefault();
-        getResource(u_language, u_api_token, u_task_id);
         var f = e.target.files[0];
         var val = e.target.value;
         var suffix = val.substr(val.indexOf("."));
@@ -430,10 +451,11 @@ $(document).ready(function () {
         //callback
         var url = ossData['callback']['callbackUrl'];
         var callbackBody = ossData['callback']['callbackBody'];
-        var userargs = "x:uid=" + '14973143' + "&x:utoken=" + encodeURI('f737cffbf1a96349d71b73951413216b') + "&x:original_name=" + encodeURI(f.name.toLowerCase()) + "&x:task_id=" + u_task_id;
+        var userargs = "x:user_id=" + '14973143' + "&x:utoken=" + encodeURI('f737cffbf1a96349d71b73951413216b') + "&x:original_name=" + encodeURI(f.name.toLowerCase()) + "&x:task_id=" + u_task_id;
         var callback = {
             "callbackUrl": url,
             "callbackBody": callbackBody + userargs,
+
         }
 
         var client = new OSS.Wrapper({
@@ -471,21 +493,15 @@ $(document).ready(function () {
             $('.my-music .add-music').before(musicLoadingDom);
         }
 
-        function parse(data) {
-            var b = new Base64();
-            var tem = JSON.stringify(data);
-            var dataBase64 = b.encode(tem);
-            return dataBase64;
-        }
 
 
         client.multipartUpload(storeAs, f, {
             progress: progress,
             headers: {
-                "x-oss-callback": parse(callback)
-            }
+                "x-oss-callback": parse(callback),
+            },
         }).then(function (result) {
-            console.log(result); //返回对象
+            console.log("result",result); //返回对象
             clearTimeout(timer);
             var timer = setTimeout(function () {
                 getData(u_language, u_api_token);
@@ -497,16 +513,61 @@ $(document).ready(function () {
 
     });
 
-    $('#upload-scenes').change(function () {
-        var file = $('#upload-scenes')[0].files[0];
-        console.log(file)
-        var reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = function (e) { //成功读取文件
-            $('.upload-scenes .preview-scenes-img').attr('src', e.target.result);
-        };
+    $('#upload-scenes').change(function (ev) {
+        var f = ev.target.files[0];
+        delResources(u_language, u_api_token, '');
+        var val = ev.target.value;
+        var suffix = val.substr(val.indexOf("."));
+        var obj = new Date().getTime(); // 这里是生成文件名
+        var storeAs = ossData.oss.folder + obj + suffix; //命名空间
+        //callback
+        var url = ossData['callback']['callbackUrl'];
+        var callbackBody = ossData['callback']['callbackBody'];
+        var userargs = "x:user_id=" + '14973143' + "&x:utoken=" + encodeURI('f737cffbf1a96349d71b73951413216b') + "&x:original_name=" + encodeURI(f.name.toLowerCase()) + "&x:task_id=" + u_task_id;
+        var callback = {
+            "callbackUrl": url,
+            "callbackBody": callbackBody + userargs
+        }
+
+        var client = new OSS.Wrapper({
+            'region': ossData.oss.region,
+            'accessKeyId': ossData.oss.access_id,
+            'accessKeySecret': ossData.oss.access_secret,
+            'bucket': ossData.oss.bucket,
+            'stsToken': ossData.oss.security_token
+        });
+
+
+        client.multipartUpload(storeAs, f, {
+            cancelFlag: true,
+            headers: {
+                "x-oss-callback": parse(callback)
+            },
+        }).then(function (result) {
+            console.log("result",result); //返回对象
+            var appData = result.data.data.app_data;
+            var x=reset_x;
+            var y=reset_y;
+            $('.win.upload-scenes .preview-scenes-img').attr('src',appData.image_url);
+            $(".replace-matter.replace-text[data-scene='"+reset_x +"'][data-unit='"+reset_y +"']").attr("data-url",appData.image_url);
+            $(".replace-matter.replace-text[data-scene='"+reset_x +"'][data-unit='"+reset_y +"'] .img-wrap>img").attr("src",appData.image_thumb_url);
+            u_project_file.scenes[x].units[y].filename=f.name;
+            u_project_file.scenes[x].units[y].value=appData.resource_id;
+        }).catch(function (err) {
+            console.log(err);
+        });
+
+
     });
 
+  
+
+    function parse(data) {
+        var b = new Base64();
+        var tem = JSON.stringify(data);
+        var dataBase64 = b.encode(tem);
+        return dataBase64;
+    }
 
     function getThemeDialog() {
         var Duration = themeData.duration;
@@ -752,13 +813,23 @@ $(document).ready(function () {
                 $('.win-mask').css('display', 'block');
                 $('.win.upload-scenes').css('display', 'flex');
                 $('.upload-scenes .preview-scenes-img').attr('src', $(this).attr('data-url'));
+
             } else if ($(e.target).hasClass('remove')) {
                 $(this).remove();
                 u_project_file.scenes[reset_x].units.splice(reset_y, 1);
             }
 
         });
-
+        // $('.add-text').on('click', function (e) {
+        //     $('.win.change-text-win').show();
+        //     $('.win.change-text-win .te-input').val('');
+        //     $('.win.change-text-win .te-limit .num-limit').html('60');
+        //     $('.win.change-text-win .te-limit .num').html('0');
+        //     $('.win.change-text-win .button').children().removeClass('item')
+        //     //自由模板
+            
+        //     $(".scenes-wrap .upload-btn").before(imgListDom);
+        // });
 
     }
     //textarea计数
