@@ -509,8 +509,6 @@ $(document).ready(function () {
                 console.log(err);
             });
 
-
-
         } else if (changeID === "upload-scenes") {
             delResources(u_language, u_api_token, '');
             client.multipartUpload(storeAs, f, {
@@ -526,7 +524,7 @@ $(document).ready(function () {
                 $('.win.upload-scenes .preview-scenes-img').attr('src', appData.image_url);
                 $(".replace-matter.replace-text[data-scene='" + reset_x + "'][data-unit='" + reset_y + "']").attr("data-url", appData.image_url);
                 $(".replace-matter.replace-text[data-scene='" + reset_x + "'][data-unit='" + reset_y + "'] .img-wrap>img").attr("src", appData.image_thumb_url);
-                $(".replace-matter.replace-text[data-scene='" + reset_x + "'][data-unit='" + reset_y + "']").attr("data-text", appData.resource_id);
+                // $(".replace-matter.replace-text[data-scene='" + reset_x + "'][data-unit='" + reset_y + "']").attr("data-text", appData.resource_id);
                 u_project_file.scenes[x].units[y].filename = f.name;
                 u_project_file.scenes[x].units[y].value = appData.resource_id;
                 resetImg(u_project_file.scenes[x].units[y], x, y)
@@ -540,7 +538,6 @@ $(document).ready(function () {
                     done();
                 }
             };
-
             client.multipartUpload(storeAs, f, {
                 progress: progress,
                 headers: {
@@ -567,176 +564,14 @@ $(document).ready(function () {
 
     $('#uploadMusic').change(function (e) {
         changeEvent(e, 'uploadMusic');
-        // e.preventDefault();
-        // var f = e.target.files[0];
-        // var val = e.target.value;
-        // var suffix = val.substr(val.indexOf("."));
-        // var obj = new Date().getTime(); // 这里是生成文件名
-        // var storeAs = ossData.oss.folder + obj + suffix; //命名空间
-        // //callback
-        // var url = ossData['callback']['callbackUrl'];
-        // var callbackBody = ossData['callback']['callbackBody'];
-        // var userargs = "x:user_id=" + '14973143' + "&x:utoken=" + encodeURI('f737cffbf1a96349d71b73951413216b') + "&x:original_name=" + encodeURI(f.name.toLowerCase()) + "&x:task_id=" + u_task_id;
-        // var callback = {
-        //     "callbackUrl": url,
-        //     "callbackBody": callbackBody + userargs,
-        // }
-
-        // var client = new OSS.Wrapper({
-        //     'region': ossData.oss.region,
-        //     'accessKeyId': ossData.oss.access_id,
-        //     'accessKeySecret': ossData.oss.access_secret,
-        //     'bucket': ossData.oss.bucket,
-        //     'stsToken': ossData.oss.security_token
-        // });
-        // musicLoading();
-        // var progress = function (p) {
-        //     return function (done) {
-        //         if (p == 1) {
-        //             $('.music-item span.num').text('99');
-        //             clearTimeout(timer);
-        //             var timer = setTimeout(function () {
-        //                 $('.music-item span.num').text('100');
-        //             }, 5000);
-        //         } else {
-        //             $('.music-item span.num').text(Math.floor(p * 100));
-        //         }
-        //         done();
-        //     }
-        // };
-
-        // function musicLoading() {
-        //     var musicLoadingDom =
-        //         "<li class='music-item process-li'>" +
-        //         "<div class='music-bg'>" +
-        //         "<div class='process-num'><span class='num'>0</span>%</div>" +
-        //         "<div class='iconfont iconmusic1 music-bck'></div>" +
-        //         "</div>" +
-        //         "<div class='title'>" + f.name + "</div>" +
-        //         "</li>"
-        //     $('.my-music .add-music').before(musicLoadingDom);
-        // }
-
-
-
-        // client.multipartUpload(storeAs, f, {
-        //     progress: progress,
-        //     headers: {
-        //         "x-oss-callback": parse(callback),
-        //     },
-        // }).then(function (result) {
-        //     console.log("result", result); //返回对象
-        //     clearTimeout(timer);
-        //     var timer = setTimeout(function () {
-        //         getData(u_language, u_api_token);
-        //         getMusic();
-        //     }, 5000);
-        // }).catch(function (err) {
-        //     console.log(err);
-        // });
-
     });
 
     $('#upload-scenes').change(function (e) {
         changeEvent(e, 'upload-scenes')
-        // delResources(u_language, u_api_token, '');
-        // var f = e.target.files[0];
-        // var val = e.target.value;
-        // var suffix = val.substr(val.indexOf("."));
-        // var obj = new Date().getTime(); // 这里是生成文件名
-        // var storeAs = ossData.oss.folder + obj + suffix; //命名空间
-        // //callback
-        // var url = ossData['callback']['callbackUrl'];
-        // var callbackBody = ossData['callback']['callbackBody'];
-        // var userargs = "x:user_id=" + '14973143' + "&x:utoken=" + encodeURI('f737cffbf1a96349d71b73951413216b') + "&x:original_name=" + encodeURI(f.name.toLowerCase()) + "&x:task_id=" + u_task_id;
-        // var callback = {
-        //     "callbackUrl": url,
-        //     "callbackBody": callbackBody + userargs,
-        // }
-
-        // var client = new OSS.Wrapper({
-        //     'region': ossData.oss.region,
-        //     'accessKeyId': ossData.oss.access_id,
-        //     'accessKeySecret': ossData.oss.access_secret,
-        //     'bucket': ossData.oss.bucket,
-        //     'stsToken': ossData.oss.security_token
-        // });
-
-
-        // client.multipartUpload(storeAs, f, {
-        //     cancelFlag: true,
-        //     headers: {
-        //         "x-oss-callback": parse(callback)
-        //     },
-        // }).then(function (result) {
-        //     console.log("result", result); //返回对象
-        //     var appData = result.data.data.app_data;
-        //     var x = reset_x;
-        //     var y = reset_y;
-        //     $('.win.upload-scenes .preview-scenes-img').attr('src', appData.image_url);
-        //     $(".replace-matter.replace-text[data-scene='" + reset_x + "'][data-unit='" + reset_y + "']").attr("data-url", appData.image_url);
-        //     $(".replace-matter.replace-text[data-scene='" + reset_x + "'][data-unit='" + reset_y + "'] .img-wrap>img").attr("src", appData.image_thumb_url);
-        //     $(".replace-matter.replace-text[data-scene='" + reset_x + "'][data-unit='" + reset_y + "']").attr("data-text", appData.resource_id);
-        //     u_project_file.scenes[x].units[y].filename = f.name;
-        //     u_project_file.scenes[x].units[y].value = appData.resource_id;
-        //     resetImg(u_project_file.scenes[x].units[y], x, y)
-        // }).catch(function (err) {
-        //     console.log(err);
-        // });
-        // $('#upload-scenes').replaceWith("<input id='upload-scenes' type='file' accept='image/*, .heic,.heif,video/*'>");
-
     });
 
     $('#add-file').change(function (e) {
         changeEvent(e, 'add-file')
-        // e.preventDefault();
-        // var f = e.target.files[0];
-        // var val = e.target.value;
-        // var suffix = val.substr(val.indexOf("."));
-        // var obj = new Date().getTime(); // 这里是生成文件名
-        // var storeAs = ossData.oss.folder + obj + suffix; //命名空间
-        // //callback
-        // var url = ossData['callback']['callbackUrl'];
-        // var callbackBody = ossData['callback']['callbackBody'];
-        // var userargs = "x:user_id=" + '14973143' + "&x:utoken=" + encodeURI('f737cffbf1a96349d71b73951413216b') + "&x:original_name=" + encodeURI(f.name.toLowerCase()) + "&x:task_id=" + u_task_id;
-        // var callback = {
-        //     "callbackUrl": url,
-        //     "callbackBody": callbackBody + userargs,
-        // }
-
-        // var client = new OSS.Wrapper({
-        //     'region': ossData.oss.region,
-        //     'accessKeyId': ossData.oss.access_id,
-        //     'accessKeySecret': ossData.oss.access_secret,
-        //     'bucket': ossData.oss.bucket,
-        //     'stsToken': ossData.oss.security_token
-        // });
-        // var progress = function (p) {
-        //     return function (done) {
-        //         console.log('p', p)
-        //         done();
-        //     }
-        // };
-
-        // client.multipartUpload(storeAs, f, {
-        //     progress: progress,
-        //     headers: {
-        //         "x-oss-callback": parse(callback),
-        //     },
-        // }).then(function (result) {
-        //     // console.log("addresult", result); //返回对象
-        //     var appData = result.data.data.app_data;
-        //     var addFileArr = {
-        //         'filename': appData.filename,
-        //         'type': appData.type,
-        //         'value': appData.resource_id
-        //     };
-        //     u_project_file.scenes[1].units.push(addFileArr);
-        //     getData(u_language, u_api_token);
-        //     getImgTextList(u_project_file);
-        // }).catch(function (err) {
-        //     console.log(err);
-        // });
     });
 
     function parse(data) {

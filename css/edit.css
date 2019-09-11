@@ -551,8 +551,6 @@ body{
     width: 35px;
     height: 33px;
     opacity: 0;
-    -webkit-transform: translateX(10px);
-            transform: translateX(10px);
     -webkit-transition: all .3s ease;
     transition: all .3s ease;
     background: url(../images/change-image.svg) center center/100% auto no-repeat;
@@ -572,8 +570,6 @@ body{
     width: 30px;
     height: 30px;
     opacity: 0;
-    -webkit-transform: translateX(-10px);
-            transform: translateX(-10px);
     -webkit-transition: all .3s ease;
     transition: all .3s ease;
     background: url(../images/change-text.svg) center center/100% auto no-repeat;
@@ -1109,7 +1105,9 @@ li.music-item:hover .button{
     width: 420px;
 }
 .msg-body{
-    flex: none;
+    -webkit-box-flex: 0;
+        -ms-flex: none;
+            flex: none;
     padding-top: 4px;
     padding-bottom: 4px;
     padding-left: 50px;
@@ -1140,14 +1138,11 @@ li.music-item:hover .button{
     padding-bottom: 10px;
     padding-top: 10px;
     display: -webkit-box;
-    display: box;
-    display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
     background: #f4f5f9;
     -webkit-box-pack: center;
     box-pack: center;
-    -webkit-justify-content: space-around;
     justify-content: space-around;
     -ms-flex-pack: center;
 }
@@ -1199,7 +1194,9 @@ li.music-item:hover .button{
     height: 500px;
     width: 100%;
     background: #eee;
-    flex: none;
+    -webkit-box-flex: 0;
+        -ms-flex: none;
+            flex: none;
 }
 .win.upload-scenes .win-body>img{
     display: block;
@@ -1209,10 +1206,15 @@ li.music-item:hover .button{
     height: 100%;
 }
 .win.upload-scenes .win-foot{
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
-    justify-content: space-around;
+    -ms-flex-pack: distribute;
+        justify-content: space-around;
     height: 100%;
-    align-items: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
 }
 .win.upload-scenes .win-foot>div{
     width: 120px;
@@ -1228,6 +1230,7 @@ li.music-item:hover .button{
    background: rgb(138, 202, 170);
 }
 .win.upload-scenes .win-foot .select-img{
+    background-image: -webkit-gradient(linear,left top, right top,from(#4889ff),to(#ff9ad1));
     background-image: linear-gradient(to right,#4889ff,#ff9ad1);
 }
 .win.upload-scenes .win-foot .change-img input{
@@ -1239,12 +1242,19 @@ li.music-item:hover .button{
     left:0;
     top:0;
 }
-.scenes-wrap .upload-btn:hover :before{
-    background: none;
+.scenes-wrap .upload-btn:hover::before{
+    background-image: none;
 }
 .scenes-wrap .upload-btn:hover .add-image{
     opacity: 1;
+    -webkit-transform:translateX(-2px);
+            transform:translateX(-2px)
 }
 .scenes-wrap .upload-btn:hover .add-text{
     opacity: 1;
+    -webkit-transform:translateX(2px);
+            transform:translateX(2px)
+}
+.replace-matter.replace-text:hover{
+    border-color: #ddd;
 }
