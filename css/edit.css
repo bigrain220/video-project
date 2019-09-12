@@ -1104,7 +1104,12 @@ li.music-item:hover .button{
     padding-top: 36px;
     width: 420px;
 }
-.msg-body{
+.produce-msg-confirm{
+    padding: 0;
+    padding-top: 36px;
+    width: 420px;
+}
+.msg-confirm .msg-body,.produce-msg-confirm .msg-body{
     -webkit-box-flex: 0;
         -ms-flex: none;
             flex: none;
@@ -1116,23 +1121,23 @@ li.music-item:hover .button{
     background-position: left center;
     background-repeat: no-repeat;
 }
-.msg-confirm .msg-body{
+.msg-confirm .msg-body,.produce-msg-confirm .msg-body{
     padding: 0 20px;
     background-image: none;
     text-align: center;
 }
-.msg-title{
+.msg-confirm .msg-title,.produce-msg-confirm .msg-title{
     font-weight: 700;
 }
-.msg-text{
+.msg-confirm .msg-text,.produce-msg-confirm .msg-text{
     line-height: 24px
 }
-.msg-field{
+.msg-confirm .msg-field,.produce-msg-confirm .msg-field{
     height: 30px;
     margin-top: 10px;
     margin-bottom: 10px;
 }
-.msg-confirm .win-foot{
+.msg-confirm .win-foot,.produce-msg-confirm .win-foot{
     border-top: solid 1px #eee;
     margin-top: 30px;
     padding-bottom: 10px;
@@ -1146,7 +1151,7 @@ li.music-item:hover .button{
     justify-content: space-around;
     -ms-flex-pack: center;
 }
-.win-foot button{
+.msg-confirm .win-foot button,.produce-msg-confirm .win-foot button{
     display: inline-block;
     vertical-align: top;
     min-width: 100px;
@@ -1159,26 +1164,30 @@ li.music-item:hover .button{
     font-size: 18px;
     color: #888;
 }
-.win-foot button{
+.msg-confirm .win-foot button,.produce-msg-confirm .win-foot button{
     border-radius: 8px;
     cursor: pointer;
     border:0;
     outline: none;
 }
-.win-foot button:first-child{
+.msg-confirm .win-foot button:first-child,.produce-msg-confirm .win-foot button:first-child{
     margin-right: 0;
 }
 .win-foot button:first-child:hover{
-    color: #666;
+    color: #555;
 }
 .win-foot button:last-child:hover{
     color: #4a74b3;
 }
-.msg-confirm button:first-child{
+.msg-confirm button:first-child,.produce-msg-confirm button:first-child{
     background: 0 0;
     color: #666;
 }
 .msg-confirm button[type=primary]{
+    background: 0 0;
+    color: #5b93e7;
+}
+.produce-msg-confirm button.produce-sure{
     background: 0 0;
     color: #5b93e7;
 }
@@ -1257,4 +1266,20 @@ li.music-item:hover .button{
 }
 .replace-matter.replace-text:hover{
     border-color: #ddd;
+}
+.add_tem_dom{
+    text-align: center;
+}
+.loading{
+    position: absolute;
+    padding-top: 0px;
+    background: rgba(245, 240, 240, 0.8);
+    display: block;
+}
+.loading>span.iconfont{
+    position: absolute;
+    font-size: 30px;
+    color: #9e9e9e;
+    left: calc(50% - 15px);
+    top: calc(50% - 15px)
 }

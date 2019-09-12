@@ -341,3 +341,40 @@ body{
     top: 30px;
     left:14px;
 }
+.loading{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 999;
+    text-align: center;
+    padding-top: 300px;
+    background: rgba(245, 240, 240, 0.8);
+    display: none;
+}
+.loading>span.iconfont{
+    position: absolute;
+    font-size: 50px;
+    color: #7791e6;
+    -webkit-animation: rotate 2s linear infinite;
+            animation: rotate 2s linear infinite;
+}
+@-webkit-keyframes rotate {
+    0% {
+        -webkit-transform: rotate(0);
+                transform: rotate(0)
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+                transform: rotate(360deg)
+    }
+}
+@keyframes rotate {
+    0% {
+        -webkit-transform: rotate(0);
+                transform: rotate(0)
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+                transform: rotate(360deg)
+    }
+}

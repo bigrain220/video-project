@@ -1,5 +1,6 @@
 $(document).ready(function () {
-    var URL = 'https://lightmvapi.aoscdn.com';
+    // var URL = 'https://lightmvapi.aoscdn.com';
+    var URL = 'https://api.lightmv.com';
     var u_task_id = location.href.split("taskID=")[1];
     var u_language = 'zh';
     var u_api_token = '14973143,1562228154,f3163a7b78c57c1b4966478f395430f5';
@@ -182,8 +183,12 @@ $(document).ready(function () {
         if (e) {
             var ids = "[\"" + e.parents('.music-item').attr('data-id') + "\"]";
         } else {
+            // var arr =[];
+            // resourcesData.userself.task.map((item,index)=>{
+            //     arr.push(item.resource_id)
+            // })
+            // var ids = JSON.stringify(arr);
             var ids = "[\"" + u_project_file.scenes[reset_x].units[reset_y].value + "\"]";
-            //  var ids = "[\"" +"86468ae7-921c-3fb8-85d1-eb8e9ebd7e93"+ "\"]";
         }
         $.ajax({
             type: "DELETE",
@@ -206,7 +211,22 @@ $(document).ready(function () {
             }
         });
     }
-
+  
+    function getProcess(language, api_token,task_id){
+        $.ajax({
+            type: "POST",
+            url:  URL + "/api/tasks/"+task_id+"/process",
+            data: {
+                "language": language,
+                "version": '3',
+                "api_token": api_token,
+                "task_id": task_id,
+            },
+            success: function (res) {
+                console.log('getProcess-success')
+            }
+        });
+    }
 
     function getLeftDom() {
         var tem_resolution = "";
@@ -222,8 +242,8 @@ $(document).ready(function () {
             if (projectData.scenes[i].is_fixed_unit_num == '0') {
                 var quickDom = "<i class='iconfont iconpic'><span style='margin:0 5px;'>" + projectData.scenes[i].min_unit_num + "</span>" + '- ' + projectData.scenes[i].max_unit_num;
                 $('.scene-num.quick-num').append(quickDom);
-                var expectDom = "<div class='expect'><span>预估时长</span>:<span class='estimate-time'>  00:00</span></div>";
-                $('.scene-num.quick-num').after(expectDom);
+                // var expectDom = "<div class='expect'><span>预估时长</span>:<span class='estimate-time'>  00:00</span></div>";
+                // $('.scene-num.quick-num').after(expectDom);
                 break;
             } else {
                 unit_num += 1;
@@ -236,10 +256,10 @@ $(document).ready(function () {
                         var quickDom = "<i class='iconfont iconaddvedio' style='margin-right: 5px;font-size:22px;line-height:22px;'></i><span style='margin-right: 15px;'>" + themeData.statistics.video + "</span>"
                         $('.scene-num.quick-num').append(quickDom);
                     }
-                    var expectDom = "<div class='process'>" +
-                        "<span>进度</span>:<span class='process-bar-bg'><span class='process-bar' style='width:0%;'></span></span>" +
-                        "<span class='process-num'><span>0</span>/<span>" + themeData.statistics.image + "</span></span></div>";
-                    $('.scene-num.quick-num').after(expectDom);
+                    // var expectDom = "<div class='process'>" +
+                    //     "<span>进度</span>:<span class='process-bar-bg'><span class='process-bar' style='width:0%;'></span></span>" +
+                    //     "<span class='process-num'><span>0</span>/<span>" + themeData.statistics.image + "</span></span></div>";
+                    // $('.scene-num.quick-num').after(expectDom);
                 }
             }
         }
@@ -421,7 +441,11 @@ $(document).ready(function () {
             getData(u_language, u_api_token);
             getImgTextList(u_project_file);
         }
-
+        //取消制作
+        if ($(event).hasClass('produc-cancel')) {
+            $('.produce-msg-confirm').hide();
+            $('.win-mask').hide();
+        }
 
     })
     //修改标题
@@ -532,9 +556,17 @@ $(document).ready(function () {
                 console.log(err);
             });
         } else if (changeID === "add-file") {
+            var add_tem_dom=
+            "<li  class='replace-matter replace-li replace-text add_tem_dom'><div class='loading'><span class='iconfont iconloading2'></span></div></li>"
+            $(".scenes-wrap .upload-btn").before(add_tem_dom);
             var progress = function (p) {
                 return function (done) {
-                    console.log('p', p)
+                    if(p == 1){
+                        clearTimeout(timer);
+                        var timer = setTimeout(function () {
+                            $(".add_tem_dom").remove();
+                        }, 5000); 
+                    }
                     done();
                 }
             };
@@ -552,15 +584,18 @@ $(document).ready(function () {
                     'value': appData.resource_id
                 };
                 u_project_file.scenes[1].units.push(addFileArr);
-                getData(u_language, u_api_token);
-                getImgTextList(u_project_file);
+                clearTimeout(timer);
+                var timer = setTimeout(function(){
+                    getData(u_language, u_api_token);
+                    getImgTextList(u_project_file);
+                },5000)
             }).catch(function (err) {
                 console.log(err);
             });
         }
 
     }
-
+    
 
     $('#uploadMusic').change(function (e) {
         changeEvent(e, 'uploadMusic');
@@ -605,7 +640,7 @@ $(document).ready(function () {
     }
     //dialog定位
     function getLeft() {
-        var positionArr = ['.win.single-theme-win', '.win.change-text-win', '.win.msg-confirm', '.win.upload-music-win', '.win.upload-scenes']
+        var positionArr = ['.win.single-theme-win', '.win.change-text-win', '.win.msg-confirm', '.win.upload-music-win', '.win.upload-scenes','.win.produce-msg-confirm']
         for (var i = 0; i < positionArr.length; i++) {
             var reWidth = ($(document).width() - $(positionArr[i]).width()) / 2;
             $(positionArr[i]).css('left', reWidth);
@@ -716,7 +751,7 @@ $(document).ready(function () {
                         "</div>" +
                         "<div class='button'>" +
                         "<div class='duration' hidden='hidden'>undefineds</div>" +
-                        "<div class='edit iconfont iconwrite'></div><div class='remove-super iconfont iconyichu'></div>" +
+                        "<div class='edit iconfont iconwrite'></div><div class='remove-super iconfont iconyichu' title='恢复默认'></div>" +
                         "<div class='eye' data-align='tr' data-gap='30 0' data-layer='img-layer'>" +
                         "<span class='iconfont iconGroup'></span>" +
                         "<div class='img-layer' style='display: block; left: -110px; top: -96px;'>" +
@@ -851,7 +886,6 @@ $(document).ready(function () {
         $('.win.change-text-win .cropper-preview-img>img').attr('src', './images/text-bg.svg');
         $('.win.change-text-win .te-input-bar>textarea').attr('maxLength', '60');
         $('.win.change-text-win .button>.ok').addClass('add-ok');
-
     });
     //textarea计数
     $('textarea.te-input').bind('input propertychange keyup', function () {
@@ -912,8 +946,15 @@ $(document).ready(function () {
     $('.produce-make').on('click', function (e) {
         console.log('u_project_file', u_project_file)
         changeProject(u_language, u_api_token, u_project_file);
+        $('.produce-msg-confirm').show();
+        $('.win-mask').show();
     });
-
+    $('.produce-sure').on('click', function (e) {
+        $('.produce-msg-confirm').hide();
+        $('.win-mask').hide();
+        getProcess(u_language, u_api_token, u_task_id);
+        // location.href="https://mv.lightmake.cn/user/"
+    });
 
 
 
