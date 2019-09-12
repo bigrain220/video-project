@@ -211,11 +211,11 @@ $(document).ready(function () {
             }
         });
     }
-  
-    function getProcess(language, api_token,task_id){
+
+    function getProcess(language, api_token, task_id) {
         $.ajax({
             type: "POST",
-            url:  URL + "/api/tasks/"+task_id+"/process",
+            url: URL + "/api/tasks/" + task_id + "/process",
             data: {
                 "language": language,
                 "version": '3',
@@ -474,7 +474,7 @@ $(document).ready(function () {
         var f = e.target.files[0];
         var val = e.target.value;
         var suffix = val.substr(val.indexOf("."));
-        var obj = new Date().getTime(); // 这里是生成文件名
+        var obj = new Date().getTime() + "" + Math.round(Math.random() * 10000);; // 这里是生成文件名
         var storeAs = ossData.oss.folder + obj + suffix; //命名空间
         //callback
         var url = ossData['callback']['callbackUrl'];
@@ -556,16 +556,16 @@ $(document).ready(function () {
                 console.log(err);
             });
         } else if (changeID === "add-file") {
-            var add_tem_dom=
-            "<li  class='replace-matter replace-li replace-text add_tem_dom'><div class='loading'><span class='iconfont iconloading2'></span></div></li>"
+            var add_tem_dom =
+                "<li  class='replace-matter replace-li replace-text add_tem_dom'><div class='loading'><span class='iconfont iconloading2'></span></div></li>"
             $(".scenes-wrap .upload-btn").before(add_tem_dom);
             var progress = function (p) {
                 return function (done) {
-                    if(p == 1){
+                    if (p == 1) {
                         clearTimeout(timer);
                         var timer = setTimeout(function () {
                             $(".add_tem_dom").remove();
-                        }, 5000); 
+                        }, 5000);
                     }
                     done();
                 }
@@ -585,17 +585,17 @@ $(document).ready(function () {
                 };
                 u_project_file.scenes[1].units.push(addFileArr);
                 clearTimeout(timer);
-                var timer = setTimeout(function(){
+                var timer = setTimeout(function () {
                     getData(u_language, u_api_token);
                     getImgTextList(u_project_file);
-                },5000)
+                }, 5000)
             }).catch(function (err) {
                 console.log(err);
             });
         }
 
     }
-    
+
 
     $('#uploadMusic').change(function (e) {
         changeEvent(e, 'uploadMusic');
@@ -640,7 +640,7 @@ $(document).ready(function () {
     }
     //dialog定位
     function getLeft() {
-        var positionArr = ['.win.single-theme-win', '.win.change-text-win', '.win.msg-confirm', '.win.upload-music-win', '.win.upload-scenes','.win.produce-msg-confirm']
+        var positionArr = ['.win.single-theme-win', '.win.change-text-win', '.win.msg-confirm', '.win.upload-music-win', '.win.upload-scenes', '.win.produce-msg-confirm']
         for (var i = 0; i < positionArr.length; i++) {
             var reWidth = ($(document).width() - $(positionArr[i]).width()) / 2;
             $(positionArr[i]).css('left', reWidth);
