@@ -475,7 +475,7 @@ $(document).ready(function () {
         var val = e.target.value;
         var suffix = val.substr(val.indexOf("."));
         var obj = new Date().getTime() + "" + Math.round(Math.random() * 10000);; // 这里是生成文件名
-        var storeAs = ossData.oss.folder + obj + suffix; //命名空间
+        var storeAs = ossData.oss.folder + obj + suffix; //命名空
         //callback
         var url = ossData['callback']['callbackUrl'];
         var callbackBody = ossData['callback']['callbackBody'];
@@ -494,44 +494,81 @@ $(document).ready(function () {
         });
 
         if (changeID === "uploadMusic") {
-            var musicLoadingDom =
-                "<li class='music-item process-li'>" +
-                "<div class='music-bg'>" +
-                "<div class='process-num'><span class='num'>0</span>%</div>" +
-                "<div class='iconfont iconmusic1 music-bck'></div>" +
-                "</div>" +
-                "<div class='title'>" + f.name + "</div>" +
-                "</li>"
-            $('.my-music .add-music').before(musicLoadingDom);
-            var progress = function (p) {
-                return function (done) {
-                    if (p == 1) {
-                        $('.music-item span.num').text('99');
-                        clearTimeout(timer);
-                        var timer = setTimeout(function () {
-                            $('.music-item span.num').text('100');
-                        }, 5000);
-                    } else {
-                        $('.music-item span.num').text(Math.floor(p * 100));
+            // <!--获取mp3文件的时间 兼容浏览器-->
+            function getTime() {
+                setTimeout(function () {
+                    var duration = $(".upload-music-win audio")[0].duration;
+                    if (isNaN(duration)) {
+                        getTime();
                     }
-                    done();
+                    else {
+                        // console.info("该歌曲的总时间为：" + $(".upload-music-win audio")[0].duration + "秒");
+                        userargs += "&x:duration=" + $(".upload-music-win audio")[0].duration;
+                        callback = {
+                            "callbackUrl": url,
+                            "callbackBody": callbackBody + userargs,
+                        }
+                    }
+                }, 10);
+            }
+            // <!--把文件转换成可读URL-->
+            function getObjectURL(file) {
+                var url = null;
+                if (window.createObjectURL != undefined) { // basic
+                    url = window.createObjectURL(file);
+                } else if (window.URL != undefined) { // mozilla(firefox)
+                    url = window.URL.createObjectURL(file);
+                } else if (window.webkitURL != undefined) { // webkit or chrome
+                    url = window.webkitURL.createObjectURL(file);
                 }
-            };
-            client.multipartUpload(storeAs, f, {
-                progress: progress,
-                headers: {
-                    "x-oss-callback": parse(callback),
-                },
-            }).then(function (result) {
-                console.log("result", result); //返回对象
-                clearTimeout(timer);
-                var timer = setTimeout(function () {
-                    getData(u_language, u_api_token);
-                    getMusic();
-                }, 5000);
-            }).catch(function (err) {
-                console.log(err);
-            });
+                return url;
+            }
+            var objUrl = getObjectURL(f);
+            $(".upload-music-win audio").attr("src", objUrl);
+            getTime();
+            var mtimer="";
+            clearTimeout(mtimer)
+            mtimer=setTimeout(() => {
+                var musicLoadingDom =
+                    "<li class='music-item process-li'>" +
+                    "<div class='music-bg'>" +
+                    "<div class='process-num'><span class='num'>0</span>%</div>" +
+                    "<div class='iconfont iconmusic1 music-bck'></div>" +
+                    "</div>" +
+                    "<div class='title'>" + f.name + "</div>" +
+                    "</li>"
+                $('.my-music .add-music').before(musicLoadingDom);
+                var progress = function (p) {
+                    return function (done) {
+                        if (p == 1) {
+                            $('.music-item span.num').text('99');
+                            clearTimeout(timer);
+                            var timer = setTimeout(function () {
+                                $('.music-item span.num').text('100');
+                            }, 5000);
+                        } else {
+                            $('.music-item span.num').text(Math.floor(p * 100));
+                        }
+                        done();
+                    }
+                };
+                client.multipartUpload(storeAs, f, {
+                    progress: progress,
+                    headers: {
+                        "x-oss-callback": parse(callback),
+                    },
+                }).then(function (result) {
+                    console.log("result", result); //返回对象
+                    clearTimeout(timer);
+                    var timer = setTimeout(function () {
+                        getData(u_language, u_api_token);
+                        getMusic();
+                    }, 5000);
+                }).catch(function (err) {
+                    console.log(err);
+                });
+            }, 200);
+            
 
         } else if (changeID === "upload-scenes") {
             delResources(u_language, u_api_token, '');
@@ -595,6 +632,7 @@ $(document).ready(function () {
         }
 
     }
+
 
 
     $('#uploadMusic').change(function (e) {
