@@ -11,7 +11,7 @@ $(document).ready(function () {
     var u_theme_resolution = "";
     var u_order_field = "orderby";
 
-    var total = 0;
+    var total = 0; 
     var dialog_obj = {};
     // charge_type (权限)  全部：0  免费：1  会员：2
     // composition_type (类型) 全部：0 自由模板：1  固定模板：2
