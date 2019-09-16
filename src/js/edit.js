@@ -500,8 +500,7 @@ $(document).ready(function () {
                     var duration = $(".upload-music-win audio")[0].duration;
                     if (isNaN(duration)) {
                         getTime();
-                    }
-                    else {
+                    } else {
                         // console.info("该歌曲的总时间为：" + $(".upload-music-win audio")[0].duration + "秒");
                         userargs += "&x:duration=" + $(".upload-music-win audio")[0].duration;
                         callback = {
@@ -526,9 +525,9 @@ $(document).ready(function () {
             var objUrl = getObjectURL(f);
             $(".upload-music-win audio").attr("src", objUrl);
             getTime();
-            var mtimer="";
+            var mtimer = "";
             clearTimeout(mtimer)
-            mtimer=setTimeout(() => {
+            mtimer = setTimeout(function () {
                 var musicLoadingDom =
                     "<li class='music-item process-li'>" +
                     "<div class='music-bg'>" +
@@ -568,7 +567,7 @@ $(document).ready(function () {
                     console.log(err);
                 });
             }, 200);
-            
+
 
         } else if (changeID === "upload-scenes") {
             delResources(u_language, u_api_token, '');
