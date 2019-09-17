@@ -358,6 +358,16 @@ body{
     -webkit-animation: rotate 2s linear infinite;
             animation: rotate 2s linear infinite;
 }
+@-moz-keyframes rotate {
+    0% {
+        -webkit-transform: rotate(0);
+                transform: rotate(0)
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+                transform: rotate(360deg)
+    }
+}
 @-webkit-keyframes rotate {
     0% {
         -webkit-transform: rotate(0);
@@ -386,4 +396,8 @@ body{
 .top-back span{
     font-size: 24px;
     margin-left: 20px;
+    color: #0010e89c;
+}
+.drop-menu ul>li:hover{
+    color:#478afb;
 }

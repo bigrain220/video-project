@@ -982,9 +982,18 @@ $(document).ready(function () {
     // 制作视频
     $('.produce-make').on('click', function (e) {
         console.log('u_project_file', u_project_file)
-        changeProject(u_language, u_api_token, u_project_file);
-        $('.produce-msg-confirm').show();
-        $('.win-mask').show();
+        if(u_project_file.scenes[1].units.length<4){
+            $('.simple-edit .add-images .number-warn').css('display','inline-block');
+            var timer=null;
+            clearTimeout(timer);
+            timer =setTimeout(function(){
+                $('.simple-edit .add-images .number-warn').css('display','none');
+            },2500)
+        }else{
+            changeProject(u_language, u_api_token, u_project_file);
+            $('.produce-msg-confirm').show();
+            $('.win-mask').show();
+        }
     });
     $('.produce-sure').on('click', function (e) {
         $('.produce-msg-confirm').hide();

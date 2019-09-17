@@ -1283,3 +1283,20 @@ li.music-item:hover .button{
     left: calc(50% - 15px);
     top: calc(50% - 15px)
 }
+.simple-edit .add-images .number-warn{
+    color: red;
+    font-size: 14px;
+    font-weight: bold;
+    margin-left: 50px;
+    line-height: 28px;
+    display: none;
+    animation: opa 2.5s linear 1;
+    animation-fill-mode:forwards ;
+}
+@keyframes opa
+{
+    0% {opacity:0;}
+    30% {opacity:1;}
+    80% {opacity:1;}
+    100% {opacity:0;}
+}
