@@ -3,7 +3,7 @@ var imagemin = require('gulp-imagemin');
 var uglify = require("gulp-uglify");
 var cleanCSS = require('gulp-clean-css');
 var del = require('del');
-var runSequence = require('run-sequence');
+var zip = require('gulp-zip');
 
 //清空目录
 gulp.task('clean',function(){
@@ -41,6 +41,12 @@ gulp.task("lessc", function () {
         .pipe(gulp.dest("dist/css")) //通过gulp lessc 命令，自动输出dist/css文件
 })
 
+//打包
+gulp.task('zip', function(){
+    return gulp.src('dist/**')
+   .pipe(zip('video.zip'))
+   .pipe(gulp.dest('dist'));
+});
 
 //监听文件是否有变化
 // gulp.task("watch", function () {
@@ -51,5 +57,6 @@ gulp.task("lessc", function () {
 // })
 //通过输入gulp watch自动编译，修改一处即可生成一类。
 
-gulp.task('dev',gulp.series('copyHtml','imagemin','uglify','lessc'));
+
+gulp.task('build',gulp.series('clean', gulp.parallel('copyHtml','imagemin','uglify','lessc')));
 
