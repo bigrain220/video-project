@@ -1104,12 +1104,12 @@ li.music-item:hover .button{
     padding-top: 36px;
     width: 420px;
 }
-.produce-msg-confirm{
+.produce-msg-confirm,.process-msg-confirm{
     padding: 0;
     padding-top: 36px;
     width: 420px;
 }
-.msg-confirm .msg-body,.produce-msg-confirm .msg-body{
+.msg-confirm .msg-body,.produce-msg-confirm .msg-body,.process-msg-confirm .msg-body{
     -webkit-box-flex: 0;
         -ms-flex: none;
             flex: none;
@@ -1121,23 +1121,23 @@ li.music-item:hover .button{
     background-position: left center;
     background-repeat: no-repeat;
 }
-.msg-confirm .msg-body,.produce-msg-confirm .msg-body{
+.msg-confirm .msg-body,.produce-msg-confirm .msg-body,.process-msg-confirm .msg-body{
     padding: 0 20px;
     background-image: none;
     text-align: center;
 }
-.msg-confirm .msg-title,.produce-msg-confirm .msg-title{
+.msg-confirm .msg-title,.produce-msg-confirm .msg-title,.process-msg-confirm .msg-title{
     font-weight: 700;
 }
-.msg-confirm .msg-text,.produce-msg-confirm .msg-text{
+.msg-confirm .msg-text,.produce-msg-confirm .msg-text,.process-msg-confirm .msg-text{
     line-height: 24px
 }
-.msg-confirm .msg-field,.produce-msg-confirm .msg-field{
+.msg-confirm .msg-field,.produce-msg-confirm .msg-field,.process-msg-confirm .msg-field{
     height: 30px;
     margin-top: 10px;
     margin-bottom: 10px;
 }
-.msg-confirm .win-foot,.produce-msg-confirm .win-foot{
+.msg-confirm .win-foot,.produce-msg-confirm .win-foot,.process-msg-confirm .win-foot{
     border-top: solid 1px #eee;
     margin-top: 30px;
     padding-bottom: 10px;
@@ -1151,7 +1151,7 @@ li.music-item:hover .button{
     justify-content: space-around;
     -ms-flex-pack: center;
 }
-.msg-confirm .win-foot button,.produce-msg-confirm .win-foot button{
+.msg-confirm .win-foot button,.produce-msg-confirm .win-foot button,.process-msg-confirm .win-foot button{
     display: inline-block;
     vertical-align: top;
     min-width: 100px;
@@ -1164,13 +1164,13 @@ li.music-item:hover .button{
     font-size: 18px;
     color: #888;
 }
-.msg-confirm .win-foot button,.produce-msg-confirm .win-foot button{
+.msg-confirm .win-foot button,.produce-msg-confirm .win-foot button,.process-msg-confirm .win-foot button{
     border-radius: 8px;
     cursor: pointer;
     border:0;
     outline: none;
 }
-.msg-confirm .win-foot button:first-child,.produce-msg-confirm .win-foot button:first-child{
+.msg-confirm .win-foot button:first-child,.produce-msg-confirm .win-foot button:first-child,.process-msg-confirm .win-foot button:first-child{
     margin-right: 0;
 }
 .win-foot button:first-child:hover{
@@ -1179,7 +1179,7 @@ li.music-item:hover .button{
 .win-foot button:last-child:hover{
     color: #4a74b3;
 }
-.msg-confirm button:first-child,.produce-msg-confirm button:first-child{
+.msg-confirm button:first-child,.produce-msg-confirm button:first-child,.process-msg-confirm button:first-child{
     background: 0 0;
     color: #666;
 }
@@ -1187,7 +1187,7 @@ li.music-item:hover .button{
     background: 0 0;
     color: #5b93e7;
 }
-.produce-msg-confirm button.produce-sure{
+.produce-msg-confirm button.produce-sure,.process-msg-confirm button.process-sure{
     background: 0 0;
     color: #5b93e7;
 }
@@ -1300,3 +1300,5 @@ li.music-item:hover .button{
     80% {opacity:1;}
     100% {opacity:0;}
 }
+
+
