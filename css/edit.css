@@ -692,7 +692,7 @@ li .process-text{
 .scenes-wrap li.replace-li:hover .button.clearfix .change-text{
     display: inline-block;
 }
-.scenes-wrap li.replace-li:hover .button.clearfix .edit-img{
+.scenes-wrap li.replace-li:hover .button.clearfix .edit-media{
     display: inline-block;
 }
 .super-edit li.need-replace:hover .edit.iconfont{
@@ -753,6 +753,11 @@ li .process-text{
 }
 .edit-body .eye{
     display: inline-block!important;
+}
+.edit-body .video-duration{
+    float: left;
+    display: inline-block!important;
+    cursor: text!important;
 }
 .edit-body .eye .iconfont{
     width: 100%;
@@ -1207,7 +1212,7 @@ li.music-item:hover .button{
         -ms-flex: none;
             flex: none;
 }
-.win.upload-scenes .win-body>img{
+.win.upload-scenes .win-body>img,.win.upload-scenes .win-body>video{
     display: block;
     -o-object-fit: contain;
     object-fit: contain;

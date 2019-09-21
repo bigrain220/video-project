@@ -289,9 +289,9 @@ $(document).ready(function () {
                 "task_id": task_id,
             },
             success: function (res) {
-                console.log('resource', res);
+                // console.log('resource', res);
                 ossData = res.data;
-                console.log(ossData)
+                // console.log(ossData)
 
             }
         });
@@ -592,16 +592,16 @@ $(document).ready(function () {
                 },
             }).then(function (result) {
                 console.log("result", result); //返回对象
-                var appData = result.data.data.app_data;
-                var x = reset_x;
-                var y = reset_y;
-                $('.win.upload-scenes .preview-scenes-img').attr('src', appData.image_url);
-                $(".replace-matter.replace-text[data-scene='" + reset_x + "'][data-unit='" + reset_y + "']").attr("data-url", appData.image_url);
-                $(".replace-matter.replace-text[data-scene='" + reset_x + "'][data-unit='" + reset_y + "'] .img-wrap>img").attr("src", appData.image_thumb_url);
-                // $(".replace-matter.replace-text[data-scene='" + reset_x + "'][data-unit='" + reset_y + "']").attr("data-text", appData.resource_id);
-                u_project_file.scenes[x].units[y].filename = f.name;
-                u_project_file.scenes[x].units[y].value = appData.resource_id;
-                resetImg(u_project_file.scenes[x].units[y], x, y)
+                // var appData = result.data.data.app_data;
+                // var x = reset_x;
+                // var y = reset_y;
+                // $('.win.upload-scenes .preview-scenes-img').attr('src', appData.image_url);
+                // $(".replace-matter.replace-text[data-scene='" + reset_x + "'][data-unit='" + reset_y + "']").attr("data-url", appData.image_url);
+                // $(".replace-matter.replace-text[data-scene='" + reset_x + "'][data-unit='" + reset_y + "'] .img-wrap>img").attr("src", appData.image_thumb_url);
+                // // $(".replace-matter.replace-text[data-scene='" + reset_x + "'][data-unit='" + reset_y + "']").attr("data-text", appData.resource_id);
+                // u_project_file.scenes[x].units[y].filename = f.name;
+                // u_project_file.scenes[x].units[y].value = appData.resource_id;
+                // resetImg(u_project_file.scenes[x].units[y], x, y)
             }).catch(function (err) {
                 console.log(err);
             });
@@ -743,7 +743,7 @@ $(document).ready(function () {
             var headAllDom = "";
             for (var i = 0; i < units0.length; i++) {
                 var headDom =
-                    "<div class='replace-matter replace-text all-dialog'" + "data-scene='" + "0" + "' data-unit='" + i +
+                    "<div class='replace-matter replace-text all-dialog'" + "data-scene='" + "0" + "' data-unit='" + i +"'data-video='"+ getVideoUrl(units0[i])+
                     "' data-type='" + units0[i].type + "' data-limit='" + setlimit(units0[i]) + "' data-url='" + units0[i].preview_url + "' data-text='" + getTrueVal(units0[i]) + "' >" +
                     "<div class='bg scenes-head'>" +
                     "<span hidden='hidden'>文字</span>" +
@@ -758,7 +758,7 @@ $(document).ready(function () {
             var units1 = pro.scenes[1].units;
             for (var i = 0; i < units1.length; i++) {
                 var imgListDom =
-                    "<li  class='replace-matter replace-li replace-text'" + "data-scene='" + "1" + "' data-unit='" + i +
+                    "<li  class='replace-matter replace-li replace-text'" + "data-scene='" + "1" + "' data-unit='" + i +"'data-video='"+ getVideoUrl(units1[i])+
                     "' data-type='" + units1[i].type + "' data-limit='" + "60" + "' data-url='" + valToImg(units1[i], 'big') + "' data-text='" + setText(units1[i]) + "' >" +
                     "<div class='bg'>" +
                     imgOrtext(units1[i], 'simple') +
@@ -769,17 +769,17 @@ $(document).ready(function () {
                     "</div>" +
                     "</div>" +
                     "<div class='button clearfix'>" +
-                    "<div class='edit-img iconfont iconwrite'></div><div class='change-text dynamic iconfont icontext'></div><div class='remove iconfont iconyichu'></div>" +
+                    "<div class='edit-media pen-edit iconfont iconwrite'></div><div class='change-text dynamic iconfont icontext'></div><div class='remove iconfont iconyichu'></div>" +
                     "</div></li>"
                 $(".scenes-wrap .upload-btn").before(imgListDom);
             }
-            $(".scenes-wrap li[data-type='text'] .edit-img").css("display", "none");
+            $(".scenes-wrap li[data-type='text'] .edit-media").css('display','none');
             //bottom
             var units2 = pro.scenes[2].units;
             var bottomAllDom = "";
             for (var i = 0; i < units2.length; i++) {
                 var bottomDom =
-                    "<div class='replace-matter replace-text all-dialog'" + "data-scene='" + "2" + "' data-unit='" + i +
+                    "<div class='replace-matter replace-text all-dialog'" + "data-scene='" + "2" + "' data-unit='" + i +"'data-video='"+ getVideoUrl(units2[i])+
                     "' data-type='" + units2[i].type + "' data-limit='" + setlimit(units2[i]) + "' data-url='" + units2[i].preview_url + "' data-text='" + getTrueVal(units2[i]) + "' >" +
                     "<div class='bg scenes-bottom'>" +
                     "<span hidden='hidden'>文字</span>" +
@@ -805,12 +805,13 @@ $(document).ready(function () {
                 for (var j = 0; j < surperScenes[i].units.length; j++) {
                     var superHeadList =
                         "<li data-scene='" + i + "' data-unit='" + j + "' class='replace-matter replace-text need-replace' data-type='" + surperScenes[i].units[j].type + "' draggable='false'" + "data-limit='" + setlimit(surperScenes[i].units[j]) +
-                        "' data-url='" + valToImg(surperScenes[i].units[j], 'big') + "' data-text='" + getTrueVal(surperScenes[i].units[j]) + "'>" +
+                        "' data-url='" + valToImg(surperScenes[i].units[j], 'big') + "' data-text='" + getTrueVal(surperScenes[i].units[j]) + "'data-video='"+ getVideoUrl(surperScenes[i].units[j])+"'>" +
                         "<div class='bg'>" +
                         imgOrtext(surperScenes[i].units[j], 'super') +
                         "</div>" +
                         "<div class='button'>" +
-                        "<div class='duration' hidden='hidden'>undefineds</div>" +
+                        // "<div class='video-duration'>"+surperScenes[i].units[j].duration +"s</div>" +
+                        videoDuration(surperScenes[i].units[j])+
                         "<div class='edit iconfont iconwrite'></div><div class='remove-super iconfont iconyichu' title='恢复默认'></div>" +
                         "<div class='eye' data-align='tr' data-gap='30 0' data-layer='img-layer'>" +
                         "<span class='iconfont iconGroup'></span>" +
@@ -821,7 +822,8 @@ $(document).ready(function () {
                     resetImg(surperScenes[i].units[j], i, j);
                 }
             }
-            $(".super-edit .scene-line li[data-type='image'] .edit").addClass('edit-img');
+            $(".super-edit .scene-line li[data-type='image'] .edit").addClass('edit-media');
+            $(".super-edit .scene-line li[data-type='video'] .edit").addClass('edit-media');
         }
         //模板共用
         function getTrueVal(params) {
@@ -830,7 +832,7 @@ $(document).ready(function () {
             } else {
                 return params.default_value;
             }
-        }
+        };
 
         function imgOrtext(params) {
             var DOM = "";
@@ -840,23 +842,27 @@ $(document).ready(function () {
                 } else {
                     DOM = "<span>" + params.default_value + "</span>";
                 }
-            } else if (params.type === 'image') {
+            } else  {
                 DOM =
                     "<div class='bg-wrap'>" +
                     "<div class='img-wrap'><img draggable='false' class='cover' src='" + valToImg(params, 'small') + "'></div>" +
                     "</div>"
             }
             return DOM;
-        }
+        };
 
         function valToImg(a, b) {
             var imgUrl = "";
-            if (a.type == "image") {
+            if (a.type == "image"||"video") {
                 if (a.value) {
                     var c = resourcesData.userself.task;
                     for (var j = 0; j < c.length; j++) {
                         if (c[j].resource_id == a.value) {
-                            b == 'small' ? imgUrl = c[j].image_thumb_url : imgUrl = c[j].image_url;
+                            if( b == 'small'){
+                                a.type == "image" ? imgUrl = c[j].image_thumb_url : imgUrl = c[j].video_cover_thumb_url;
+                            }else if( b == 'big'){
+                                a.type == "image" ? imgUrl = c[j].image_url : imgUrl = c[j].video_cover_url;
+                            }
                         }
                     }
                 } else {
@@ -865,22 +871,22 @@ $(document).ready(function () {
 
             }
             return imgUrl;
-        }
+        };
 
         function setText(params) {
             if (params.type == 'text') {
                 return params.value;
-            } else if (params.type == 'image') {
+            } else if (params.type == 'image'||'video') {
                 if (params.text) {
                     return params.text[0].value;
                 } else {
                     return ""
                 }
             }
-        }
+        };
 
         function setlimit(params) {
-            if (params.constraints.length > 0) {
+            if (params.constraints.length>0 && params.constraints[0].text_max_length) {
                 if (u_language == 'zh') {
                     return params.constraints[0].text_max_length.zh;
                 } else if (u_language == 'en') {
@@ -889,8 +895,22 @@ $(document).ready(function () {
             } else {
                 return "";
             }
-        }
+        };
 
+        function videoDuration(params){
+            if(params.duration){
+                return "<div class='video-duration'>"+params.duration +"s</div>"
+            }else{
+                return ""
+            }
+        };
+        function getVideoUrl(params){
+            if(params.url){
+                return params.url
+            }else{
+                return ""
+            }
+        };
         scenesClick();
     }
     //内容点击事件
@@ -899,7 +919,7 @@ $(document).ready(function () {
             reset_x = $(this).attr('data-scene');
             reset_y = $(this).attr('data-unit');
             if (!$(e.target).hasClass('eye') && !$(e.target).hasClass('iconGroup') && !$(e.target).hasClass('img-layer') && !$(e.target).hasClass('remove') &&
-                !$(e.target).hasClass('edit-img') && !$(e.target).hasClass('img-layer-img')) {
+                !$(e.target).hasClass('edit-media') && !$(e.target).hasClass('img-layer-img')) {
                 if ($(this).attr('data-type') == 'text' || $(e.target).hasClass('change-text')) {
                     $('.win-mask').css('display', 'block');
                     $('.win.change-text-win').css('display', 'flex');
@@ -907,7 +927,7 @@ $(document).ready(function () {
                     var preview_url = $(this).attr('data-url');
                     var preview_text = $(this).attr('data-text');
                     var text_limit = $(this).attr('data-limit');
-                    preview_url == "" ? preview_url = "./images/text-bg.svg" : preview_url = preview_url
+                    preview_url == "" ? preview_url = "./images/text-bg.svg" : preview_url = preview_url;
                     $('.cropper-preview-img>img').attr('src', preview_url);
                     $('.te-input-bar>textarea').val(preview_text);
                     $('.te-input-bar>textarea').attr('maxLength', text_limit);
@@ -921,10 +941,20 @@ $(document).ready(function () {
                     }
 
                 }
-            } else if ($(e.target).hasClass('edit-img')) {
+            } else if ($(e.target).hasClass('edit-media')) {
                 $('.win-mask').css('display', 'block');
                 $('.win.upload-scenes').css('display', 'flex');
-                $('.upload-scenes .preview-scenes-img').attr('src', $(this).attr('data-url'));
+                if($(this).attr('data-type') == 'image'){
+                    $(".upload-scenes .win-body").css("background","#eee");
+                    $(".upload-scenes .image").show();
+                    $(".upload-scenes .video").hide();
+                    $('.upload-scenes .preview-scenes-img').attr('src', $(this).attr('data-url'));
+                }else if($(this).attr('data-type') == 'video'){
+                    $(".upload-scenes .image").hide();
+                    $(".upload-scenes .video").show();
+                    $(".upload-scenes .win-body").css("background","#000");
+                    $('.upload-scenes .preview-scenes-video').attr('src', $(this).attr('data-video'));
+                }
 
             } else if ($(e.target).hasClass('remove')) {
                 $(this).remove();
@@ -979,7 +1009,7 @@ $(document).ready(function () {
             var y = reset_y;
             if (u_project_file.scenes[x].units[y].type == "text") {
                 u_project_file.scenes[x].units[y].value = $('.te-input-bar textarea').val();
-            } else if (u_project_file.scenes[x].units[y].type == "image") {
+            } else if (u_project_file.scenes[x].units[y].type == "image"||"video") {
                 // console.log(u_project_file.scenes[x].units[y])
                 if (u_project_file.scenes[x].units[y].text) {
                     u_project_file.scenes[x].units[y].text[0].value = $('.te-input-bar textarea').val();
@@ -1005,7 +1035,7 @@ $(document).ready(function () {
     // 制作视频
     $('.produce-make').on('click', function (e) {
         // console.log('u_project_file', u_project_file)
-        if(u_project_file.scenes[1].units.length<4){
+        if(u_project_file.scenes[1].units.length<4 && $('.simple-edit').css('display')=='block'){
             $('.simple-edit .add-images .number-warn').css('display','inline-block');
             var timer=null;
             clearTimeout(timer);
