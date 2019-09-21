@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="css/edit.css">
     <script src="js/jquery.min.js"></script>
     <script src="js/aliyun-oss-sdk.min2.js"></script>
-    <!-- <script src="js/aliyun-oss-sdk-4.4.4.min.js"></script> -->
+    <!-- <script src="js/polyfill.min.6.js"></script> -->
     <script src="js/base64.js"></script>
     <script src="js/edit.js"></script>
 </head>
@@ -125,18 +125,19 @@
                                     <!-- head -->
                                     <div class="opening clearfix">
                                         <div class="default-title">片头</div>
-                                        <div class="replace-matter replace-text all-dialog">
+                                        <!-- <div class="replace-matter replace-text all-dialog">
                                             <div class="bg scenes-head">
                                                 <span hidden="hidden">文字</span>
                                                 <span></span>
                                             </div>
-                                        </div>
+                                        </div> -->
                                     </div>
                                     <!-- content -->
                                     <div class="add-images clearfix">
                                         <div class="default-title">
                                             <span>已添加照片数</span>:
                                             <span>0</span>
+                                            <span class="number-warn">请至少上传四组素材!!!</span>
                                         </div>
                                         <ul class="scenes-wrap">
                                             <!-- <li data-scene="1" data-unit="0"
@@ -178,12 +179,12 @@
                                     <!-- bottom -->
                                     <div class="ending clearfix">
                                         <div class="default-title">片尾</div>
-                                        <div class="replace-matter replace-text all-dialog">
+                                        <!-- <div class="replace-matter replace-text all-dialog">
                                             <div class="bg scenes-bottom">
                                                 <span hidden="hidden">文字</span>
                                                 <span></span>
                                             </div>
-                                        </div>
+                                        </div> -->
                                     </div>
                                 </div>
                             </div>
@@ -223,7 +224,7 @@
                                 </div>
                             </div>
                             <div class="fix-button">
-                                <span class="produce-make footer-produce-free"mobile-text="制作">制作高清视频</span>
+                                <span class="produce-make footer-produce-free" mobile-text="制作">制作高清视频</span>
                             </div>
                         </div>
                     </div>
@@ -360,10 +361,19 @@
     </div>
     <div class="win msg produce-msg-confirm">
         <div class="win-body msg-body">
-            <div class="msg-text">即将制作模板并跳入制作界面</div>
+            <div class="msg-text">即将制作模板并扣除10个币，是否确认？</div>
         </div>
         <div class="win-foot msg-foot">
             <button class="produc-cancel">取消</button><button class="produce-sure">确定</button>
+        </div>
+        <div class="win-close iconfont iconclose-hei"></div>
+    </div>
+    <div class="win msg process-msg-confirm">
+        <div class="win-body msg-body">
+            <div class="msg-text"></div>
+        </div>
+        <div class="win-foot msg-foot">
+            <button class="process-cancel">取消</button><button class="process-sure">确定</button>
         </div>
         <div class="win-close iconfont iconclose-hei"></div>
     </div>

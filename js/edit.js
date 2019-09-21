@@ -223,7 +223,19 @@ $(document).ready(function () {
                 "task_id": task_id,
             },
             success: function (res) {
-                console.log('getProcess-success')
+                // console.log('getProcess-success');
+                if(res.status=='1'){
+                    $('.process-msg-confirm').show();
+                    $('.win-mask').show();
+                    $('.process-msg-confirm .msg-text').html('恭喜，制作成功~')
+                }else{
+                    $('.process-msg-confirm .msg-text').html('抱歉，制作失败，请重试一遍~')
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                /*错误信息处理*/
+                console.log(jqXHR, textStatus, errorThrown);
+
             }
         });
     }
@@ -444,6 +456,10 @@ $(document).ready(function () {
             $('.produce-msg-confirm').hide();
             $('.win-mask').hide();
         }
+        if ($(event).hasClass('process-cancel')) {
+            $('.process-msg-confirm').hide();
+            $('.win-mask').hide();
+        }
 
     })
     //修改标题
@@ -565,6 +581,8 @@ $(document).ready(function () {
                     console.log(err);
                 });
             }, 200);
+
+
         } else if (changeID === "upload-scenes") {
             delResources(u_language, u_api_token, '');
             client.multipartUpload(storeAs, f, {
@@ -628,6 +646,8 @@ $(document).ready(function () {
 
     }
 
+
+
     $('#uploadMusic').change(function (e) {
         changeEvent(e, 'uploadMusic');
     });
@@ -671,7 +691,7 @@ $(document).ready(function () {
     }
     //dialog定位
     function getLeft() {
-        var positionArr = ['.win.single-theme-win', '.win.change-text-win', '.win.msg-confirm', '.win.upload-music-win', '.win.upload-scenes', '.win.produce-msg-confirm']
+        var positionArr = ['.win.single-theme-win', '.win.change-text-win', '.win.msg-confirm', '.win.upload-music-win', '.win.upload-scenes', '.win.produce-msg-confirm','.win.process-msg-confirm']
         for (var i = 0; i < positionArr.length; i++) {
             var reWidth = ($(document).width() - $(positionArr[i]).width()) / 2;
             $(positionArr[i]).css('left', reWidth);
@@ -712,6 +732,7 @@ $(document).ready(function () {
     function getImgTextList(pro) {
         $('ul.scenes-wrap li').remove();
         $('.scenes ul>li').remove();
+        $('.simple-edit .scenes .all-dialog').remove();
         var Duration = themeData.duration;
         //自由模板
         if (Duration == '0') {
@@ -719,15 +740,19 @@ $(document).ready(function () {
             $('.super-edit').hide();
             //head
             var units0 = pro.scenes[0].units;
-            $('.scenes .scenes-head span').last().html(getTrueVal(units0[0]));
-            $('.opening  .replace-matter.replace-text').eq(0).attr({
-                'data-type': units0[0].type,
-                'data-url': units0[0].preview_url,
-                'data-text': getTrueVal(units0[0]),
-                'data-limit': setlimit(units0[0]),
-                'data-scene': '0',
-                'data-unit': '0'
-            });
+            var headAllDom = "";
+            for (var i = 0; i < units0.length; i++) {
+                var headDom =
+                    "<div class='replace-matter replace-text all-dialog'" + "data-scene='" + "0" + "' data-unit='" + i +
+                    "' data-type='" + units0[i].type + "' data-limit='" + setlimit(units0[i]) + "' data-url='" + units0[i].preview_url + "' data-text='" + getTrueVal(units0[i]) + "' >" +
+                    "<div class='bg scenes-head'>" +
+                    "<span hidden='hidden'>文字</span>" +
+                    "<span>" + getTrueVal(units0[i]) + "</span>" +
+                    "</div>" +
+                    "</div>"
+                headAllDom += headDom;
+            }
+            $(".simple-edit .opening .default-title").after(headAllDom);
 
             //center
             var units1 = pro.scenes[1].units;
@@ -751,15 +776,19 @@ $(document).ready(function () {
             $(".scenes-wrap li[data-type='text'] .edit-img").css("display", "none");
             //bottom
             var units2 = pro.scenes[2].units;
-            $('.scenes .scenes-bottom span').last().html(getTrueVal(units2[0]));
-            $('.ending  .replace-matter.replace-text').eq(0).attr({
-                'data-type': units2[0].type,
-                'data-url': units2[0].preview_url,
-                'data-text': getTrueVal(units2[0]),
-                'data-limit': setlimit(units2[0]),
-                'data-scene': '2',
-                'data-unit': '0'
-            });
+            var bottomAllDom = "";
+            for (var i = 0; i < units2.length; i++) {
+                var bottomDom =
+                    "<div class='replace-matter replace-text all-dialog'" + "data-scene='" + "2" + "' data-unit='" + i +
+                    "' data-type='" + units2[i].type + "' data-limit='" + setlimit(units2[i]) + "' data-url='" + units2[i].preview_url + "' data-text='" + getTrueVal(units2[i]) + "' >" +
+                    "<div class='bg scenes-bottom'>" +
+                    "<span hidden='hidden'>文字</span>" +
+                    "<span>" + getTrueVal(units2[i]) + "</span>" +
+                    "</div>" +
+                    "</div>"
+                bottomAllDom += bottomDom;
+            }
+            $(".simple-edit .ending .default-title").after(bottomAllDom);
 
         } else {
             //固定模板
@@ -975,18 +1004,30 @@ $(document).ready(function () {
     });
     // 制作视频
     $('.produce-make').on('click', function (e) {
-        console.log('u_project_file', u_project_file)
-        changeProject(u_language, u_api_token, u_project_file);
-        $('.produce-msg-confirm').show();
-        $('.win-mask').show();
+        // console.log('u_project_file', u_project_file)
+        if(u_project_file.scenes[1].units.length<4){
+            $('.simple-edit .add-images .number-warn').css('display','inline-block');
+            var timer=null;
+            clearTimeout(timer);
+            timer =setTimeout(function(){
+                $('.simple-edit .add-images .number-warn').css('display','none');
+            },2500)
+        }else{
+            $('.produce-msg-confirm').show();
+            $('.win-mask').show();
+            changeProject(u_language, u_api_token, u_project_file);
+        }
     });
     $('.produce-sure').on('click', function (e) {
         $('.produce-msg-confirm').hide();
         $('.win-mask').hide();
         getProcess(u_language, u_api_token, u_task_id);
-        // location.href="https://mv.lightmake.cn/user/"
     });
-
+    $('.process-sure').on('click', function (e) {
+        $('.process-msg-confirm').hide();
+        $('.win-mask').hide();
+         // location.href="https://mv.lightmake.cn/user/"
+    });
 
 
 });
