@@ -870,8 +870,8 @@ $(document).ready(function () {
                         "<div class='edit iconfont iconwrite'></div><div class='remove-super iconfont iconyichu' title='恢复默认'></div>" +
                         "<div class='eye' data-align='tr' data-gap='30 0' data-layer='img-layer'>" +
                         "<span class='iconfont iconGroup'></span>" +
-                        "<div class='img-layer' style='display: block; left: -110px; top: -96px;'>" +
-                        "<img class='img-layer-img' src='" + surperScenes[i].units[j].preview_url + "'>" +
+                        "<div class='img-layer' style='display: block; left: -118px; top: -144px;'>" +
+                        "<img class='img-layer-img' src='" + eyePreview(surperScenes[i].units[j]) + "'>" +
                         "</div></div></div></li>"
                     $(".super-edit .scenes ul ul.num_" + i).append(superHeadList);
                     resetImg(surperScenes[i].units[j], i, j);
@@ -953,7 +953,7 @@ $(document).ready(function () {
         };
 
         function videoDuration(params) {
-            if (params.duration && params.type=='video') {
+            if (params.duration && params.type == 'video') {
                 return "<div class='video-duration'>" + params.duration + "s</div>"
             } else {
                 return ""
@@ -967,7 +967,7 @@ $(document).ready(function () {
                     var c = resourcesData.userself.task;
                     for (var j = 0; j < c.length; j++) {
                         if (c[j].resource_id == params.value) {
-                            videoUrl = c[j].video_url
+                            c[j].video_ld_url ? videoUrl = c[j].video_ld_url : videoUrl = c[j].video_url;
                         }
                     }
                 } else {
@@ -977,6 +977,21 @@ $(document).ready(function () {
             }
             return videoUrl;
         };
+
+        function eyePreview(params) {
+            var previewUrl = "";
+            if (params.value && params.type != "text") {
+                var c = resourcesData.userself.task;
+                for (var j = 0; j < c.length; j++) {
+                    if (c[j].resource_id == params.value) {
+                        params.type == "video" ? previewUrl = c[j].video_cover_thumb_url : previewUrl = c[j].image_thumb_url;
+                    }
+                }
+            } else {
+                previewUrl = params.preview_url;
+            }
+            return previewUrl;
+        }
         scenesClick();
     }
     //内容点击事件
@@ -1101,7 +1116,7 @@ $(document).ready(function () {
     // 制作视频
     $('.produce-make').on('click', function (e) {
         // console.log('u_project_file', u_project_file)
-        if (u_project_file.scenes[1].units.length < 4 && $('.simple-edit').css('display') == 'block') {
+        if ($('.simple-edit').css('display') == 'block' && u_project_file.scenes[1].units.length < 4) {
             $('.simple-edit .add-images .number-warn').css('display', 'inline-block');
             clearTimeout(timer6);
             timer6 = setTimeout(function () {
