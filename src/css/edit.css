@@ -777,8 +777,8 @@ li .process-text{
 }
 .edit-body .img-layer{
     position: absolute;
-    width: 160px;
-    height: 96px;
+    width: calc(160px * 1.4);
+    height: calc(96px * 1.4);
     padding: 10px;
     background: #fff;
     border: solid 3px #666;

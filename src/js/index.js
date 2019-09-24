@@ -89,7 +89,7 @@ $(document).ready(function () {
                             "<div class='bg'>" +
                             "<img src=" + list[i].cover_thumb_url + ">" + isHD(list[i].is_support_hd) +
                             "<div class='free' hidden='hidden'>免费</div>" +
-                            "<video class='video-item' preload='none' onmouseenter='this.play();' onmouseleave='this.load();' muted='false' loop='loop' data-id='" + list[i].theme_id + "' poster='" + list[i].cover_url + "' src='" + list[i].low_video_url + "'>" +
+                            "<video class='video-item' preload='none' muted='false' loop='loop' data-id='" + list[i].theme_id + "' poster='" + list[i].cover_url + "' src='" + list[i].low_video_url + "'>" +
                             "</video></div>" +
                             "<div class='bot'>" +
                             "<div class='front'>" +
@@ -113,6 +113,7 @@ $(document).ready(function () {
                     // console.log(dialog_obj)
                     $('.no-more').css('display', 'none');
                     $('.loading').css('display', 'none');
+                    hoverEvent();
                 } else {
                     console.log('请求失败')
                 }
@@ -171,7 +172,6 @@ $(document).ready(function () {
     //点击事件处理
     $(document).on('click', function (e) {
         var event = e.target;
-
         //options
         if ($(event).hasClass('drop-select')) {
             $('.drop-select').removeClass('active');
@@ -199,7 +199,6 @@ $(document).ready(function () {
             timer = setTimeout(function () {
                 initOptions();
                 getList(u_page, u_per_page, u_charge_type, u_composition_type, u_theme_resource_type, u_tag_brief_name, u_language, u_api_token, u_theme_resolution, u_order_field);
-                hoverEvent();
             }, 500)
             $(event).siblings().removeClass('active');
             $(event).addClass('active');
@@ -240,6 +239,7 @@ $(document).ready(function () {
                 'scrollTop': 0
             }, 600); //滚回顶部的时间，越小滚的速度越快~
         }
+    
     });
 
     $('.drop-menu ul li').on('click', function (e) {
