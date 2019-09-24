@@ -844,7 +844,7 @@ $(document).ready(function () {
                 bottomAllDom += bottomDom;
             }
             $(".simple-edit .ending .default-title").after(bottomAllDom);
-
+            $(".simple-edit .add-images .default-title span").eq(1).html(pro.scenes[1].units.length);
         } else {
             //固定模板
             $('.simple-edit').hide();
