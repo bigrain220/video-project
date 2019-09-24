@@ -1,4 +1,4 @@
-body{
+body{ 
     font-size: 16px;
 }
 .ruote{
@@ -498,6 +498,12 @@ body{
     cursor: pointer;
     margin-right: 20px;
 }
+.edit-body li[data-type='video'] .bg{
+    background: #f9f9f9 url(../images/replace-video.svg) center center/24px auto no-repeat;
+}
+.edit-body li[data-type='video'] .bg::after{
+    background: #f9f9f9 url(../images/replace-video.svg) center center/24px auto no-repeat;  
+}
 .edit-body .bg{
     width: 131px;
     height: 94px;
@@ -692,7 +698,7 @@ li .process-text{
 .scenes-wrap li.replace-li:hover .button.clearfix .change-text{
     display: inline-block;
 }
-.scenes-wrap li.replace-li:hover .button.clearfix .edit-img{
+.scenes-wrap li.replace-li:hover .button.clearfix .edit-media{
     display: inline-block;
 }
 .super-edit li.need-replace:hover .edit.iconfont{
@@ -753,6 +759,11 @@ li .process-text{
 }
 .edit-body .eye{
     display: inline-block!important;
+}
+.edit-body .video-duration{
+    float: left;
+    display: inline-block!important;
+    cursor: text!important;
 }
 .edit-body .eye .iconfont{
     width: 100%;
@@ -1207,7 +1218,7 @@ li.music-item:hover .button{
         -ms-flex: none;
             flex: none;
 }
-.win.upload-scenes .win-body>img{
+.win.upload-scenes .win-body>img,.win.upload-scenes .win-body>video{
     display: block;
     -o-object-fit: contain;
     object-fit: contain;
@@ -1300,5 +1311,21 @@ li.music-item:hover .button{
     80% {opacity:1;}
     100% {opacity:0;}
 }
+.upload-scenes .win-body{
+    position: relative;
+}
+.upload-scenes .loading{
+    position: absolute;
+    top:0;
+    left: 0;
+    display: none;
+}
+.upload-scenes .loading span{
+    font-size: 38px;
+    color: #478afb;
+}
 
-
+img:not([src]), img[src=""]{
+    opacity: 0;
+    display: block;
+}
