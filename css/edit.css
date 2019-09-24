@@ -1301,8 +1301,17 @@ li.music-item:hover .button{
     margin-left: 50px;
     line-height: 28px;
     display: none;
-    animation: opa 2.5s linear 1;
-    animation-fill-mode:forwards ;
+    -webkit-animation: opa 2.5s linear 1;
+            animation: opa 2.5s linear 1;
+    -webkit-animation-fill-mode:forwards ;
+            animation-fill-mode:forwards ;
+}
+@-webkit-keyframes opa
+{
+    0% {opacity:0;}
+    30% {opacity:1;}
+    80% {opacity:1;}
+    100% {opacity:0;}
 }
 @keyframes opa
 {
