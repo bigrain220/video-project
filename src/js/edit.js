@@ -191,9 +191,9 @@ $(document).ready(function () {
     function delResources(language, api_token, e) {
         if (e == "all") {
             var arr = [];
-            resourcesData.userself.task.map((item, index) => {
-                arr.push(item.resource_id)
-            })
+            for(var i=0;i<resourcesData.userself.task.length;i++){
+                arr.push(item.resourcesData.userself.task[i].resource_id)
+            }
             var ids = JSON.stringify(arr);
         } else if (e == "") {
             var ids = "[\"" + u_project_file.scenes[reset_x].units[reset_y].value + "\"]";
