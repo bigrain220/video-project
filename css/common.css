@@ -94,7 +94,7 @@ body{
     position: absolute;
     top: 5px;
     right: 5px;
-    z-index: 200;
+    z-index: 1000;
     width: 30px;
     height: 30px;
     border-radius: 50%;
