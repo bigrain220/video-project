@@ -11,6 +11,7 @@ $(document).ready(function () {
     var resourcesData = "";
     var resolutionData = "";
     var ossData = "";
+    var support_resolution="";
 
     var idObject = "";
 
@@ -51,6 +52,7 @@ $(document).ready(function () {
                     projectData = res.data.project_file;
                     resourcesData = res.data.resources;
                     resolutionData = res.data.resolution;
+                    support_resolution = res.data.support_resolution;
                     if (u_project_file == "") {
                         u_project_file = $.extend(true, {}, projectData)
                     }
@@ -270,13 +272,18 @@ $(document).ready(function () {
     }
 
     function getLeftDom() {
-        var tem_resolution = "";
+        var tem_resolution = "";var support_item="";
         resolutionData == '9x16' ? tem_resolution = resolutionData + " ( 竖屏 )" : resolutionData == '16x9' ? tem_resolution = resolutionData + " ( 横屏 )" : tem_resolution = resolutionData + " ( 正方形 )";
-        tem_resolution = tem_resolution.replace(/x/, ':');
+        // tem_resolution = tem_resolution.replace(/x/, ':');
         $(".cover.theme-dialog").css("backgroundImage", "url(" + themeData.cover_url + ")")
         $('.edit-wrap-info .theme-name span').first().text(themeData.title);
         $('.ratio-select .text-con.option').html(tem_resolution);
         $(".drop-menu .size-option[data-type='" + resolutionData + "']").addClass('active');
+        for(var i=0;i<support_resolution.length;i++){
+            support_resolution[i] == '9x16' ? support_item = support_resolution[i] + " ( 竖屏 )" : support_resolution[i] == '16x9' ? support_item = support_resolution[i] + " ( 横屏 )" : support_item = support_resolution[i] + " ( 正方形 )";
+            var $dom = "<li class='size-option' data-type="+support_resolution[i] +">"+support_item+"</li>"
+            $('.ratio-select .drop-menu ul').append($dom)
+        }
         //left 数量限制
         var unit_num = 0;
         for (var i = 0; i < projectData.scenes.length; i++) {
